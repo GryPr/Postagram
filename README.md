@@ -33,3 +33,4 @@ This project is an instagram-like webapp where users can post images. Users can 
 * Kevin Prom - [GryPr](https://github.com/GryPr)
 * Mohammad Ali Zahir - [AliZ786](https://github.com/AliZ786)
 * Christopher Khoury - [Christopher Khoury](https://github.com/ChristopherKhoury)
+* Romain De Fazio - [Romdefaz](https://github.com/Romdefaz)
