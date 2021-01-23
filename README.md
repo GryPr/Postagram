@@ -32,3 +32,4 @@ This project is an instagram-like webapp where users can post images. Users can 
 ## Team Members
 * Kevin Prom - [GryPr](https://github.com/GryPr)
 * Mohammad Ali Zahir - [AliZ786](https://github.com/AliZ786)
+* Christopher Khoury - [Christopher Khoury](https://github.com/ChristopherKhoury)
