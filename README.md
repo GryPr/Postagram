@@ -27,7 +27,7 @@ This project is an instagram-like webapp where users can post images. Users can 
 * Authentication flow implemented using MSAL library
 
 ### CI/CD
-* TBD
+* Build Pipeline: Github Actions
 
 ## Team Members
 * Kevin Prom - [GryPr](https://github.com/GryPr)
