@@ -36,3 +36,4 @@ This project is an instagram-like webapp where users can post images. Users can 
 * Romain De Fazio - [Romdefaz](https://github.com/Romdefaz)
 * Rahat Bhatti - [bhattirahat](https://github.com/bhattirahat)
 * Saleha Tariq - [salehatrq](https://github.com/salehatrq) 
+* Zahin Khan - [ZahinK7] (https://github.com/ZahinK7)
