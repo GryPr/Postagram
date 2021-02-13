@@ -12,10 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_SOEN_341_PROJECT }}"
-          projectId: soen-341-project
-        env:
-          FIREBASE_CLI_PREVIEWS: hostingchannels
+      # - uses: FirebaseExtended/action-hosting-deploy@v0
+      #   with:
+      #     repoToken: "${{ secrets.GITHUB_TOKEN }}"
+      #     firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_SOEN_341_PROJECT }}"
+      #     projectId: soen-341-project
+      #   env:
+      #     FIREBASE_CLI_PREVIEWS: hostingchannels
