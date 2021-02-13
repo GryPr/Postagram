@@ -1,7 +1,7 @@
 name: eslint checks
 "on": pull_request
 jobs:
-  build_and_preview:
+  eslint_check:
     runs-on: ubuntu-latest
     defaults:
       run:
