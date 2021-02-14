@@ -1,0 +1,11 @@
+name: eslint checks
+"on": pull_request
+jobs:
+  eslint_check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci && npm run build

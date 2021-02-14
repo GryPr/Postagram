@@ -1,8 +1,6 @@
 import {
     Configuration,
     PopupRequest,
-    PublicClientApplication,
-    SilentRequest
   } from '@azure/msal-browser';
   
   // Config object to be passed to Msal on creation
@@ -20,9 +18,4 @@ import {
   // Add here scopes for id token to be used at MS Identity Platform endpoints.
   export const loginRequest: PopupRequest = {
     scopes: ['openid',  'offline_access', 'https://grypr.onmicrosoft.com/soen341/read'],
-  };
-  
-  // Add here the endpoints for MS Graph API services you would like to use.
-  export const graphConfig = {
-    graphMeEndpoint: `https://graph.microsoft.com/v1.0/me`,
   };
