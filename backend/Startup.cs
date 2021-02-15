@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ImageStoreApi.Models;
+using Microsoft.Extensions.Options;
+using ImageStoreApi.Services;
 
 namespace ImageStoreApi
 {
@@ -29,6 +32,12 @@ namespace ImageStoreApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<ImageDatabaseSettings>(Configuration.GetSection(nameof(ImageDatabaseSettings)));
+
+            services.AddSingleton<IImageDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ImageDatabaseSettings>>().Value);
+
+            services.AddSingleton<UserService>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

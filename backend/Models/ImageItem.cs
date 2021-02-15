@@ -7,9 +7,13 @@ namespace ImageStoreApi.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id {get; set; }
+        public string Id { get; set; }
 
-        [BsonElement("Name")]
-        public string ImageName { get; set;}
+        public string CreatorUserId { get; set; }
+
+        public string ImageDescription { get; set; }
+
+        // Image binary data
+        public byte[] ImageContent { get; set; }
     }
 }
