@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
+using ImageStoreApi.Services;
+using ImageStoreApi.Models;
 
 namespace ImageStoreApi.Controllers
 {
@@ -17,31 +20,25 @@ namespace ImageStoreApi.Controllers
     {
         private readonly ILogger<PublicController> _logger;
 
-        // The Web API will only accept tokens 1) for users, and 2) having the "access_as_user" scope for this API
-        // static readonly string[] scopeRequiredByApi = new string[] { "profile" };
+        private readonly ImageService _imageService;
 
-        public PublicController(ILogger<PublicController> logger)
+        public PublicController(ILogger<PublicController> logger, ImageService imageService)
         {
             _logger = logger;
+            _imageService = imageService;
+        }
+
+        public class Range
+        {
+            public int index { get; set; }
+            public int length { get; set; }
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<Image>> Get([FromBody] Range range)
         {
-            // HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
-            return Content("This is a placeholder response for PublicController");
-
-            // Add code for Get
-
-            // var rng = new Random();
-            // return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            // {
-            //     Date = DateTime.Now.AddDays(index),
-            //     TemperatureC = rng.Next(-20, 55),
-            //     Summary = Summaries[rng.Next(Summaries.Length)]
-            // })
-            // .ToArray();
+            // Receives range of images to send back, and sends back those images from the DB in chronological order
+            return _imageService.Get(range.index, range.length);
         }
 
     }

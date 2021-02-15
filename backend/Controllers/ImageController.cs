@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
+using ImageStoreApi.Models;
+using ImageStoreApi.Services;
+using System.Security.Claims;
 
 namespace ImageStoreApi.Controllers
 {
@@ -16,32 +19,34 @@ namespace ImageStoreApi.Controllers
     {
 
         private readonly ILogger<ImageController> _logger;
+        private readonly ImageService _imageService;
 
-        // The Web API will only accept tokens 1) for users, and 2) having the "access_as_user" scope for this API
-        // static readonly string[] scopeRequiredByApi = new string[] { "profile" };
-
-        public ImageController(ILogger<ImageController> logger)
+        public ImageController(ILogger<ImageController> logger, ImageService imageService)
         {
             _logger = logger;
+            _imageService = imageService;
+        }
+
+        [HttpPost]
+        public ActionResult<Image> Post([FromBody] ImageData imagedata)
+        {
+            Image image = new Image
+            {
+                CreatorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                CreatedOn = DateTime.Now,
+                ImageData = imagedata
+            };
+
+
+            _imageService.Create(image);
+
+            return image;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            // HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
             return Content("This is a placeholder response for ImageController");
-
-            // Add code for Get
-
-            // var rng = new Random();
-            // return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            // {
-            //     Date = DateTime.Now.AddDays(index),
-            //     TemperatureC = rng.Next(-20, 55),
-            //     Summary = Summaries[rng.Next(Summaries.Length)]
-            // })
-            // .ToArray();
         }
     }
 }

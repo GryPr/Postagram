@@ -38,6 +38,7 @@ namespace ImageStoreApi
             services.AddSingleton<IImageDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ImageDatabaseSettings>>().Value);
 
             services.AddSingleton<UserService>();
+            services.AddSingleton<ImageService>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

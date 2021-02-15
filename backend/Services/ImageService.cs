@@ -25,6 +25,10 @@ namespace ImageStoreApi.Services
         public Image Get(string id) =>
             _images.Find<Image>(image => image.Id == id).FirstOrDefault();
 
+        // Get by descending order of creation date
+        public List<Image> Get(int index, int length) =>
+            _images.Find(image => true).SortByDescending(e => e.CreatedOn).Limit(length).Skip(index).ToList();
+
         // Create an image
         public Image Create(Image image)
         {
