@@ -1,0 +1,17 @@
+#inline {
+
+    text-align: left;
+    display: inline;
+    font-size: 10px;
+    margin: 10px;
+
+}
+.like{
+    
+    text-align: left;
+    display: inline;
+    font-size: 10px;
+    margin: 10px;
+    cursor: pointer;
+
+}
