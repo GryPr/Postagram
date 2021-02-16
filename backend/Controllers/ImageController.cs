@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
+using ImageStoreApi.Models;
+using ImageStoreApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
-using ImageStoreApi.Models;
-using ImageStoreApi.Services;
-using System.Security.Claims;
+using MongoDB.Driver;
 
 namespace ImageStoreApi.Controllers
 {
@@ -27,20 +31,38 @@ namespace ImageStoreApi.Controllers
             _imageService = imageService;
         }
 
+        //[HttpPost]
+        // public ActionResult<Image> Post([FromBody] ImageData imagedata)
+        // {
+        //     Image image = new Image
+        //     {
+        //         CreatorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+        //         CreatedOn = DateTime.Now,
+        //         ImageData = imagedata
+        //     };
+
+
+        //     _imageService.Create(image);
+
+        //     return image;
+        // }
         [HttpPost]
-        public ActionResult<Image> Post([FromBody] ImageData imagedata)
+        public ActionResult<Image> Post([FromForm] IFormFile ImageContent, [FromForm] string ImageDescription)
         {
-            Image image = new Image
+            if (!ImageContent.ContentType.Contains("image") || ImageContent.Length <= 0)
             {
-                CreatorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                CreatedOn = DateTime.Now,
-                ImageData = imagedata
-            };
+                return BadRequest("Wrong Data");
+            }
 
+            var imageFs = ImageContent.OpenReadStream();
 
-            _imageService.Create(image);
+            var ext = Path.GetExtension(ImageContent.FileName);
 
-            return image;
+            //https://stackoverflow.com/questions/55793878/how-to-retrieve-list-of-images-from-gridfs
+
+            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), ext);
+
+            return Ok(ext);
         }
 
         [HttpGet]

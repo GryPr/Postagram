@@ -1,14 +1,11 @@
 using System;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ImageStoreApi.Models
 {
-    public class ImageData
-    {
-        public string ImageDescription { get; set; }
-        public byte[] ImageContent { get; set; }
-    }
+
     public class Image
     {
         [BsonId]
@@ -20,7 +17,8 @@ namespace ImageStoreApi.Models
 
         public DateTime CreatedOn { get; set; }
 
-        // Image
-        public ImageData ImageData { get; set; }
+        public string ImageDescription { get; set; }
+
+        public string ImageExtension { get; set; }
     }
 }

@@ -1,18 +1,23 @@
-using MongoDB.Driver;
-using ImageStoreApi.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using ImageStoreApi.Models;
+using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace ImageStoreApi.Services
 {
     public class ImageService
     {
         private readonly IMongoCollection<Image> _images;
+        private GridFSBucket _bucket;
 
         public ImageService(IImageDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
+            _bucket = new GridFSBucket(database);
 
             _images = database.GetCollection<Image>(settings.ImageCollectionName);
         }
@@ -32,8 +37,27 @@ namespace ImageStoreApi.Services
         // Create an image
         public Image Create(Image image)
         {
+
+
             _images.InsertOne(image);
             return image;
+        }
+
+        public Image Create(Stream fs, string ImageDescription, string userId, string extension)
+        {
+            Image image = new Image
+            {
+                CreatorUserId = userId,
+                CreatedOn = DateTime.Now,
+                ImageDescription = ImageDescription,
+                ImageExtension = extension
+            };
+            _images.InsertOne(image);
+
+            var id = _bucket.UploadFromStream(image.Id + extension, fs);
+
+            return null;
+
         }
 
     }
