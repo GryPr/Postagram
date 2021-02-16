@@ -1,29 +1,22 @@
-
 .box{
-
     text-align: left;
     font-size: 10px;
     margin: 10px;
 }
 .box:hover{
-
     cursor: text;
-
 }
-
 #post{
     color: rgb(43, 129, 163);
     font-size: 15px;
     display:inline;
-    padding-left: 15em;
+    /* padding-left: 15em; */
     font-family: Proxima Nova;
-    
+    margin-left:35px;
 }
-
-
 #comment{
-
     font-size: 15px;
     display:inline;
-    
+    width: 75%;
+
 }

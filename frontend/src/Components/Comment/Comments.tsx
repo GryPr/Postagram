@@ -6,8 +6,10 @@ class Comments extends Component {
     render(){
         return(
         <div className="box">
-        <h1 id="comment"> Add a comment</h1>
-        <h1 id="post"> Post</h1>
+        
+        <input type="text" placeholder="Add comment" id="comment"></input>
+        <button id="post"> Post</button>
+        
         </div>
         )
     }
