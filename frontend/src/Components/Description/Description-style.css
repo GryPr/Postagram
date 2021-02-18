@@ -2,7 +2,7 @@
 
     text-align: left;
     display: inline;
-    font-size: 10px;
+    font-size: 12px;
     margin: 10px;
     color : #3b5998
 
@@ -21,5 +21,9 @@
 
     color: red;
 
+}
+.description{
+
+    margin-top: 10px;
 }
 

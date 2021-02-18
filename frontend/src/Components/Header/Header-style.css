@@ -12,10 +12,13 @@ font-size: 10px;
 .avatar{
 
 position: absolute;
+top:20px;
 
 }
 #marginleft{
 
     margin-left:50px;
+    color:blanchedalmond;
+    font-size: 15px;
 }
  

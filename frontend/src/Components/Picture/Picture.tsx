@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import React from 'react';
-import insta from './insta.jpg'
+import pic from './Picjpg.jpg'
 import './Picture-style.css'
 
 class Picture extends Component {
@@ -9,8 +9,8 @@ class Picture extends Component {
         return (
             <div className="pic"> 
 
-        <img src = {insta} className="pic" alt= "your mom" width="400" height="450"/> 
-            
+        <img src = {pic} className="pic" alt= "your mom" width="400" height="400"/> 
+            <hr/>
             </div>
     
         )

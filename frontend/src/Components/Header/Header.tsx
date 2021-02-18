@@ -14,7 +14,7 @@ return (
         <div> 
            <div className="contain">
              <div className="avatar">
-           <Avatar>H</Avatar>
+           <Avatar src="./Avatar.jpg"/>
            </div>
              <p id="marginleft"> Name of person </p>
          

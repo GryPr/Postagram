@@ -32,8 +32,9 @@ class Description extends React.Component<any, any>{
                <br/>
                
                 <p id= "inline"> <strong>Name of person</strong> </p>
-                <p id= "inline"> Description</p>
-            
+                <br/>
+                <p id= "inline" className="description">This is where the description of the user will go into.</p>
+             
             </div>
 
         )
