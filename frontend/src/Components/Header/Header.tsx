@@ -4,6 +4,12 @@ import './Header-style.css';
 
 class Header extends Component{
 
+
+constructor{
+  
+
+}
+
 render(){
    
 return (  

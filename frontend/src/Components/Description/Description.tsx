@@ -2,32 +2,42 @@ import { Component } from "react";
 import React from 'react';
 import './Description-style.css'
 
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
-class Description extends Component{
+
+class Description extends React.Component<any, any>{
+
+        constructor(props:any){
+
+            super(props);
+            this.state= {
+                clicked: false,
+                count : 0
+            }
+        }
+
     render() {
         return(
             <div>
-                <IconButton aria-label="ThumbUp">
-                <ThumbUpAltIcon  color ="primary" fontSize="large"/>
-                </IconButton>
-                <IconButton aria-label="ThumbDown">
-                <ThumbDownAltIcon color="primary" fontSize="large"/>
+                <IconButton onClick={() => this.setState({clicked : true})} aria-label="heart">
+            {this.state.clicked ? <FavoriteIcon color ="primary" fontSize="large"/> : 
+                                <FavoriteBorderIcon color ="primary" fontSize="large" /> }      
+                  {/* {this.setState({clicked : false})} */}
                 </IconButton>
 
-                {/* <p className="like"> Like </p> */}
-                <p id= "inline"> comment</p>
+               {this.state.clicked ? this.state.count + 1 : this.state.count}
                <br/>
                
-         
                 <p id= "inline"> <strong>Name of person</strong> </p>
                 <p id= "inline"> Description</p>
+            
             </div>
 
         )
+       
 
     }
 }

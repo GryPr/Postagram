@@ -1,8 +1,8 @@
 .container{
     /* border-radius: 20px; */
-    border: solid 2px rgb(103, 103, 175);
+    border: solid 2px #efefef;
     width: 400px;
-    height: 650px;
+    height: 700px;
     background-color: rgb(255, 255, 255) ;
     
     
@@ -25,7 +25,7 @@
     
     .header{
 
-        background-color: #159cfd;
+        /* background-color: #159cfd; */
     }
 
     .description{
