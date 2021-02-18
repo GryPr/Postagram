@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Header-style.css';
 
+import Avatar from '@material-ui/core/Avatar';
 
 class Header extends Component{
 
@@ -12,7 +13,10 @@ render(){
 return (  
         <div> 
            <div className="contain">
-             <p> Name of person </p>
+             <div className="avatar">
+           <Avatar>H</Avatar>
+           </div>
+             <p id="marginleft"> Name of person </p>
          
           </div>
           
