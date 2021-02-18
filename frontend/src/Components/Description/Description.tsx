@@ -5,14 +5,18 @@ import './Description-style.css'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-
+import IconButton from '@material-ui/core/IconButton';
 
 class Description extends Component{
     render() {
         return(
             <div>
-                <ThumbUpAltIcon />
-                <ThumbDownAltIcon/>
+                <IconButton aria-label="ThumbUp">
+                <ThumbUpAltIcon  color ="primary" fontSize="large"/>
+                </IconButton>
+                <IconButton aria-label="ThumbDown">
+                <ThumbDownAltIcon color="primary" fontSize="large"/>
+                </IconButton>
 
                 {/* <p className="like"> Like </p> */}
                 <p id= "inline"> comment</p>
