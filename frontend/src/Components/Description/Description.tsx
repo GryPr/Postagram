@@ -4,7 +4,7 @@ import './Description-style.css'
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+
 import IconButton from '@material-ui/core/IconButton';
 
 class Description extends Component{
