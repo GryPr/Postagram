@@ -6,11 +6,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { PublicClientApplication } from '@azure/msal-browser';
+import SiteLayout from './Components/SiteLayout';
 
 const msalInstance = new PublicClientApplication(msalConfig)
 
 ReactDOM.render(
   <React.StrictMode>
+    <SiteLayout>
+    </SiteLayout>
     <MsalProvider instance={msalInstance}>
       <App />
     </MsalProvider>
