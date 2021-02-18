@@ -22,13 +22,13 @@ class Description extends React.Component<any, any>{
     render() {
         return(
             <div>
-                <IconButton onClick={() => this.setState({clicked : true})} aria-label="heart">
+                <IconButton id="like" onClick={() => this.setState({clicked : this.state.clicked ? false : true})} aria-label="heart">
             {this.state.clicked ? <FavoriteIcon color ="primary" fontSize="large"/> : 
                                 <FavoriteBorderIcon color ="primary" fontSize="large" /> }      
-                  {/* {this.setState({clicked : false})} */}
-                </IconButton>
 
+                </IconButton>
                {this.state.clicked ? this.state.count + 1 : this.state.count}
+               
                <br/>
                
                 <p id= "inline"> <strong>Name of person</strong> </p>
