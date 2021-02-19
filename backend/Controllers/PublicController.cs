@@ -1,16 +1,16 @@
-using System.Net.Mime;
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using ImageStoreApi.Models;
+using ImageStoreApi.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
-using ImageStoreApi.Services;
-using ImageStoreApi.Models;
 
 namespace ImageStoreApi.Controllers
 {
@@ -33,7 +33,6 @@ namespace ImageStoreApi.Controllers
         public class Range
         {
             public int index { get; set; }
-            public int length { get; set; }
         }
 
         public class GetResponse
@@ -54,12 +53,7 @@ namespace ImageStoreApi.Controllers
         {
             var (img, file) = _imageService.Get(range.index);
             byte[] bytes;
-            using (var streamReader = new MemoryStream())
-            {
-                file.CopyTo(streamReader);
-                bytes = streamReader.ToArray();
-
-            }
+            bytes = file.ToArray();
             // Receives range of images to send back, and sends back those images from the DB in chronological order
             return new GetResponse
             {
@@ -67,6 +61,7 @@ namespace ImageStoreApi.Controllers
                 ContentType = img.ContentType,
                 ImageDescription = img.ImageDescription,
                 CreatedOn = img.CreatedOn,
+                CreatorName = img.CreatorName,
                 ImageContent = bytes
             };
         }

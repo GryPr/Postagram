@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ImageStoreApi.Models;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
-using Microsoft.AspNetCore.Http;
 
 namespace ImageStoreApi.Services
 {
@@ -32,10 +32,10 @@ namespace ImageStoreApi.Services
             _images.Find<Image>(image => image.Id == id).FirstOrDefault();
 
         // Get by descending order of creation date
-        public (Image, Stream) Get(int index)
+        public (Image, MemoryStream) Get(int index)
         {
             Image image = _images.Find(image => true).SortByDescending(e => e.CreatedOn).Limit(1).Skip(index).ToList()[0];
-            Stream fs = null;
+            MemoryStream fs = new MemoryStream();
             _bucket.DownloadToStream(image.ImageId, fs);
             return (image, fs);
         }

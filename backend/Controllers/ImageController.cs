@@ -43,9 +43,9 @@ namespace ImageStoreApi.Controllers
 
             //https://stackoverflow.com/questions/55793878/how-to-retrieve-list-of-images-from-gridfs
 
-            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), User.FindFirstValue(ClaimTypes.Name), ImageContent.FileName, ImageContent.ContentType);
+            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(), ImageContent.FileName, ImageContent.ContentType);
 
-            return Ok(ImageContent.FileName);
+            return Ok(User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
         }
 
         [HttpGet]
