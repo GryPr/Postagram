@@ -14,11 +14,17 @@ namespace ImageStoreApi.Models
 
         public string CreatorUserId { get; set; }
 
+        public string CreatorName { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
         public string ImageDescription { get; set; }
 
-        public string ImageExtension { get; set; }
+        public string FileName { get; set; }
+
+        public string ContentType { get; set; }
+
+        public ObjectId ImageId { get; set; }
+
     }
 }

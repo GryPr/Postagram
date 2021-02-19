@@ -31,21 +31,6 @@ namespace ImageStoreApi.Controllers
             _imageService = imageService;
         }
 
-        //[HttpPost]
-        // public ActionResult<Image> Post([FromBody] ImageData imagedata)
-        // {
-        //     Image image = new Image
-        //     {
-        //         CreatorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-        //         CreatedOn = DateTime.Now,
-        //         ImageData = imagedata
-        //     };
-
-
-        //     _imageService.Create(image);
-
-        //     return image;
-        // }
         [HttpPost]
         public ActionResult<Image> Post([FromForm] IFormFile ImageContent, [FromForm] string ImageDescription)
         {
@@ -56,13 +41,11 @@ namespace ImageStoreApi.Controllers
 
             var imageFs = ImageContent.OpenReadStream();
 
-            var ext = Path.GetExtension(ImageContent.FileName);
-
             //https://stackoverflow.com/questions/55793878/how-to-retrieve-list-of-images-from-gridfs
 
-            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), ext);
+            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), User.FindFirstValue(ClaimTypes.Name), ImageContent.FileName, ImageContent.ContentType);
 
-            return Ok(ext);
+            return Ok(ImageContent.FileName);
         }
 
         [HttpGet]

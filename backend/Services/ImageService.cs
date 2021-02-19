@@ -5,6 +5,7 @@ using System.Linq;
 using ImageStoreApi.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
+using Microsoft.AspNetCore.Http;
 
 namespace ImageStoreApi.Services
 {
@@ -31,8 +32,13 @@ namespace ImageStoreApi.Services
             _images.Find<Image>(image => image.Id == id).FirstOrDefault();
 
         // Get by descending order of creation date
-        public List<Image> Get(int index, int length) =>
-            _images.Find(image => true).SortByDescending(e => e.CreatedOn).Limit(length).Skip(index).ToList();
+        public (Image, Stream) Get(int index)
+        {
+            Image image = _images.Find(image => true).SortByDescending(e => e.CreatedOn).Limit(1).Skip(index).ToList()[0];
+            Stream fs = null;
+            _bucket.DownloadToStream(image.ImageId, fs);
+            return (image, fs);
+        }
 
         // Create an image
         public Image Create(Image image)
@@ -43,22 +49,26 @@ namespace ImageStoreApi.Services
             return image;
         }
 
-        public Image Create(Stream fs, string ImageDescription, string userId, string extension)
+        public Image Create(Stream fs, string ImageDescription, string userId, string userName, string fileName, string contentType)
         {
+            var id = _bucket.UploadFromStream(fileName, fs);
+
             Image image = new Image
             {
                 CreatorUserId = userId,
+                CreatorName = userName,
                 CreatedOn = DateTime.Now,
                 ImageDescription = ImageDescription,
-                ImageExtension = extension
+                FileName = fileName,
+                ContentType = contentType,
+                ImageId = id
             };
             _images.InsertOne(image);
 
-            var id = _bucket.UploadFromStream(image.Id + extension, fs);
-
-            return null;
+            return image;
 
         }
 
     }
+
 }
