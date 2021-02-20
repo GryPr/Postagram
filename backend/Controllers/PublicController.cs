@@ -45,15 +45,15 @@ namespace ImageStoreApi.Controllers
 
             public string CreatorName { get; set; }
 
-            public byte[] ImageContent { get; set; }
+            public string ImageContent { get; set; }
         }
 
         [HttpGet]
         public ActionResult<GetResponse> Get([FromBody] Range range)
         {
             var (img, file) = _imageService.Get(range.index);
-            byte[] bytes;
-            bytes = file.ToArray();
+            byte[] bytes = file.ToArray();
+            string base64 = Convert.ToBase64String(bytes);
             // Receives range of images to send back, and sends back those images from the DB in chronological order
             return new GetResponse
             {
@@ -62,7 +62,7 @@ namespace ImageStoreApi.Controllers
                 ImageDescription = img.ImageDescription,
                 CreatedOn = img.CreatedOn,
                 CreatorName = img.CreatorName,
-                ImageContent = bytes
+                ImageContent = base64
             };
         }
 
