@@ -10,17 +10,16 @@ class Posting extends Component{
 render() {
     return(
     <div className="container">
-    <div className="header">
-    <Header> </Header>
-    </div>
+        <div className="header">
+            <Header> </Header>
+        </div>
    
 
     <Picture></Picture>
     
-    <div className="description">
-    
-    <Description></Description>
-    </div>
+    <    div className="description">
+            <Description></Description>
+         </div>
 
     
     <hr/>

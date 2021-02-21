@@ -23,8 +23,8 @@ class Description extends React.Component<any, any>{
         return(
             <div>
                 <IconButton id="like" onClick={() => this.setState({clicked : this.state.clicked ? false : true})} aria-label="heart">
-            {this.state.clicked ? <FavoriteIcon color ="primary" fontSize="large"/> : 
-                                <FavoriteBorderIcon color ="primary" fontSize="large" /> }      
+            {this.state.clicked ? <FavoriteIcon color ="secondary" fontSize="large"/> : 
+                                <FavoriteBorderIcon color ="secondary" fontSize="large" /> }      
 
                 </IconButton>
                {this.state.clicked ? this.state.count + 1 : this.state.count}

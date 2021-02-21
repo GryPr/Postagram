@@ -1,24 +1,35 @@
-.contain{
 
+
+.contain{
 font-weight: bold;
 margin-left:10px;
 margin-right:10px;
 /* margin-top:10px; */
-color :#3b5998;
-padding: 11px;
+/* color :#3b5998; */
+padding: 10px;
 font-size: 10px;
 }
 
 .avatar{
 
-position: absolute;
-top:20px;
+    position : absolute
+   
+    /* display:block; */
 
-}
-#marginleft{
+    }
 
-    margin-left:50px;
+#name {
+    
     color:blanchedalmond;
-    font-size: 15px;
+    font-size: 13px;
+    display: inline;
+    margin-left: 50px;
+    
 }
- 
+
+#follows{
+margin-left: 60px;
+font-size: 15px;
+display:inline;
+ }
+
