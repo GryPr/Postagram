@@ -66,5 +66,26 @@ namespace ImageStoreApi.Controllers
             };
         }
 
+        [HttpPost]
+        public ActionResult<List<GetResponse>> Post()
+        {
+            var (img, file) = _imageService.Get();
+            List<GetResponse> responseList = new List<GetResponse>(img.Count);
+            for (int i = 0; i < img.Count; i++)
+            {
+                responseList.Add(new GetResponse
+                {
+                    FileName = img[i].FileName,
+                    ContentType = img[i].ContentType,
+                    ImageDescription = img[i].ImageDescription,
+                    CreatedOn = img[i].CreatedOn,
+                    CreatorName = img[i].CreatorName,
+                    ImageContent = file[i]
+                });
+            }
+            return responseList;
+
+        }
+
     }
 }
