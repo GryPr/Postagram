@@ -5,7 +5,7 @@ import {
   SilentRequest,
 } from "@azure/msal-browser";
 
-export function getAccessToken(): string {
+export function GetAccessToken(): string {
   const { instance, accounts } = useMsal();
   const account = useAccount(accounts[0] || {})!;
   const silentRequest: SilentRequest = {
