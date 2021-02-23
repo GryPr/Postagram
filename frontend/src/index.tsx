@@ -9,9 +9,6 @@ import { PublicClientApplication } from "@azure/msal-browser";
 import SiteLayout from "./Components/SiteLayout";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
 } from "react-router-dom";
 
 const msalInstance = new PublicClientApplication(msalConfig);

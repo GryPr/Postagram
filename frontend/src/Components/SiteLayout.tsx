@@ -1,8 +1,8 @@
 import "./SiteLayout.css";
-import SearchIcon from "@material-ui/icons/Search";
-import HomeIcon from "@material-ui/icons/Home";
-import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import { AppBar, Toolbar, Button, InputBase, Grid } from "@material-ui/core";
+// import SearchIcon from "@material-ui/icons/Search";
+// import HomeIcon from "@material-ui/icons/Home";
+// import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import { AppBar, Toolbar, Button, Grid } from "@material-ui/core";
 import AuthenticationButton from "./authenticationButton";
 import { useCallback } from "react";
 import { useHistory } from 'react-router-dom';

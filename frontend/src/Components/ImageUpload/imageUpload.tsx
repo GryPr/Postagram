@@ -1,8 +1,7 @@
 import { Button, TextField, Paper } from "@material-ui/core";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import "./imageUpload.css";
 import { useHistory } from "react-router-dom";
-import { useEffect } from "react";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../Constants/authConfig";
 import {

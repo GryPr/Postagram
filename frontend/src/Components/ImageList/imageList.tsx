@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button, TextField, Paper } from "@material-ui/core";
 import ImageBox from "../ImageBox/imageBox";
 
 interface ImageResponse {
