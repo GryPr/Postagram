@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using ImageStoreApi.Models;
+using ImageStoreApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
@@ -17,31 +22,48 @@ namespace ImageStoreApi.Controllers
     {
         private readonly ILogger<PublicController> _logger;
 
-        // The Web API will only accept tokens 1) for users, and 2) having the "access_as_user" scope for this API
-        // static readonly string[] scopeRequiredByApi = new string[] { "profile" };
+        private readonly ImageService _imageService;
 
-        public PublicController(ILogger<PublicController> logger)
+        public PublicController(ILogger<PublicController> logger, ImageService imageService)
         {
             _logger = logger;
+            _imageService = imageService;
+        }
+
+        public class Range
+        {
+            public int index { get; set; }
+        }
+
+        public class GetResponse
+        {
+            public string FileName { get; set; }
+            public string ContentType { get; set; }
+            public string ImageDescription { get; set; }
+
+            public DateTime CreatedOn { get; set; }
+
+            public string CreatorName { get; set; }
+
+            public string ImageContent { get; set; }
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<GetResponse> Get([FromBody] Range range)
         {
-            // HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
-            return Content("This is a placeholder response for PublicController");
-
-            // Add code for Get
-
-            // var rng = new Random();
-            // return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            // {
-            //     Date = DateTime.Now.AddDays(index),
-            //     TemperatureC = rng.Next(-20, 55),
-            //     Summary = Summaries[rng.Next(Summaries.Length)]
-            // })
-            // .ToArray();
+            var (img, file) = _imageService.Get(range.index);
+            byte[] bytes = file.ToArray();
+            string base64 = Convert.ToBase64String(bytes);
+            // Receives range of images to send back, and sends back those images from the DB in chronological order
+            return new GetResponse
+            {
+                FileName = img.FileName,
+                ContentType = img.ContentType,
+                ImageDescription = img.ImageDescription,
+                CreatedOn = img.CreatedOn,
+                CreatorName = img.CreatorName,
+                ImageContent = base64
+            };
         }
 
     }

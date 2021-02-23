@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
+using ImageStoreApi.Models;
+using ImageStoreApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
+using MongoDB.Driver;
 
 namespace ImageStoreApi.Controllers
 {
@@ -16,32 +23,35 @@ namespace ImageStoreApi.Controllers
     {
 
         private readonly ILogger<ImageController> _logger;
+        private readonly ImageService _imageService;
 
-        // The Web API will only accept tokens 1) for users, and 2) having the "access_as_user" scope for this API
-        // static readonly string[] scopeRequiredByApi = new string[] { "profile" };
-
-        public ImageController(ILogger<ImageController> logger)
+        public ImageController(ILogger<ImageController> logger, ImageService imageService)
         {
             _logger = logger;
+            _imageService = imageService;
+        }
+
+        [HttpPost]
+        public ActionResult<Image> Post([FromForm] IFormFile ImageContent, [FromForm] string ImageDescription)
+        {
+            if (!ImageContent.ContentType.Contains("image") || ImageContent.Length <= 0)
+            {
+                return BadRequest("Wrong Data");
+            }
+
+            var imageFs = ImageContent.OpenReadStream();
+
+            //https://stackoverflow.com/questions/55793878/how-to-retrieve-list-of-images-from-gridfs
+
+            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(), ImageContent.FileName, ImageContent.ContentType);
+
+            return Ok(User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            // HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
             return Content("This is a placeholder response for ImageController");
-
-            // Add code for Get
-
-            // var rng = new Random();
-            // return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            // {
-            //     Date = DateTime.Now.AddDays(index),
-            //     TemperatureC = rng.Next(-20, 55),
-            //     Summary = Summaries[rng.Next(Summaries.Length)]
-            // })
-            // .ToArray();
         }
     }
 }
