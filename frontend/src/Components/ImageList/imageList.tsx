@@ -24,9 +24,10 @@ export default function ImageList() {
   useEffect(() => {
     fetch("https://localhost:5001/public", {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(""),
     })

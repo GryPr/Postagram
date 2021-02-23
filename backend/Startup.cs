@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageStoreApi.Models;
+using ImageStoreApi.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using ImageStoreApi.Models;
 using Microsoft.Extensions.Options;
-using ImageStoreApi.Services;
+using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 
 namespace ImageStoreApi
 {
@@ -32,6 +32,10 @@ namespace ImageStoreApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyCorsPolicy", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            });
 
             services.Configure<ImageDatabaseSettings>(Configuration.GetSection(nameof(ImageDatabaseSettings)));
 
@@ -60,6 +64,8 @@ namespace ImageStoreApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageStoreApi v1"));
             }
+
+            app.UseCors("AllowAnyCorsPolicy");
 
             app.UseHttpsRedirection();
 
