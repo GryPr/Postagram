@@ -52,7 +52,6 @@ export default function ImageUpload() {
 
   async function sendData() {
     const token = await getAccessToken();
-    console.log(token);
 
     var formData = new FormData();
 
@@ -68,13 +67,11 @@ export default function ImageUpload() {
       },
       body: formData,
     })
-      .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        history.push('/')
       });
-    setTimeout(() => {
-      history.push('/')
-    }, 1000);
+    // setTimeout(() => {
+    // }, 1000);
   }
 
   return (
