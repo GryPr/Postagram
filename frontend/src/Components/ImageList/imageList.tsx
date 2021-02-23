@@ -32,7 +32,6 @@ export default function ImageList() {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setImages(response);
         setLoading(false);
       });
@@ -42,7 +41,7 @@ export default function ImageList() {
     <div>
       {loading ? "Currently loading" : ""}
       {images.map((image, index) => (
-        <div>
+        <div key={index}>
           <ImageBox
             src={`data:${image.contentType};base64,${image.imageContent}`}
             description={image.imageDescription}
