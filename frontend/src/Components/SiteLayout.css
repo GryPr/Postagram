@@ -1,49 +1,52 @@
-@import url('http://fonts.cdnfonts.com/css/billabong');
+@import url("http://fonts.cdnfonts.com/css/billabong");
 
-#appbar{
-    background-color: rgb(247, 251, 253);
-    position: sticky;
+#appbar {
+  background-color: rgb(247, 251, 253);
+  position: sticky;
 }
 
-#toolbar{
-    gap: 35%;
+#toolbar {
+  gap: 35%;
 }
 
-#logo{
-    font-family: 'Billabong', sans-serif;
-    font-size: 40px;
-    text-transform: capitalize;
-    margin-left: 8%;
+#logo {
+  font-family: "Billabong", sans-serif;
+  font-size: 40px;
+  text-transform: capitalize;
+  margin-left: 8%;
 }
 
-#searchbar{
-    height: 13px;
-    box-shadow: 0 0 2pt rgb(119, 119, 119);
-    padding-left: 13px;
-    padding-right: 10px;
-    color: rgb(119, 119, 119);
-    margin-left: -102%;
+#searchbar {
+  height: 13px;
+  box-shadow: 0 0 2pt rgb(119, 119, 119);
+  padding-left: 13px;
+  padding-right: 10px;
+  color: rgb(119, 119, 119);
+  margin-left: -102%;
 }
 
-#searchicon{
-    height: 26px;
-    width: 26px;
-    box-shadow: 0 0 2pt rgb(119, 119, 119);
-    margin-left: -68.2%;
-    color: rgb(175, 170, 170);
-    cursor: text;
+#searchicon {
+  height: 26px;
+  width: 26px;
+  box-shadow: 0 0 2pt rgb(119, 119, 119);
+  margin-left: -68.2%;
+  color: rgb(175, 170, 170);
+  cursor: text;
 }
 
-#homeicon{
-    color: black;
-    width: 33px;
-    height: 63px;
-    position: relative;
+#homeicon {
+  color: black;
+  width: 33px;
+  height: 63px;
+  position: relative;
 }
 
-@media only screen and (max-width:1000px)
-{  
-    #searchicon{
-        margin-left: -80.9%;
-    }
+#button {
+  margin: 10px;
+}
+
+@media only screen and (max-width: 1000px) {
+  #searchicon {
+    margin-left: -80.9%;
+  }
 }
