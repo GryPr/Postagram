@@ -1,8 +1,8 @@
 import { Button, TextField, Paper } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./imageUpload.css";
 import { useHistory } from "react-router-dom";
-import { useAccount, useMsal } from "@azure/msal-react";
+import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../Constants/authConfig";
 import {
   InteractionRequiredAuthError,
@@ -15,6 +15,19 @@ export default function ImageUpload() {
   const { instance, accounts } = useMsal();
   const account = useAccount(accounts[0] || {})!;
   const history = useHistory();
+  const isAuthenticated = useIsAuthenticated();
+
+
+  useEffect(() => {
+    checkAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function checkAuth() {
+    if (isAuthenticated === false) {
+      history.push('/')
+    }
+  }
 
   async function getAccessToken() {
     const silentRequest: SilentRequest = {

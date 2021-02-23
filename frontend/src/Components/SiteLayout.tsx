@@ -6,6 +6,7 @@ import { AppBar, Toolbar, Button, Grid } from "@material-ui/core";
 import AuthenticationButton from "./authenticationButton";
 import { useCallback } from "react";
 import { useHistory } from 'react-router-dom';
+import { useIsAuthenticated } from "@azure/msal-react";
 <link href="http://fonts.cdnfonts.com/css/billabong" rel="stylesheet"></link>;
 
 type SiteLayoutProps = {
@@ -16,7 +17,7 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
   const history = useHistory();
   const goToCreate = useCallback(() => history.push('/create'), [history]);
   const goToHome = useCallback(() => history.push('/'), [history]);
-
+  const isAuthenticated = useIsAuthenticated();
 
   return (
     <div>
@@ -34,13 +35,15 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
           </Button>
         </div> */}
           <Grid justify="flex-end" container>
-            <Button
-              id='button'
-              variant="contained"
-              component="label"
-              onClick={goToCreate}>
-              Post Image
-            </Button>
+            {isAuthenticated ?
+              <Button
+                id='button'
+                variant="contained"
+                component="label"
+                onClick={goToCreate}>
+                Post Image
+            </Button> :
+              <div></div>}
             <div id='button'>
               <AuthenticationButton />
             </div>
