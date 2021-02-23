@@ -23,10 +23,6 @@ namespace ImageStoreApi.Services
             _images = database.GetCollection<Image>(settings.ImageCollectionName);
         }
 
-        // Get list of all images
-        public List<Image> Get() =>
-            _images.Find(image => true).ToList();
-
         // Get image with a specified object ID
         public Image Get(string id) =>
             _images.Find<Image>(image => image.Id == id).FirstOrDefault();
@@ -38,6 +34,22 @@ namespace ImageStoreApi.Services
             MemoryStream fs = new MemoryStream();
             _bucket.DownloadToStream(image.ImageId, fs);
             return (image, fs);
+        }
+
+        // Get list of images by descending order
+        public (List<Image>, List<String>) Get()
+        {
+            List<Image> image = _images.Find(image => true).SortByDescending(e => e.CreatedOn).ToList();
+            List<String> b64Files = new List<String>(image.Count);
+            for (int i = 0; i < image.Count; i++)
+            {
+                File.AppendAllText(@"./log.txt", i + Environment.NewLine);
+                System.Diagnostics.Debug.WriteLine(i);
+                var fs = new MemoryStream();
+                _bucket.DownloadToStream(image[i].ImageId, fs);
+                b64Files.Add(Convert.ToBase64String(fs.ToArray()));
+            }
+            return (image, b64Files);
         }
 
         // Create an image
