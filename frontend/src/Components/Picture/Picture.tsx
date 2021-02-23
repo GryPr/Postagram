@@ -9,7 +9,7 @@ class Picture extends Component {
         return (
             <div className="pic"> 
 
-        <img src = {pic} className="pic" alt= "picture" width="400" height="400"/> 
+        <img src = {pic} className="pic" alt= "user" width="400" height="400"/> 
             <hr/>
             </div>
     

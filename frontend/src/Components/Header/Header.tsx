@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Header-style.css';
-import Avatar from '@material-ui/core/Avatar';
+
 import Button from '@material-ui/core/Button';
 
 import Box from '../Avatar-Box/Avatar-Box'
