@@ -27,23 +27,32 @@ export default function ImageList() {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(""),
     })
       .then((response) => response.json())
       .then((response) => {
-        setImages(response.data);
+        console.log(response);
+        setImages(response);
         setLoading(false);
       });
-  });
+  }, []);
 
   return (
-    <Paper>
+    <div>
       {loading ? "Currently loading" : ""}
-      {images.map((image, index) => {
-        <div>{index}</div>;
-      })}
-    </Paper>
+      {images.map((image, index) => (
+        <div>
+          <ImageBox
+            src={`data:${image.contentType};base64,${image.imageContent}`}
+            description={image.imageDescription}
+            createdOn={image.createdOn}
+            creator={image.creatorName}
+          />
+          {/* <img id="img" src={`data:${image.contentType};base64,${image.imageContent}`} alt="" /> */}
+        </div>
+      ))}
+    </div>
   );
 }
