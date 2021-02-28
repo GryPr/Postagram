@@ -29,11 +29,8 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
-    - name: Build with dotnet
-      run: cd backend && dotnet build --configuration Release
-
-    - name: dotnet publish
-      run: cd backend && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+    - name: Build and publish application
+      run: cd backend && dotnet build --configuration Release && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Produce backend artifact
       uses: actions/upload-artifact@v2
