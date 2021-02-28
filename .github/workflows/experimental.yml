@@ -40,3 +40,13 @@ jobs:
       with:
         name: backend-artifact
         path: ${{env.DOTNET_ROOT}}/myapp
+  build_backend_docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download backend artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: backend-artifact
+    - shell: bash
+      run: ls -la
