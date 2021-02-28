@@ -7,17 +7,19 @@
     cursor: text;
 }
 #post{
-    color: rgb(43, 129, 163);
+   background-color:  #159cfd;
     font-size: 15px;
     display:inline;
     /* padding-left: 15em; */
-    font-family: Proxima Nova;
-    margin-left:35px;
+    
+    margin-left:10px;
+    margin-top:5px;
+    border-radius: 20px;
 }
 #comment{
-    font-size: 15px;
+    font-size: 12px;
     display:inline;
-    width: 75%;
+    width: 275px;
     margin-right: 10px;
 
 }

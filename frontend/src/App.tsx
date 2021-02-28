@@ -5,10 +5,14 @@ import Posting from './Components/Posting/Posting'
 
 
 class App extends Component {
+  
   render() {
   return (
     <div>
+    
      <Posting/>
+    
+    
     </div>
   );
 }

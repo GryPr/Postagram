@@ -2,13 +2,14 @@ import './SiteLayout.css';
 import SearchIcon from '@material-ui/icons/Search'
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import React from 'react'
 import {
   AppBar,
   Toolbar,
   Button,
   InputBase,
 } from '@material-ui/core';
-<link href="http://fonts.cdnfonts.com/css/billabong" rel="stylesheet"></link>
+  <link href="http://fonts.cdnfonts.com/css/billabong" rel="stylesheet"></link>
 
 type SiteLayoutProps = {
   children: React.ReactNode;

@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
-
 import Avatar from '@material-ui/core/Avatar';
 
 
 
 
+function Box (){
 
-class Box extends Component{
-
-  
-
- render(){
    return (  
        <div>
-          
-            <Avatar src="./Avatar.jpg"/>
-            
-          
-      
-          </div>
-            
+         <Avatar src="./Avatar.jpg"/>
+      </div>    
       )
    }
-}
 export default Box

@@ -1,38 +1,33 @@
 #inline {
-
     text-align: left;
     display: inline;
-    font-size: 12px;
     margin-top: 10px;
     color : #3b5998;
-    /* margin-left:10px; */
-
 }
 .like{
-    
     text-align: left;
     display: inline;
     font-size: 10px;
     margin: 10px;
     cursor: pointer;
-
 }
 
 #like{
-
     color: red;
-
+    /* padding:10px; */
 }
 .description{
-
     margin-top: 10px;
 }
 
 .overflow{
     overflow: scroll;
-    height: 128.812px;
+    height: 129.809px;
     width: 396px;
-    margin-left:10px;
+    margin-right:10px;
     font-size: 12px;
-   
+    margin-left:10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
 }

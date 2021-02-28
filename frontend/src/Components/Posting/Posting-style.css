@@ -2,7 +2,7 @@
     /* border-radius: 20px; */
     border: solid 2px #efefef;
     width: 400px;
-    height: 700px;
+    height: 710px;
     background-color: rgb(255, 255, 255) ;
     
     
@@ -30,6 +30,6 @@
 
     .description{
 
-       margin: 2px; 
+       /* margin: 2px;  */
     }
     
