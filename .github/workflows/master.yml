@@ -1,0 +1,44 @@
+name: Deploy_application
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build_and_deploy_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd frontend && npm ci && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_SOEN_341_PROJECT }}"
+          channelId: live
+          projectId: soen-341-project
+          entrypoint: "./frontend"
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
+  build-and-deploy_backend:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Build with dotnet
+      run: cd backend && dotnet build --configuration Release
+
+    - name: dotnet publish
+      run: cd backend && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'SOEN341V2'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6159df8d85574c77a56a5f140618cbfe }}
+        package: ${{env.DOTNET_ROOT}}/myapp 
