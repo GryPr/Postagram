@@ -52,6 +52,22 @@ jobs:
     - name: Build Docker image
       shell: bash
       run: cd backend && docker build .
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     
-    - shell: bash
-      run: ls -la
+    - name: Build and push image:latest
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend
+        repository: grypr/soen341:latest
+
+    - name: Build and push image:commit
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend
+        repository: grypr/soen341
+        tag_with_ref: true
