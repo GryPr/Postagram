@@ -42,7 +42,7 @@ jobs:
         path: ${{env.DOTNET_ROOT}}/myapp
   build_backend_docker:
     runs-on: ubuntu-latest
-
+    needs: build_backend
     steps:
     - name: Download backend artifact
       uses: actions/download-artifact@v2
