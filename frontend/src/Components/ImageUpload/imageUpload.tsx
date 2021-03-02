@@ -58,7 +58,7 @@ export default function ImageUpload() {
     formData.append("ImageDescription", description)
     formData.append("ImageContent", file!)
 
-    fetch("https://localhost:5001/image", {
+    fetch("https://soen341.grypr.cf/image", {
       method: "POST",
       mode: "cors",
       headers: {

@@ -1,0 +1,66 @@
+name: Build and deploy application
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build_and_deploy_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd frontend && npm ci && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_SOEN_341_PROJECT }}"
+          channelId: live
+          projectId: soen-341-project
+          entrypoint: "./frontend"
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
+  build_backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Build and publish application
+      run: cd backend && dotnet build --configuration Release && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+    - name: Produce backend artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: backend-artifact
+        path: ${{env.DOTNET_ROOT}}/myapp
+  build_backend_docker:
+    runs-on: ubuntu-latest
+    needs: build_backend
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Download backend artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: backend-artifact
+        path: ./backend/myapp
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and push image:latest
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend
+        push: true
+        tags: grypr/soen341:latest
