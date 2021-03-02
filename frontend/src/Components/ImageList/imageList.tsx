@@ -21,7 +21,7 @@ export default function ImageList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://localhost:5001/public", {
+    fetch("https://soen341.grypr.cf/public", {
       method: "POST",
       mode: "cors",
       headers: {
