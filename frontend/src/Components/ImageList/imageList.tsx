@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ImageBox from "../ImageBox/imageBox";
+import Posting from "../Posting/Posting";
 
 interface ImageResponse {
   fileName: string;
@@ -42,7 +43,7 @@ export default function ImageList() {
       {loading ? "Currently loading" : ""}
       {images.map((image, index) => (
         <div key={index}>
-          <ImageBox
+         <Posting
             src={`data:${image.contentType};base64,${image.imageContent}`}
             description={image.imageDescription}
             createdOn={image.createdOn}

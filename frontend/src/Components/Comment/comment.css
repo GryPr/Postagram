@@ -1,0 +1,25 @@
+.box{
+    text-align: left;
+    font-size: 10px;
+    margin: 10px;
+}
+.box:hover{
+    cursor: text;
+}
+#post{
+   background-color:  #159cfd;
+    font-size: 15px;
+    display:inline;
+    /* padding-left: 15em; */
+    
+    margin-left:10px;
+    margin-top:5px;
+    border-radius: 20px;
+}
+#comment{
+    font-size: 12px;
+    display:inline;
+    width: 275px;
+    margin-right: 10px;
+
+}

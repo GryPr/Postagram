@@ -1,0 +1,44 @@
+
+
+.contain{
+font-weight: bold;
+margin-left:10px;
+margin-right:10px;
+/* margin-top:10px; */
+/* color :#3b5998; */
+padding: 10px;
+font-size: 10px;
+
+}
+
+.avatar{
+
+    position : absolute
+   
+    /* display:block; */
+
+    }
+
+.avatar:hover{
+    cursor: pointer ;
+}
+
+#name {
+    
+    color:blanchedalmond;
+    font-size: 13px;
+    display: inline;
+    margin-left: 50px;
+    text-align: center;
+    margin-top: 2px;
+   
+    
+}
+
+#follows{
+margin-left: 10px;
+font-size: 15px;
+display:inline;
+
+ }
+

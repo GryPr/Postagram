@@ -1,0 +1,37 @@
+.container{
+    /* border-radius: 20px; */
+    border: solid 2px #efefef;
+    width: 400px;
+    height: 710px;
+    margin: 10px;
+
+    background-color: rgb(255, 255, 255) ;
+    
+    
+    /* display:flex; */
+    position: absolute;
+    top:-15px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+          
+    
+    
+    }
+    
+    .container:hover{
+    
+        box-shadow: 0 0 10px 2px #68b839;
+        transition: all 0.3s ease 0s;
+    }
+    
+    .header{
+
+        background-color: #159cfd;
+    }
+
+    .description{
+
+       /* margin: 2px;  */
+    }
+    
