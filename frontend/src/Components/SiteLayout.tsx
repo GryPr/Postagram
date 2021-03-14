@@ -34,7 +34,7 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
           <Grid justify="flex-end" container>
             {isAuthenticated ?
               <Button
-                id='button'
+                id='postimage'
                 variant="contained"
                 component="label"
                 onClick={goToCreate}>
