@@ -1,3 +1,4 @@
+import { CircularProgress } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import ImageBox from "../ImageBox/imageBox";
 
@@ -39,7 +40,7 @@ export default function ImageList() {
 
   return (
     <div>
-      {loading ? "Currently loading" : ""}
+      {loading ? (<CircularProgress style={{ margin: 25 }} />) : (<div />)}
       {images.map((image, index) => (
         <div key={index}>
           <ImageBox
