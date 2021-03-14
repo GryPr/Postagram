@@ -8,6 +8,7 @@ import {
   InteractionRequiredAuthError,
   SilentRequest,
 } from "@azure/msal-browser";
+import { backendURL } from "../../Constants/backendConfig";
 
 export default function ImageUpload() {
   const [file, setFile] = useState<File>();
@@ -58,7 +59,7 @@ export default function ImageUpload() {
     formData.append("ImageDescription", description)
     formData.append("ImageContent", file!)
 
-    fetch("https://soen341.grypr.cf/image", {
+    fetch(backendURL + "/image", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -80,8 +81,8 @@ export default function ImageUpload() {
         {file != null ? (
           <img id="img" src={URL.createObjectURL(file)} alt="" />
         ) : (
-            "No Image Uploaded"
-          )}
+          "No Image Uploaded"
+        )}
       </div>
       <Button variant="contained" component="label">
         Select Image
