@@ -1,6 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import ImageBox from "../ImageBox/imageBox";
+import { backendURL } from "../../Constants/backendConfig";
 
 interface ImageResponse {
   fileName: string;
@@ -22,7 +23,7 @@ export default function ImageList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://soen341.grypr.cf/public", {
+    fetch(backendURL + "/public", {
       method: "POST",
       mode: "cors",
       headers: {
