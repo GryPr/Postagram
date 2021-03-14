@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -7,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace ImageStoreApi.Models
 {
 
-    public class Image
+    public class Comment
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -19,15 +18,7 @@ namespace ImageStoreApi.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public string ImageDescription { get; set; }
-
-        public string FileName { get; set; }
-
-        public string ContentType { get; set; }
-
-        public ObjectId ImageId { get; set; }
-
-        public List<Comment> Comments { get; set; }
+        public string CommentContent { get; set; }
 
     }
 }

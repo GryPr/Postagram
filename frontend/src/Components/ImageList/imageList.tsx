@@ -6,9 +6,18 @@ interface ImageResponse {
   fileName: string;
   contentType: string;
   imageDescription: string;
+  imageId: string;
   createdOn: string;
   creatorName: string;
   imageContent: string;
+  comments: CommentResponse[];
+}
+
+export interface CommentResponse {
+  creatorUserId: string;
+  creatorName: string;
+  createdOn: string;
+  commentContent: string;
 }
 
 const defaultImages: ImageResponse[] = [];
@@ -48,6 +57,8 @@ export default function ImageList() {
             description={image.imageDescription}
             createdOn={image.createdOn}
             creator={image.creatorName}
+            imageId={image.imageId}
+            comments={image.comments}
           />
           {/* <img id="img" src={`data:${image.contentType};base64,${image.imageContent}`} alt="" /> */}
         </div>

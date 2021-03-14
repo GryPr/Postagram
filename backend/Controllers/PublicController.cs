@@ -41,11 +41,15 @@ namespace ImageStoreApi.Controllers
             public string ContentType { get; set; }
             public string ImageDescription { get; set; }
 
+            public string ImageId { get; set; }
+
             public DateTime CreatedOn { get; set; }
 
             public string CreatorName { get; set; }
 
             public string ImageContent { get; set; }
+
+            public List<Comment> Comments { get; set; }
         }
 
         [HttpGet]
@@ -60,6 +64,7 @@ namespace ImageStoreApi.Controllers
                 FileName = img.FileName,
                 ContentType = img.ContentType,
                 ImageDescription = img.ImageDescription,
+                ImageId = img.Id,
                 CreatedOn = img.CreatedOn,
                 CreatorName = img.CreatorName,
                 ImageContent = base64
@@ -78,8 +83,10 @@ namespace ImageStoreApi.Controllers
                     FileName = img[i].FileName,
                     ContentType = img[i].ContentType,
                     ImageDescription = img[i].ImageDescription,
+                    ImageId = img[i].Id,
                     CreatedOn = img[i].CreatedOn,
                     CreatorName = img[i].CreatorName,
+                    Comments = img[i].Comments,
                     ImageContent = file[i]
                 });
             }

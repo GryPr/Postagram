@@ -43,7 +43,7 @@ namespace ImageStoreApi.Services
             List<String> b64Files = new List<String>(image.Count);
             for (int i = 0; i < image.Count; i++)
             {
-                File.AppendAllText(@"./log.txt", i + Environment.NewLine);
+                //File.AppendAllText(@"./log.txt", i + Environment.NewLine);
                 System.Diagnostics.Debug.WriteLine(i);
                 var fs = new MemoryStream();
                 _bucket.DownloadToStream(image[i].ImageId, fs);
@@ -79,6 +79,33 @@ namespace ImageStoreApi.Services
 
             return image;
 
+        }
+
+        public Comment AddComment(string ImageId, string CommentContent, string userId, string userName)
+        {
+            Comment comment = new Comment
+            {
+                CreatorUserId = userId,
+                CreatorName = userName,
+                CreatedOn = DateTime.Now,
+                CommentContent = CommentContent
+            };
+
+
+            Image image = _images.Find(document => document.Id == ImageId).FirstOrDefault();
+
+            File.AppendAllText(@"./log.txt", ImageId + Environment.NewLine);
+            File.AppendAllText(@"./log.txt", image.Id + Environment.NewLine);
+
+            if (image.Comments == null)
+            {
+                image.Comments = new List<Comment>();
+            }
+            image.Comments.Add(comment);
+
+            _images.FindOneAndReplace(document => document.Id == ImageId, image);
+
+            return comment;
         }
 
     }
