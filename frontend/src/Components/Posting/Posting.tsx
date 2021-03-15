@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("transform", {
         duration: theme.transitions.duration.shortest,
       }),
+      //New Comment
     },
     expandOpen: {
       transform: "rotate(180deg)",
