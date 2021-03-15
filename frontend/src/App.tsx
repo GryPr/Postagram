@@ -10,7 +10,12 @@ class App extends Component {
   return (
     <div>
     
-     <Posting/>
+     <Posting
+     creator={"hello"}
+     description={"bonjour"}
+     createdOn={"15-09-20"} 
+     src={"hello"}    
+     />
     
     
     </div>
