@@ -1,13 +1,14 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { Button } from "@material-ui/core";
 import { loginRequest } from "../Constants/authConfig";
+import "./authenticationButton.css";
 
 export default function AuthenticationButton() {
   const isAuthenticated = useIsAuthenticated();
   const { instance } = useMsal();
 
   return (
-    <Button
+    <Button id='login'
       variant="contained"
       component="label"
       onClick={

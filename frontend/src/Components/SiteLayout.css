@@ -6,7 +6,7 @@
 }
 
 #toolbar {
-  gap: 16%;
+  gap: 12.5%;
 }
 
 #logo {
@@ -32,10 +32,15 @@
   position: relative;
 }
 
-#button {
-  margin-top: -35%;
-  margin-right: -30%;
-  width: 30%;
+#postimage {
+  margin-top: -24.5%;
+  margin-right: -66%;
+  height: 10%;
+  width: 57%;
+}
+
+#button{
+  margin-top: -14%;
 }
 
 @media only screen and (max-width: 1000px) {
