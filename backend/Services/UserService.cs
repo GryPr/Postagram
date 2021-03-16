@@ -1,7 +1,9 @@
-using MongoDB.Driver;
-using ImageStoreApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImageStoreApi.Models;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ImageStoreApi.Services
 {
@@ -30,6 +32,31 @@ namespace ImageStoreApi.Services
         {
             _users.InsertOne(user);
             return user;
+        }
+
+        public int IncrementFollowerCount(string userId)
+        {
+            User user = this.Get(userId);
+            var filter = Builders<User>.Filter.Eq("UserId", userId);
+            var update = Builders<User>.Update.Set("FollowerCount", user.FollowerCount++);
+
+            _users.UpdateOne(filter, update);
+            return user.FollowerCount;
+        }
+
+        public String[] FollowUser(string followerId, string followedId)
+        {
+            User follower = this.Get(followerId);
+            var filter = Builders<User>.Filter.Eq("UserId", followerId);
+            var options = new UpdateOptions { IsUpsert = true };
+            var update = Builders<User>.Update.Set("UsersFollowed", follower.UsersFollowed.Append(followedId));
+
+            _users.UpdateOne(filter, update, options);
+
+            // Update the Follower Count
+            IncrementFollowerCount(followedId);
+
+            return follower.UsersFollowed;
         }
 
     }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Button, Paper, TextField } from "@material-ui/core";
 import { backendURL } from "../../Constants/backendConfig";
@@ -23,6 +24,8 @@ import { loginRequest } from "../../Constants/authConfig";
 import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { CommentResponse } from "../ImageList/imageList";
 import ImageBoxComment from "../ImageBoxComment/imageBoxComment";
+import { useHistory } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,6 +59,7 @@ type ImageBoxProps = {
   description: string;
   createdOn: string;
   creator: string;
+  creatorId: string;
   imageId: string;
   comments: CommentResponse[];
 };
@@ -67,6 +71,9 @@ export default function ImageBox(props: ImageBoxProps) {
   const [currentComment, setCurrentComment] = React.useState("");
   const { instance, accounts } = useMsal();
   const account = useAccount(accounts[0] || {})!;
+
+  const history = useHistory();
+  const goToCreator = useCallback(() => history.push('/user/' + props.creatorId), [history]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -138,6 +145,9 @@ export default function ImageBox(props: ImageBoxProps) {
     }
   }, []);
 
+  var dateFormat = require("dateformat");
+
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -152,7 +162,7 @@ export default function ImageBox(props: ImageBoxProps) {
         //   </IconButton>
         // }
         title={props.creator}
-        subheader={props.createdOn}
+        subheader={dateFormat(Date.parse(props.createdOn))}
       />
       <CardMedia
         className={classes.media}
@@ -165,7 +175,10 @@ export default function ImageBox(props: ImageBoxProps) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="user" onClick={goToCreator}>
+          <PersonOutlineIcon />
+        </IconButton>
+        <IconButton aria-label="like">
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
