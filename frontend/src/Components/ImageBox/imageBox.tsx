@@ -58,25 +58,9 @@ export default function ImageBox(props: ImageBoxProps) {
 
   return (
     <Card className={classes.root}>
-      <CardHeader
-        // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar}>
-        //     {props.creator.charAt(0)}
-        //   </Avatar>
-        // }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={props.creator}
-        subheader={props.createdOn}
-      />
-      <CardMedia
-        className={classes.media}
-        image={props.src}
-        title=""
-      />
+      
+      
+      
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {props.description}

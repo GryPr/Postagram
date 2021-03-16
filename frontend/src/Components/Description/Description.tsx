@@ -24,18 +24,16 @@ function Description (props: Descriptionprop ){
                         (<FavoriteBorderIcon color ="secondary" fontSize="large" />) }      
                     
                 </IconButton>
-               
+               <br/>
                {/* { clicked ? setCount(count+1) : count} */}
-               
-            
-               
                 <p id= "inline"> <strong>{props.creator}
                 </strong> </p>
-                <p> {props.createdOn}</p>
+                
                
                
         <p id= "inline" className="description"> {props.description}</p>
-    
+                <br/>
+  {props.createdOn}
             </div>
         )
     }

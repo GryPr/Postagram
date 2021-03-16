@@ -18,20 +18,25 @@
     
     
     }
-    
     .container:hover{
     
         box-shadow: 0 0 10px 2px #68b839;
         transition: all 0.3s ease 0s;
     }
-    
-    .header{
 
-        background-color: #159cfd;
-    }
 
     .description{
 
-       /* margin: 2px;  */
+       text-align: left;
     }
     
+    .header{
+        
+        text-align:left;
+        border-bottom: 2px solid blue;;
+    }
+
+    .border{
+        border:  2px solid blue;
+        
+    }

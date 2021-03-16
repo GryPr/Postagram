@@ -18,9 +18,9 @@ function Header(props: Headerprops) {
        
           <div className="contain">
             
-              <div className="avatar">
+              {/* <div className="avatar">
             <Box /> 
-              </div> 
+              </div>  */}
             {/* <Avatar className="avatar" src="./Avatar.jpg"/> */}
             
             {/* {this.props.person.map(user=>  (<p id="name"> {user.name} </p>))}   */}
