@@ -47,6 +47,8 @@ namespace ImageStoreApi.Controllers
 
             public string CreatorName { get; set; }
 
+            public string CreatorId { get; set; }
+
             public string ImageContent { get; set; }
 
             public List<Comment> Comments { get; set; }
@@ -67,6 +69,7 @@ namespace ImageStoreApi.Controllers
                 ImageId = img.Id,
                 CreatedOn = img.CreatedOn,
                 CreatorName = img.CreatorName,
+                CreatorId = img.CreatorUserId,
                 ImageContent = base64
             };
         }
@@ -86,6 +89,7 @@ namespace ImageStoreApi.Controllers
                     ImageId = img[i].Id,
                     CreatedOn = img[i].CreatedOn,
                     CreatorName = img[i].CreatorName,
+                    CreatorId = img[i].CreatorUserId,
                     Comments = img[i].Comments,
                     ImageContent = file[i]
                 });
