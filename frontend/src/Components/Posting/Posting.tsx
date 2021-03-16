@@ -18,6 +18,8 @@ import IconButton from "@material-ui/core/IconButton";
 import { blue, red } from "@material-ui/core/colors";
 
 
+
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -59,10 +61,13 @@ type ImageBoxProps = {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
   
+  
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
-  
+
+
+ 
     return (
        
       <Card className={classes.root}>
@@ -82,7 +87,7 @@ type ImageBoxProps = {
           createdOn = {props.createdOn}
           />
         </div>
-      
+        
         <Comments/>
          </div>
       </Card>

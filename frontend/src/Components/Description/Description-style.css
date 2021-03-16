@@ -18,9 +18,9 @@
 }
 
 .overflow{
-    overflow: scroll;
-    height: 129.809px;
-    width: 396px;
+    overflow: auto;
+    height: 110.809px;
+    width: 390px;
     margin-right:10px;
     font-size: 12px;
     margin-left:10px;
