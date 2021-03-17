@@ -48,8 +48,9 @@ namespace ImageStoreApi.Controllers
                 {
                     UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                     Name = User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(),
-                    Email = User.FindFirstValue(ClaimTypes.Email),
-                    FollowerCount = 0
+                    Email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault(),
+                    FollowerCount = 0,
+                    UsersFollowed = new List<string>(),
                 });
                 return Content("Added User");
             }

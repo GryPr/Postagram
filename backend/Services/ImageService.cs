@@ -94,9 +94,6 @@ namespace ImageStoreApi.Services
 
             Image image = _images.Find(document => document.Id == ImageId).FirstOrDefault();
 
-            File.AppendAllText(@"./log.txt", ImageId + Environment.NewLine);
-            File.AppendAllText(@"./log.txt", image.Id + Environment.NewLine);
-
             if (image.Comments == null)
             {
                 image.Comments = new List<Comment>();

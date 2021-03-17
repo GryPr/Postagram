@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -18,6 +20,6 @@ namespace ImageStoreApi.Models
 
         public int FollowerCount { get; set; }
 
-        public string[] UsersFollowed { get; set; }
+        public List<String> UsersFollowed { get; set; }
     }
 }

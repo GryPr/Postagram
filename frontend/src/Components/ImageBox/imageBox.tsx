@@ -12,20 +12,19 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button, Paper, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { backendURL } from "../../Constants/backendConfig";
 import {
   InteractionRequiredAuthError,
   SilentRequest,
 } from "@azure/msal-browser";
 import { loginRequest } from "../../Constants/authConfig";
-import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { useAccount, useMsal } from "@azure/msal-react";
 import { CommentResponse } from "../ImageList/imageList";
 import ImageBoxComment from "../ImageBoxComment/imageBoxComment";
 import { useHistory } from "react-router-dom";
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,7 +72,11 @@ export default function ImageBox(props: ImageBoxProps) {
   const account = useAccount(accounts[0] || {})!;
 
   const history = useHistory();
-  const goToCreator = useCallback(() => history.push('/user/' + props.creatorId), [history]);
+  const goToCreator = useCallback(
+    () => history.push("/user/" + props.creatorId),
+    // eslint-disable-next-line
+    [history]
+  );
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -108,7 +111,6 @@ export default function ImageBox(props: ImageBoxProps) {
       commentContent: currentComment,
     };
     newCommentArray.push(newComment);
-    //console.log(newCommentArray)
     setComments(newCommentArray);
     setCurrentComment("");
     sendComment(currentComment);
@@ -129,38 +131,30 @@ export default function ImageBox(props: ImageBoxProps) {
         ImageId: props.imageId,
         CommentContent: comment,
       }),
-    })
-      .then((response) => response.json())
-      .then((response) => { });
+    }).then((response) => response.json());
   }
 
-  useEffect(() => {
-    if (props.comments != null) {
-      props.comments.map((comment, index) => {
-        var newCommentArray: CommentResponse[] = comments!;
-        newCommentArray.push(comment);
-        setComments(newCommentArray);
-        setCurrentComment("");
-      });
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (props.comments != null) {
+        // eslint-disable-next-line
+        props.comments.map((comment, index) => {
+          var newCommentArray: CommentResponse[] = comments!;
+          newCommentArray.push(comment);
+          setComments(newCommentArray);
+          setCurrentComment("");
+        });
+      }
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   var dateFormat = require("dateformat");
-
 
   return (
     <Card className={classes.root}>
       <CardHeader
-        // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar}>
-        //     {props.creator.charAt(0)}
-        //   </Avatar>
-        // }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title={props.creator}
         subheader={dateFormat(Date.parse(props.createdOn))}
       />

@@ -1,10 +1,20 @@
-import { AppBar, Box, Button, Card, CardActions, CardContent, CardHeader, createStyles, IconButton, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
-import { FormatAlignLeft, FormatBold } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import { InteractionRequiredAuthError, SilentRequest } from "@azure/msal-browser";
+import { useAccount, useMsal } from "@azure/msal-react";
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    createStyles,
+    makeStyles,
+    Theme,
+    Typography,
+} from "@material-ui/core";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { loginRequest } from "../../Constants/authConfig";
 import { backendURL } from "../../Constants/backendConfig";
-import { CommentResponse } from "../ImageList/imageList";
-import { sizing } from '@material-ui/system';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,8 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
         expandOpen: {
             transform: "rotate(180deg)",
         },
-        avatar: {
-        },
+        avatar: {},
     })
 );
 
@@ -45,58 +54,123 @@ export default function UserProfile() {
     let { userId } = useParams<Record<string, string | undefined>>();
     const [user, setUser] = useState<User>();
     const classes = useStyles();
+    const [follow, setFollow] = useState(false);
+    const { instance, accounts } = useMsal();
+    const account = useAccount(accounts[0] || {})!;
 
-    const [follow, setFollow] = React.useState(true);
+    async function getAccessToken() {
+        const silentRequest: SilentRequest = {
+            account: account,
+            ...loginRequest,
+        };
+        try {
+            const resp = await instance
+                .acquireTokenSilent(silentRequest);
+            if (resp.accessToken) {
+                return resp.accessToken;
+            }
+        } catch (error) {
+            if (error instanceof InteractionRequiredAuthError) {
+                // fallback to interaction when silent call fails
+                instance.acquireTokenPopup(silentRequest).then((response) => {
+                    return response.accessToken
+                });
+            }
+        }
+    }
 
-    useEffect(() => {
-        fetch(backendURL + "/user?userId=" + userId, {
+    async function followUser() {
+        const token = await getAccessToken();
+        fetch(backendURL + "/follow?userId=" + userId, {
             method: "GET",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
-            }
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+            .then((response) => {
+                console.log(response);
+            });
+    }
+
+    async function getFollowState() {
+        const token = await getAccessToken();
+
+        fetch(backendURL + "/follow/isfollowed?userId=" + userId, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                'Authorization': 'Bearer ' + token,
+
+            },
         })
             .then((response) => response.json())
             .then((response) => {
-                setUser(response)
+                console.log(response)
+                setFollow(response);
             });
-    }, []);
+    }
+
+    useEffect(
+        () => {
+            fetch(backendURL + "/user?userId=" + userId, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            })
+                .then((response) => response.json())
+                .then((response) => {
+                    setUser(response);
+                });
+            getFollowState();
+        },
+        // eslint-disable-next-line
+        []
+    );
 
     return (
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
-                <CardHeader
-                    title={user?.name + "'s Profile"}
-                    subheader=""
-                />
+                <CardHeader title={user?.name + "'s Profile"} subheader="" />
                 <div>
-                {
-                  follow?
-                  <Button 
-                  id="followbtn"
-                  variant="outlined"
-                  color="primary" 
-                  onClick={()=>setFollow(!follow)}>Follow {user?.name}</Button>
-                  :<Button 
-                  id="followbtn"
-                  variant="outlined" 
-                  onClick={()=>setFollow(!follow)}>Unfollow {user?.name}</Button>
-                }
+                    {follow ? (
+                        <Button
+                            id="followbtn"
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => {
+                                setFollow(!follow);
+                                followUser();
+                            }}
+                        >
+                            Unfollow {user?.name}
+                        </Button>
+                    ) : (
+                        <Button
+                            id="followbtn"
+                            variant="outlined"
+                            onClick={() => {
+                                setFollow(!follow);
+                                followUser();
+                            }}
+                        >
+                            Follow {user?.name}
+                        </Button>
+                    )}
                 </div>
                 <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                    </Typography>
+                    <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                    ></Typography>
                 </CardContent>
-                <CardActions disableSpacing>
-
-                    <IconButton aria-label="like">
-                        {/* <FavoriteIcon /> */}
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        {/* <ShareIcon /> */}
-                    </IconButton>
-                </CardActions>
             </Card>
         </Box>
     );
