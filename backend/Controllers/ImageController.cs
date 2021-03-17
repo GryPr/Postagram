@@ -53,5 +53,18 @@ namespace ImageStoreApi.Controllers
         {
             return Content("This is a placeholder response for ImageController");
         }
+
+        public class AddCommentRequest
+        {
+            public string ImageId { get; set; }
+            public string CommentContent { get; set; }
+        }
+
+        [HttpPatch]
+        public ActionResult<Comment> AddComment([FromBody] AddCommentRequest request)
+        {
+            return _imageService.AddComment(request.ImageId, request.CommentContent, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
+
+        }
     }
 }

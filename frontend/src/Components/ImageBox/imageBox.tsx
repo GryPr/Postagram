@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -12,7 +12,19 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Button, TextField } from "@material-ui/core";
+import { backendURL } from "../../Constants/backendConfig";
+import {
+  InteractionRequiredAuthError,
+  SilentRequest,
+} from "@azure/msal-browser";
+import { loginRequest } from "../../Constants/authConfig";
+import { useAccount, useMsal } from "@azure/msal-react";
+import { CommentResponse } from "../ImageList/imageList";
+import ImageBoxComment from "../ImageBoxComment/imageBoxComment";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,36 +58,110 @@ type ImageBoxProps = {
   description: string;
   createdOn: string;
   creator: string;
+  creatorId: string;
+  imageId: string;
+  comments: CommentResponse[];
 };
 
 export default function ImageBox(props: ImageBoxProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [comments, setComments] = React.useState<CommentResponse[]>([]);
+  const [currentComment, setCurrentComment] = React.useState("");
+  const { instance, accounts } = useMsal();
+  const account = useAccount(accounts[0] || {})!;
+
+  const history = useHistory();
+  const goToCreator = useCallback(
+    () => history.push("/user/" + props.creatorId),
+    // eslint-disable-next-line
+    [history]
+  );
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  async function getAccessToken() {
+    const silentRequest: SilentRequest = {
+      account: account,
+      ...loginRequest,
+    };
+    try {
+      const resp = await instance.acquireTokenSilent(silentRequest);
+      if (resp.accessToken) {
+        return resp.accessToken;
+      }
+    } catch (error) {
+      if (error instanceof InteractionRequiredAuthError) {
+        // fallback to interaction when silent call fails
+        instance.acquireTokenPopup(silentRequest).then((response) => {
+          return response.accessToken;
+        });
+      }
+    }
+  }
+
+  function addComment() {
+    var newCommentArray: CommentResponse[] = comments!;
+    var newComment: CommentResponse = {
+      creatorName: account.name!,
+      creatorUserId: account.homeAccountId,
+      createdOn: Date(),
+      commentContent: currentComment,
+    };
+    newCommentArray.push(newComment);
+    setComments(newCommentArray);
+    setCurrentComment("");
+    sendComment(currentComment);
+  }
+
+  async function sendComment(comment: string) {
+    const token = await getAccessToken();
+
+    fetch(backendURL + "/image", {
+      method: "PATCH",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        ImageId: props.imageId,
+        CommentContent: comment,
+      }),
+    }).then((response) => response.json());
+  }
+
+  useEffect(
+    () => {
+      if (props.comments != null) {
+        // eslint-disable-next-line
+        props.comments.map((comment, index) => {
+          var newCommentArray: CommentResponse[] = comments!;
+          newCommentArray.push(comment);
+          setComments(newCommentArray);
+          setCurrentComment("");
+        });
+      }
+    },
+    // eslint-disable-next-line
+    []
+  );
+
+  var dateFormat = require("dateformat");
+
   return (
     <Card className={classes.root}>
       <CardHeader
-        // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar}>
-        //     {props.creator.charAt(0)}
-        //   </Avatar>
-        // }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title={props.creator}
-        subheader={props.createdOn}
+        subheader={dateFormat(Date.parse(props.createdOn))}
       />
       <CardMedia
         className={classes.media}
         image={props.src}
-        title=""
+        title={props.imageId}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -83,7 +169,10 @@ export default function ImageBox(props: ImageBoxProps) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="user" onClick={goToCreator}>
+          <PersonOutlineIcon />
+        </IconButton>
+        <IconButton aria-label="like">
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
@@ -102,7 +191,28 @@ export default function ImageBox(props: ImageBoxProps) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          Comments placeholder
+          <div>
+            {comments.map((comment, index) => (
+              <ImageBoxComment comment={comment} key={index}></ImageBoxComment>
+            ))}
+          </div>
+          <TextField
+            id="filled-full-width"
+            label="Add Comment"
+            style={{ margin: 8 }}
+            placeholder=""
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(event) => {
+              setCurrentComment(event.target.value);
+            }}
+          ></TextField>
+          <Button variant="contained" component="label" onClick={addComment}>
+            Add Comment
+          </Button>
         </CardContent>
       </Collapse>
     </Card>
