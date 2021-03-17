@@ -46,6 +46,8 @@ export default function UserProfile() {
     const [user, setUser] = useState<User>();
     const classes = useStyles();
 
+    const [follow, setFollow] = React.useState(true);
+
     useEffect(() => {
         fetch(backendURL + "/user?userId=" + userId, {
             method: "GET",
@@ -68,9 +70,20 @@ export default function UserProfile() {
                     title={user?.name + "'s Profile"}
                     subheader=""
                 />
-                <Button variant="outlined" size="medium" color="primary" >
-                    Follow {user?.name}
-                </Button>
+                <div>
+                {
+                  follow?
+                  <Button 
+                  id="followbtn"
+                  variant="outlined"
+                  color="primary" 
+                  onClick={()=>setFollow(!follow)}>Follow {user?.name}</Button>
+                  :<Button 
+                  id="followbtn"
+                  variant="outlined" 
+                  onClick={()=>setFollow(!follow)}>Unfollow {user?.name}</Button>
+                }
+                </div>
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                     </Typography>
