@@ -15,6 +15,10 @@ This project is an instagram-like webapp where users can post images. Users can 
 - Add "likes" to images
 - Comment on others' images
 
+## Architecture Diagram
+
+![](SOEN341.jpg)
+
 ## Technology Stack
 
 ### Frontend
