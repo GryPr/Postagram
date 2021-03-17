@@ -1,34 +1,11 @@
-import { InteractionRequiredAuthError, SilentRequest } from "@azure/msal-browser";
-import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { Button } from "@material-ui/core";
 import { loginRequest } from "../Constants/authConfig";
 import { backendURL } from "../Constants/backendConfig";
 
 export default function AuthenticationButton() {
   const isAuthenticated = useIsAuthenticated();
-  const { instance, accounts } = useMsal();
-  const account = useAccount(accounts[0] || {})!;
-
-  async function getAccessToken() {
-    const silentRequest: SilentRequest = {
-      account: account,
-      ...loginRequest,
-    };
-    try {
-      const resp = await instance
-        .acquireTokenSilent(silentRequest);
-      if (resp.accessToken) {
-        return resp.accessToken;
-      }
-    } catch (error) {
-      if (error instanceof InteractionRequiredAuthError) {
-        // fallback to interaction when silent call fails
-        instance.acquireTokenPopup(silentRequest).then((response) => {
-          return response.accessToken
-        });
-      }
-    }
-  }
+  const { instance } = useMsal();
 
   async function sendUser(accessToken: string) {
 
