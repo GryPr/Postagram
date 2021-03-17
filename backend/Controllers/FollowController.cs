@@ -33,11 +33,19 @@ namespace ImageStoreApi.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public IActionResult Post(string userId)
+        [HttpGet]
+        public IActionResult Get(string userId)
         {
             _userService.FollowUser(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
             return Content("Sucessful Follow");
+        }
+
+        [Authorize]
+        [Route("/[controller]/isfollowed")]
+        [HttpGet]
+        public ActionResult<bool> isFollowed(string userId)
+        {
+            return _userService.IsFollowed(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
         }
     }
 }

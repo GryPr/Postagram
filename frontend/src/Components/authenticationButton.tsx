@@ -30,18 +30,19 @@ export default function AuthenticationButton() {
     }
   }
 
-  async function sendUser() {
-    const token = await getAccessToken();
+  async function sendUser(accessToken: string) {
 
     fetch(backendURL + "/user", {
       method: "POST",
       mode: "cors",
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + accessToken,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+      })
   }
 
   return (
@@ -53,8 +54,7 @@ export default function AuthenticationButton() {
           ? () => instance.logout()
           : () =>
             instance.acquireTokenPopup(loginRequest).then((response) => {
-              console.log(response.idToken);
-              sendUser();
+              sendUser(response.accessToken);
             })
       }
     >
