@@ -1,4 +1,4 @@
-import { Button, TextField, Paper } from "@material-ui/core";
+import { Button, TextField, Paper, LinearProgress } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import "./imageUpload.css";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ import { backendURL } from "../../Constants/backendConfig";
 export default function ImageUpload() {
   const [file, setFile] = useState<File>();
   const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
   const { instance, accounts } = useMsal();
   const account = useAccount(accounts[0] || {})!;
   const history = useHistory();
@@ -52,6 +53,8 @@ export default function ImageUpload() {
   }
 
   async function sendData() {
+    setLoading(true);
+
     const token = await getAccessToken();
 
     var formData = new FormData();
@@ -81,8 +84,8 @@ export default function ImageUpload() {
         {file != null ? (
           <img id="img" src={URL.createObjectURL(file)} alt="" />
         ) : (
-          "No Image Uploaded"
-        )}
+            ""
+          )}
       </div>
       <Button variant="contained" component="label">
         Select Image
@@ -106,9 +109,10 @@ export default function ImageUpload() {
         variant="filled"
         onChange={(event) => { setDescription(event.target.value) }}
       />
-      <Button variant="contained" component="label" onClick={sendData}>
+      <Button variant="contained" component="label" id="loading" onClick={sendData} >
         Submit
       </Button>
+      {loading ? (<LinearProgress />) : (<div />)}
     </Paper>
   );
 }

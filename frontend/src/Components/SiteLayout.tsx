@@ -1,8 +1,7 @@
 import "./SiteLayout.css";
-// import SearchIcon from "@material-ui/icons/Search";
-// import HomeIcon from "@material-ui/icons/Home";
-// import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import { AppBar, Toolbar, Button, Grid } from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import { AppBar, Toolbar, Button, Grid, InputBase } from "@material-ui/core";
 import AuthenticationButton from "./authenticationButton";
 import { useCallback } from "react";
 import { useHistory } from 'react-router-dom';
@@ -24,8 +23,7 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
       <AppBar id="appbar" position="sticky">
         <Toolbar id="toolbar">
           <Button id="logo" onClick={goToHome}>Instagram</Button>
-          {/* <InputBase id="searchbar" placeholder="Search" />
-        <SearchIcon id="searchicon"></SearchIcon>
+         <InputBase id="searchbar" placeholder="Search" />
         <div>
           <Button>
             <HomeIcon id="homeicon"></HomeIcon>
@@ -33,11 +31,10 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
           <Button>
             <AccountCircleOutlinedIcon id="homeicon"></AccountCircleOutlinedIcon>
           </Button>
-        </div> */}
           <Grid justify="flex-end" container>
             {isAuthenticated ?
               <Button
-                id='button'
+                id='postimage'
                 variant="contained"
                 component="label"
                 onClick={goToCreate}>
@@ -48,6 +45,7 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
               <AuthenticationButton />
             </div>
           </Grid>
+          </div>
         </Toolbar>
       </AppBar>
       <>{children}</>

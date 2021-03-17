@@ -6,7 +6,7 @@
 }
 
 #toolbar {
-  gap: 35%;
+  gap: 12.5%;
 }
 
 #logo {
@@ -20,18 +20,9 @@
   height: 13px;
   box-shadow: 0 0 2pt rgb(119, 119, 119);
   padding-left: 13px;
-  padding-right: 10px;
+  padding-right: 55px;
   color: rgb(119, 119, 119);
-  margin-left: -102%;
-}
-
-#searchicon {
-  height: 26px;
-  width: 26px;
-  box-shadow: 0 0 2pt rgb(119, 119, 119);
-  margin-left: -68.2%;
-  color: rgb(175, 170, 170);
-  cursor: text;
+  margin-left: 10%;
 }
 
 #homeicon {
@@ -41,8 +32,15 @@
   position: relative;
 }
 
-#button {
-  margin: 10px;
+#postimage {
+  margin-top: -24.5%;
+  margin-right: -66%;
+  height: 10%;
+  width: 57%;
+}
+
+#button{
+  margin-top: -14%;
 }
 
 @media only screen and (max-width: 1000px) {
