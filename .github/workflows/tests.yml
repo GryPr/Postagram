@@ -1,0 +1,29 @@
+name: Run tests on all commits
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  test_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout from repository
+        uses: actions/checkout@v2
+
+      - name: Run npm test
+        run: cd frontend && npm ci && npm test
+
+  test_backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout from repository
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Run dotnet test
+      run: cd backend 
