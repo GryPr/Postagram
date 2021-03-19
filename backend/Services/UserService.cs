@@ -66,7 +66,7 @@ namespace ImageStoreApi.Services
 
             if (!follower.UsersFollowed.Contains(followedId))
             {
-                follower.UsersFollowed.Add(followerId);
+                follower.UsersFollowed.Add(followedId);
 
                 // Update the Follower Count
                 IncrementFollowerCount(followedId, true);
