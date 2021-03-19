@@ -137,7 +137,7 @@ export default function UserProfile() {
     return (
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
-                <CardHeader title={user?.name + "'s Profile"} subheader="" />
+                <CardHeader title={user?.name + "'s Profile"} subheader={user?.followerCount + " followers"} />
                 <div>
                     {follow ? (
                         <Button
