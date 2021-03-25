@@ -22,6 +22,7 @@ namespace ImageStoreApi.Controllers
             _logger = logger;
         }
 
+        // Placeholder endpoint
         [HttpGet]
         public IActionResult Get()
         {

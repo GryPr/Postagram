@@ -1,8 +1,8 @@
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace ImageStoreApi.Controllers
 {
@@ -21,6 +21,7 @@ namespace ImageStoreApi.Controllers
 
         }
 
+        // Model of the JWT data returned
         class APIResponse
         {
             public string userId { get; set; }
@@ -28,6 +29,7 @@ namespace ImageStoreApi.Controllers
             public string displayName { get; set; }
         }
 
+        // Endpoint that returns the data contained in a JWT
         [HttpGet]
         public IActionResult Get()
         {

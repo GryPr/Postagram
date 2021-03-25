@@ -82,6 +82,7 @@ export default function ImageBox(props: ImageBoxProps) {
     setExpanded(!expanded);
   };
 
+  // Gets the access token required to post a comment
   async function getAccessToken() {
     const silentRequest: SilentRequest = {
       account: account,
@@ -102,6 +103,7 @@ export default function ImageBox(props: ImageBoxProps) {
     }
   }
 
+  // Posts a comment
   function addComment() {
     var newCommentArray: CommentResponse[] = comments!;
     var newComment: CommentResponse = {
@@ -116,6 +118,7 @@ export default function ImageBox(props: ImageBoxProps) {
     sendComment(currentComment);
   }
 
+  // Sends the comment posted to the backend for storage in the database
   async function sendComment(comment: string) {
     const token = await getAccessToken();
 
@@ -134,6 +137,7 @@ export default function ImageBox(props: ImageBoxProps) {
     }).then((response) => response.json());
   }
 
+  // Gets the comments in the image box
   useEffect(
     () => {
       if (props.comments != null) {

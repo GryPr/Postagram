@@ -35,6 +35,7 @@ namespace ImageStoreApi.Controllers
             public int index { get; set; }
         }
 
+        // Model for the response containing the image data
         public class GetResponse
         {
             public string FileName { get; set; }
@@ -54,6 +55,7 @@ namespace ImageStoreApi.Controllers
             public List<Comment> Comments { get; set; }
         }
 
+        // Deprecated endpoint
         [HttpGet]
         public ActionResult<GetResponse> Get([FromBody] Range range)
         {
@@ -74,6 +76,7 @@ namespace ImageStoreApi.Controllers
             };
         }
 
+        // Endpoint that returns all the images in the database through a JSON
         [HttpPost]
         public ActionResult<List<GetResponse>> Post()
         {

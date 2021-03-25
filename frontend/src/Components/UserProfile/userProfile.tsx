@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+// Model of JSON response from /user
 interface User {
     id: string;
     userId: string;
@@ -52,12 +53,13 @@ interface User {
 
 export default function UserProfile() {
     let { userId } = useParams<Record<string, string | undefined>>();
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User>(); // User profile data set as the state
     const classes = useStyles();
-    const [follow, setFollow] = useState(false);
+    const [follow, setFollow] = useState(false); // Whether the logged in user is following or not
     const { instance, accounts } = useMsal();
     const account = useAccount(accounts[0] || {})!;
 
+    // Obtain the access token required to follow the user
     async function getAccessToken() {
         const silentRequest: SilentRequest = {
             account: account,
@@ -79,6 +81,7 @@ export default function UserProfile() {
         }
     }
 
+    // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
         fetch(backendURL + "/follow?userId=" + userId, {
@@ -95,6 +98,7 @@ export default function UserProfile() {
             });
     }
 
+    // Gets the follow state of the logged in user
     async function getFollowState() {
         const token = await getAccessToken();
 
@@ -114,6 +118,7 @@ export default function UserProfile() {
             });
     }
 
+    // Gets the user profile data from the backend
     useEffect(
         () => {
             fetch(backendURL + "/user?userId=" + userId, {
