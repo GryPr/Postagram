@@ -31,6 +31,7 @@ namespace ImageStoreApi.Controllers
             _imageService = imageService;
         }
 
+        // Endpoint that receives an image and a description through multipart formdata, and stores it in the database
         [HttpPost]
         public ActionResult<Image> Post([FromForm] IFormFile ImageContent, [FromForm] string ImageDescription)
         {
@@ -48,18 +49,21 @@ namespace ImageStoreApi.Controllers
             return Ok(User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
         }
 
+        // Placeholder endpoint
         [HttpGet]
         public IActionResult Get()
         {
             return Content("This is a placeholder response for ImageController");
         }
 
+        // Model for the JSON request to add a comment to a post
         public class AddCommentRequest
         {
             public string ImageId { get; set; }
             public string CommentContent { get; set; }
         }
 
+        // Endpoint that adds a comment to a specific image post
         [HttpPatch]
         public ActionResult<Comment> AddComment([FromBody] AddCommentRequest request)
         {

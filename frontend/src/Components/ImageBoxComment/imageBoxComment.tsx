@@ -5,6 +5,7 @@ type ImageBoxCommentProps = {
     comment: CommentResponse;
 };
 
+// Component for each posted comment
 export default function ImageBoxComment(props: ImageBoxCommentProps) {
     return (
         <Paper

@@ -61,6 +61,7 @@ namespace ImageStoreApi.Services
             return image;
         }
 
+        // Adds an image from the data sent through the endpoint in ImageController
         public Image Create(Stream fs, string ImageDescription, string userId, string userName, string fileName, string contentType)
         {
             var id = _bucket.UploadFromStream(fileName, fs);
@@ -81,6 +82,7 @@ namespace ImageStoreApi.Services
 
         }
 
+        // Adds a comment from the data send through the endpoint in ImageController
         public Comment AddComment(string ImageId, string CommentContent, string userId, string userName)
         {
             Comment comment = new Comment

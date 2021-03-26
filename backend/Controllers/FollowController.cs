@@ -32,6 +32,7 @@ namespace ImageStoreApi.Controllers
             _userService = userService;
         }
 
+        // Endpoint to follow a user
         [Authorize]
         [HttpGet]
         public IActionResult Get(string userId)
@@ -40,6 +41,7 @@ namespace ImageStoreApi.Controllers
             return Content("Sucessful Follow");
         }
 
+        // Endpoint to check if the logged in user is following a specific user
         [Authorize]
         [Route("/[controller]/isfollowed")]
         [HttpGet]

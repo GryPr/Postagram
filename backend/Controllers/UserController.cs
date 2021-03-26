@@ -38,6 +38,7 @@ namespace ImageStoreApi.Controllers
             return _userService.Get(userId);
         }
 
+        // Endpoint that receives user data, and creates a user in the database if they don't exist already
         [Authorize]
         [HttpPost]
         public IActionResult Post()

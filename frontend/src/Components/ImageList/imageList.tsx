@@ -4,6 +4,7 @@ import { backendURL } from "../../Constants/backendConfig";
 import Grid from "@material-ui/core/Grid";
 import { Box } from "@material-ui/core";
 
+// Model of the JSON response from /public
 interface ImageResponse {
   fileName: string;
   contentType: string;
@@ -16,6 +17,7 @@ interface ImageResponse {
   comments: CommentResponse[];
 }
 
+// Model of each comment in the JSON
 export interface CommentResponse {
   creatorUserId: string;
   creatorName: string;
@@ -26,6 +28,7 @@ export interface CommentResponse {
 const defaultImages: ImageResponse[] = [];
 
 export default function ImageList() {
+  // State containing the list of images
   const [images, setImages]: [
     ImageResponse[],
     (images: ImageResponse[]) => void
@@ -33,6 +36,7 @@ export default function ImageList() {
 
   const [loading, setLoading] = useState(true);
 
+  // Retrieve JSON list of images from /public
   useEffect(() => {
     fetch(backendURL + "/public", {
       method: "POST",
@@ -65,7 +69,6 @@ export default function ImageList() {
               imageId={image.imageId}
               comments={image.comments}
             />
-            {/* <img id="img" src={`data:${image.contentType};base64,${image.imageContent}`} alt="" /> */}
           </Grid>
         ))}
       </Grid>
