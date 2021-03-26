@@ -23,28 +23,28 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
       <AppBar id="appbar" position="sticky">
         <Toolbar id="toolbar">
           <Button id="logo" onClick={goToHome}>Instagram</Button>
-         <InputBase id="searchbar" placeholder="Search" />
-        <div>
-          <Button>
-            <HomeIcon id="homeicon"></HomeIcon>
-          </Button>
-          <Button>
-            <AccountCircleOutlinedIcon id="homeicon"></AccountCircleOutlinedIcon>
-          </Button>
-          <Grid justify="flex-end" container>
-            {isAuthenticated ?
-              <Button
-                id='postimage'
-                variant="contained"
-                component="label"
-                onClick={goToCreate}>
-                Post Image
+          <InputBase id="searchbar" placeholder="Search" />
+          <div>
+            <Button>
+              <HomeIcon id="homeicon"></HomeIcon>
+            </Button>
+            <Button>
+              <AccountCircleOutlinedIcon id="homeicon"></AccountCircleOutlinedIcon>
+            </Button>
+            <Grid justify="flex-end" container>
+              {isAuthenticated ?
+                <Button
+                  id='postimage'
+                  variant="contained"
+                  component="label"
+                  onClick={goToCreate}>
+                  Post Image
             </Button> :
-              <div></div>}
-            <div id='button'>
-              <AuthenticationButton />
-            </div>
-          </Grid>
+                <div></div>}
+              <div id='button'>
+                <AuthenticationButton />
+              </div>
+            </Grid>
           </div>
         </Toolbar>
       </AppBar>

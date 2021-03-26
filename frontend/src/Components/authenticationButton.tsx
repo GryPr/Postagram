@@ -1,40 +1,19 @@
-import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { useIsAuthenticated } from "@azure/msal-react";
 import { Button } from "@material-ui/core";
-import { loginRequest } from "../Constants/authConfig";
-import { backendURL } from "../Constants/backendConfig";
-import "./authenticationButton.css";
+import { useCallback } from "react";
+import { useHistory } from "react-router"; import "./authenticationButton.css";
 
 export default function AuthenticationButton() {
   const isAuthenticated = useIsAuthenticated();
-  const { instance } = useMsal();
-
-  async function sendUser(accessToken: string) {
-
-    fetch(backendURL + "/user", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + accessToken,
-      },
-    })
-      .then((response) => {
-        console.log(response)
-      })
-  }
+  const history = useHistory();
+  const goToAzureLoginAdRedirect = useCallback(() => history.push('/azureAdLoginRedirect'), [history])
+  const goToAzureLogoutAdRedirect = useCallback(() => history.push('/azureAdLogoutRedirect'), [history])
 
   return (
     <Button id='login'
       variant="contained"
       component="label"
-      onClick={
-        isAuthenticated
-          ? () => instance.logout()
-          : () =>
-            instance.acquireTokenPopup(loginRequest).then((response) => {
-              sendUser(response.accessToken);
-            })
-      }
+      onClick={isAuthenticated ? goToAzureLogoutAdRedirect : goToAzureLoginAdRedirect}
     >
       {isAuthenticated ? `Logout` : `Login/Register`}
     </Button>

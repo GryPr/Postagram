@@ -32,7 +32,7 @@ export default function AuthenticationProvider(props: AuthenticationProviderProp
         } catch (error) {
             if (error instanceof InteractionRequiredAuthError) {
                 // fallback to interaction when silent call fails
-                instance.acquireTokenPopup(silentRequest).then((response) => {
+                await instance.acquireTokenPopup(silentRequest).then((response) => {
                     return response.accessToken
                 });
             }
