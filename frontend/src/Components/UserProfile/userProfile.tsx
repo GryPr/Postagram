@@ -1,3 +1,4 @@
+import { useIsAuthenticated } from "@azure/msal-react";
 import {
     Box,
     Button,
@@ -50,6 +51,7 @@ interface User {
 }
 
 export default function UserProfile() {
+    const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();
     const [user, setUser] = useState<User>(); // User profile data set as the state
     const classes = useStyles();
@@ -118,32 +120,30 @@ export default function UserProfile() {
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} subheader={user?.followerCount + " followers"} />
-                <div>
-                    {follow ? (
-                        <Button
+                {isAuthenticated ? <div>
+                    {follow ?
+                        (<Button
                             id="followbtn"
                             variant="outlined"
                             color="primary"
                             onClick={() => {
                                 setFollow(!follow);
                                 followUser();
-                            }}
-                        >
+                            }}>
                             Unfollow {user?.name}
-                        </Button>
-                    ) : (
-                        <Button
+                        </Button>)
+                        :
+                        (<Button
                             id="followbtn"
                             variant="outlined"
                             onClick={() => {
                                 setFollow(!follow);
                                 followUser();
-                            }}
-                        >
+                            }}>
                             Follow {user?.name}
-                        </Button>
-                    )}
-                </div>
+                        </Button>)}
+                </div> : <div></div>}
+
                 <CardContent>
                     <Typography
                         variant="body2"
