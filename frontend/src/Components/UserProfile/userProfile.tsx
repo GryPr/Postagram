@@ -119,7 +119,9 @@ export default function UserProfile() {
     return (
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
-                <CardHeader title={user?.name + "'s Profile"} subheader={user?.followerCount + " followers"} />
+                <CardHeader title={user?.name + "'s Profile"} />
+                <div><Button onClick={() => {}}>{user?.followerCount + " followers"}</Button>
+                </div>
                 {isAuthenticated ? <div>
                     {follow ?
                         (<Button
