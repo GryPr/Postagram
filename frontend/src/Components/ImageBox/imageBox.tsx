@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useContext } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -16,15 +16,11 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Button, TextField } from "@material-ui/core";
 import { backendURL } from "../../Constants/backendConfig";
-import {
-  InteractionRequiredAuthError,
-  SilentRequest,
-} from "@azure/msal-browser";
-import { loginRequest } from "../../Constants/authConfig";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { CommentResponse } from "../ImageList/imageList";
 import ImageBoxComment from "../ImageBoxComment/imageBoxComment";
 import { useHistory } from "react-router-dom";
+import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,8 +64,9 @@ export default function ImageBox(props: ImageBoxProps) {
   const [expanded, setExpanded] = React.useState(false);
   const [comments, setComments] = React.useState<CommentResponse[]>([]);
   const [currentComment, setCurrentComment] = React.useState("");
-  const { instance, accounts } = useMsal();
+  const { accounts } = useMsal();
   const account = useAccount(accounts[0] || {})!;
+  const { getAccessToken } = useContext(AuthenticationContext) as AuthenticationContextType
 
   const history = useHistory();
   const goToCreator = useCallback(
@@ -81,27 +78,6 @@ export default function ImageBox(props: ImageBoxProps) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  // Gets the access token required to post a comment
-  async function getAccessToken() {
-    const silentRequest: SilentRequest = {
-      account: account,
-      ...loginRequest,
-    };
-    try {
-      const resp = await instance.acquireTokenSilent(silentRequest);
-      if (resp.accessToken) {
-        return resp.accessToken;
-      }
-    } catch (error) {
-      if (error instanceof InteractionRequiredAuthError) {
-        // fallback to interaction when silent call fails
-        instance.acquireTokenPopup(silentRequest).then((response) => {
-          return response.accessToken;
-        });
-      }
-    }
-  }
 
   // Posts a comment
   function addComment() {

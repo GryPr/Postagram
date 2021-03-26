@@ -1,5 +1,3 @@
-import { InteractionRequiredAuthError, SilentRequest } from "@azure/msal-browser";
-import { useAccount, useMsal } from "@azure/msal-react";
 import {
     Box,
     Button,
@@ -11,10 +9,10 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { loginRequest } from "../../Constants/authConfig";
 import { backendURL } from "../../Constants/backendConfig";
+import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,30 +54,7 @@ export default function UserProfile() {
     const [user, setUser] = useState<User>(); // User profile data set as the state
     const classes = useStyles();
     const [follow, setFollow] = useState(false); // Whether the logged in user is following or not
-    const { instance, accounts } = useMsal();
-    const account = useAccount(accounts[0] || {})!;
-
-    // Obtain the access token required to follow the user
-    async function getAccessToken() {
-        const silentRequest: SilentRequest = {
-            account: account,
-            ...loginRequest,
-        };
-        try {
-            const resp = await instance
-                .acquireTokenSilent(silentRequest);
-            if (resp.accessToken) {
-                return resp.accessToken;
-            }
-        } catch (error) {
-            if (error instanceof InteractionRequiredAuthError) {
-                // fallback to interaction when silent call fails
-                instance.acquireTokenPopup(silentRequest).then((response) => {
-                    return response.accessToken
-                });
-            }
-        }
-    }
+    const { getAccessToken } = useContext(AuthenticationContext) as AuthenticationContextType
 
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
