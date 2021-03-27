@@ -1,4 +1,5 @@
 import { useIsAuthenticated } from "@azure/msal-react";
+import Modal from 'react-modal'
 import {
     Box,
     Button,
@@ -50,6 +51,7 @@ interface User {
     followerCount: number;
 }
 
+
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();
@@ -95,6 +97,9 @@ export default function UserProfile() {
             });
     }
 
+    // modal
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
     // Gets the user profile data from the backend
     useEffect(
         () => {
@@ -120,8 +125,15 @@ export default function UserProfile() {
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
-                <div><Button onClick={() => {}}>{user?.followerCount + " followers"}</Button>
+                <div><Button type="button" onClick={() => setModalIsOpen(true)}>{user?.followerCount + " followers"}</Button>
                 </div>
+                <div>
+                    <Modal isOpen={modalIsOpen}>
+                        <h2>Modal title</h2>
+                        <p>Modal Body</p>
+                    </Modal>
+                </div>
+                
                 {isAuthenticated ? <div>
                     {follow ?
                         (<Button
