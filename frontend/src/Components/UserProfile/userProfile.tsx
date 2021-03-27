@@ -15,6 +15,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+import "./userProfile.css"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -128,9 +129,13 @@ export default function UserProfile() {
                 <div><Button type="button" onClick={() => setModalIsOpen(true)}>{user?.followerCount + " followers"}</Button>
                 </div>
                 <div>
-                    <Modal isOpen={modalIsOpen}>
-                        <h2>Modal title</h2>
+                    <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
+                        <h2 className = "followers">List of followers</h2>
                         <p>Modal Body</p>
+                        <div>
+                            <button onClick = {() => setModalIsOpen(false)}>Close</button>
+
+                        </div>
                     </Modal>
                 </div>
                 

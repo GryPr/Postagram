@@ -1,0 +1,19 @@
+.modal{
+
+    width: 750px;
+    height:500px;
+   text-align: center;
+   color:white;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   margin-right: 200px;
+   margin-left: 500px;
+   margin-top: 200px;
+   border: 20px thick;
+   border-radius:1.1em;
+   opacity: 1;
+   background-color: black;
+}
+
+.followers{
+    margin-top: 20px;
+}
