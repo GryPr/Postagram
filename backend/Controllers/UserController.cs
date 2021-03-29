@@ -52,6 +52,7 @@ namespace ImageStoreApi.Controllers
                     Email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault(),
                     FollowerCount = 0,
                     UsersFollowed = new List<string>(),
+                    UsersFollowers = new List<string>();
                 });
                 return Content("Added User");
             }

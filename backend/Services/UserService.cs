@@ -53,7 +53,7 @@ namespace ImageStoreApi.Services
             _users.UpdateOne(filter, update);
             return user.FollowerCount;
         }
-
+        //User that you follow
         public List<String> FollowUser(string followerId, string followedId)
         {
             User follower = this.Get(followerId);
@@ -82,6 +82,45 @@ namespace ImageStoreApi.Services
 
             return follower.UsersFollowed;
         }
+
+
+
+         public List<String> FollowerList(string followerId, string followedId)
+        {
+            User follower = this.Get(followerId);
+            User followed = this.get(followedId);
+            var filter = Builders<User>.Filter.Eq("UserId", followerId);
+            var options = new UpdateOptions { IsUpsert = true };
+            if (follower.UsersFollowed == null)
+            {
+                follower.UsersFollowed = new List<String>();
+                followed.UsersFollowers = new List<String>();
+            }
+
+            if (!follower.UsersFollowed.Contains(followedId))
+            {
+                follower.UsersFollowed.Add(followedId);
+
+                // Update the Follower Count
+                IncrementFollowerCount(followedId, true);
+            }
+            else if (follower.UsersFollowed.Contains(followedId))
+            {
+                follower.UsersFollowed.Remove(followedId);
+                IncrementFollowerCount(followedId, false);
+            }
+
+            else if (followed.UsersFollowed.Contains(followerId)){
+
+                    followed.UsersFollowers.Add(followerId);
+            }
+
+            var update = Builders<User>.Update.Set<List<String>>("UsersFollowers", followed.UsersFollowers);
+            _users.UpdateOne(filter, update, options);
+
+            return followed.UsersFollowers;
+        }
+
 
         public bool IsFollowed(string followerId, string followedId)
         {

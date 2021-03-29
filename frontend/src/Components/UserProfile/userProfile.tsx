@@ -50,6 +50,7 @@ interface User {
     name: string;
     email: string;
     followerCount: number;
+    followerList: string[];
 }
 
 
@@ -130,7 +131,7 @@ export default function UserProfile() {
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
-                        <h2 className = "followers">List of followers</h2>
+                        <h2 className = "followers">{user?.name} list of followers</h2>
                         <p>Modal Body</p>
                         <div>
                             <button onClick = {() => setModalIsOpen(false)}>Close</button>
