@@ -57,6 +57,7 @@ export default function ImageBox(props: ImageBoxProps) {
   };
 
   return (
+    <div data-testid= "id-1">
     <Card className={classes.root}>
       <CardHeader
         // avatar={
@@ -105,6 +106,6 @@ export default function ImageBox(props: ImageBoxProps) {
           Comments placeholder
         </CardContent>
       </Collapse>
-    </Card>
+    </Card></div>
   );
 }
