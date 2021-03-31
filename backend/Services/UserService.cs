@@ -88,7 +88,7 @@ namespace ImageStoreApi.Services
          public List<String> FollowerList(string followerId, string followedId)
         {
             User follower = this.Get(followerId);
-            User followed = this.get(followedId);
+            User followed = this.Get(followedId);
             var filter = Builders<User>.Filter.Eq("UserId", followerId);
             var options = new UpdateOptions { IsUpsert = true };
             if (follower.UsersFollowed == null)
