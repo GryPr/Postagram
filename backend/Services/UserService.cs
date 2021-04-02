@@ -56,44 +56,21 @@ namespace ImageStoreApi.Services
         //User that you follow
         public List<String> FollowUser(string followerId, string followedId)
         {
-            User follower = this.Get(followerId);
-            var filter = Builders<User>.Filter.Eq("UserId", followerId);
-            var options = new UpdateOptions { IsUpsert = true };
-            if (follower.UsersFollowed == null)
-            {
-                follower.UsersFollowed = new List<String>();
-            }
-
-            if (!follower.UsersFollowed.Contains(followedId))
-            {
-                follower.UsersFollowed.Add(followedId);
-
-                // Update the Follower Count
-                IncrementFollowerCount(followedId, true);
-            }
-            else if (follower.UsersFollowed.Contains(followedId))
-            {
-                follower.UsersFollowed.Remove(followedId);
-                IncrementFollowerCount(followedId, false);
-            }
-
-            var update = Builders<User>.Update.Set<List<String>>("UsersFollowed", follower.UsersFollowed);
-            _users.UpdateOne(filter, update, options);
-
-            return follower.UsersFollowed;
-        }
-
-
-
-         public List<String> FollowerList(string followerId, string followedId)
-        {
+            // follower = us
+            // followed = them
             User follower = this.Get(followerId);
             User followed = this.Get(followedId);
             var filter = Builders<User>.Filter.Eq("UserId", followerId);
             var options = new UpdateOptions { IsUpsert = true };
+            var filter1 = Builders<User>.Filter.Eq("UserId", followedId);
+            var options1 = new UpdateOptions { IsUpsert = true };
             if (follower.UsersFollowed == null)
             {
                 follower.UsersFollowed = new List<String>();
+            }
+
+            if (followed.UsersFollowers == null)
+            {
                 followed.UsersFollowers = new List<String>();
             }
 
@@ -103,22 +80,29 @@ namespace ImageStoreApi.Services
 
                 // Update the Follower Count
                 IncrementFollowerCount(followedId, true);
+
+                followed.UsersFollowers.Add(followerId);
             }
             else if (follower.UsersFollowed.Contains(followedId))
             {
                 follower.UsersFollowed.Remove(followedId);
                 IncrementFollowerCount(followedId, false);
+
+                followed.UsersFollowers.Remove(followerId);
             }
 
-            else if (followed.UsersFollowed.Contains(followerId)){
-
-                    followed.UsersFollowers.Add(followerId);
-            }
-
-            var update = Builders<User>.Update.Set<List<String>>("UsersFollowers", followed.UsersFollowers);
+            var update = Builders<User>.Update.Set<List<String>>("UsersFollowed", follower.UsersFollowed);
+            var update1 = Builders<User>.Update.Set<List<String>>("UsersFollowers", followed.UsersFollowers);
             _users.UpdateOne(filter, update, options);
+            _users.UpdateOne(filter1, update1, options1);
 
-            return followed.UsersFollowers;
+            return follower.UsersFollowed;
+        }
+
+         public List<String> FollowerList(string followerId, string followedId)
+        {
+            User follower = this.Get(followerId);
+            return follower.UsersFollowers;
         }
 
 

@@ -99,6 +99,23 @@ export default function UserProfile() {
             });
     }
 
+    // Sends to /follow that the logged in user wants to follow
+    async function followerList() {
+        const token = await getAccessToken();
+        fetch(backendURL + "/follow/followerList?userId=" + userId, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+            .then((response) => {
+                console.log(response);
+            });
+    }
+
     // modal
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -132,7 +149,7 @@ export default function UserProfile() {
                 <div>
                     <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of followers</h2>
-                        <p>Modal Body</p>
+                        <p>{followerList}</p>
                         <div>
                             <button onClick = {() => setModalIsOpen(false)}>Close</button>
 
