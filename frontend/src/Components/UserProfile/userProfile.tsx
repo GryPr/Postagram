@@ -50,9 +50,11 @@ interface User {
     name: string;
     email: string;
     followerCount: number;
-    followerList: string[];
+    UsersFollowed : string[];
+    UsersFollowers: string[];
 }
 
+const defaultUserList: User[] = [];
 
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
@@ -61,6 +63,17 @@ export default function UserProfile() {
     const classes = useStyles();
     const [follow, setFollow] = useState(false); // Whether the logged in user is following or not
     const { getAccessToken } = useContext(AuthenticationContext) as AuthenticationContextType
+
+    const [userFollowerList, setUserFollowerList]: [
+        User[],
+        (userFollowerList: User[]) => void
+      ] = useState(defaultUserList);
+    
+     const [userFollowedList, setUserFollowedList]: [
+
+        User[],
+        (userFollowedList: User[]) => void
+     ] = useState(defaultUserList);
 
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
@@ -74,8 +87,9 @@ export default function UserProfile() {
                 'Authorization': 'Bearer ' + token,
             },
         })
-            .then((response) => {
-                console.log(response);
+        .then((response) => response.json())
+        .then((response) => {
+            setUserFollowedList(response)
             });
     }
 
@@ -111,8 +125,9 @@ export default function UserProfile() {
                 'Authorization': 'Bearer ' + token,
             },
         })
-            .then((response) => {
-                console.log(response);
+        .then((response) => response.json())
+                .then((response) => {
+                    setUserFollowerList(response);
             });
     }
 
@@ -144,12 +159,16 @@ export default function UserProfile() {
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
-                <div><Button type="button" onClick={() => setModalIsOpen(true)}>{user?.followerCount + " followers"}</Button>
+                <div><Button type="button" onClick={() => {setModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of followers</h2>
-                        <p>{followerList}</p>
+                         {userFollowerList.map((userFollower, index) => (
+                        <p key ={index}>{userFollower.name} </p>
+                        ))} 
+
+                        
                         <div>
                             <button onClick = {() => setModalIsOpen(false)}>Close</button>
 

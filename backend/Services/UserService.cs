@@ -99,10 +99,25 @@ namespace ImageStoreApi.Services
             return follower.UsersFollowed;
         }
 
-         public List<String> FollowerList(string followerId, string followedId)
+         public List<User> FollowerList(string followerId, string followedId)
         {
-            User follower = this.Get(followerId);
-            return follower.UsersFollowers;
+            User followed = this.Get(followedId);
+            
+            List<User> userList = new List<User>(followed.UsersFollowers.Count);
+
+             
+
+            foreach(string userId in followed.UsersFollowers ){
+
+
+           userList.Add(this.Get(userId));
+
+            }
+             File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
+            return userList;
+                         
+
+            
         }
 
 
@@ -110,7 +125,7 @@ namespace ImageStoreApi.Services
         {
             User follower = this.Get(followerId);
 
-            File.AppendAllText(@"./log.txt", followerId + Environment.NewLine);
+           
             if (follower.UsersFollowed == null)
             {
                 return false;

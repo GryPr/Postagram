@@ -44,10 +44,10 @@ namespace ImageStoreApi.Controllers
         [Authorize]
         [Route("/[controller]/followerlist")]
         [HttpGet]
-        public IActionResult FollowerListGet(string userId)
+        public ActionResult<List<User>> FollowerListGet(string userId)
         {
-            _userService.FollowerList(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
-            return Content("Sucessful Follower");
+           
+            return _userService.FollowerList(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
         }
         
 
