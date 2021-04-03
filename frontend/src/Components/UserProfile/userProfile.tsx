@@ -14,7 +14,9 @@ import {
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
+import { fetchFollowState, fetchFollowUser, fetchUserProfile } from "../../Services/UserServices";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+module.exports={UserProfile};
 import "./userProfile.css"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,7 +55,6 @@ interface User {
     followerList: string[];
 }
 
-
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();
@@ -65,15 +66,7 @@ export default function UserProfile() {
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
-        fetch(backendURL + "/follow?userId=" + userId, {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'Authorization': 'Bearer ' + token,
-            },
-        })
+      fetchFollowUser()
             .then((response) => {
                 console.log(response);
             });
@@ -82,50 +75,33 @@ export default function UserProfile() {
     // Gets the follow state of the logged in user
     async function getFollowState() {
         const token = await getAccessToken();
+        fetchFollowState()
+               .then((respfollowdata) => {
+            console.log(respfollowdata)
+            setFollow(respfollowdata);
+        });
 
-        fetch(backendURL + "/follow/isfollowed?userId=" + userId, {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                'Authorization': 'Bearer ' + token,
-
-            },
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                console.log(response)
-                setFollow(response);
-            });
+       
     }
-
-    // modal
-    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     // Gets the user profile data from the backend
     useEffect(
         () => {
-            fetch(backendURL + "/user?userId=" + userId, {
-                method: "GET",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                },
-            })
-                .then((response) => response.json())
-                .then((response) => {
-                    setUser(response);
+          fetchUserProfile()
+                .then((respup) => {
+                    setUser(respup);
                 });
             getFollowState();
         },
         // eslint-disable-next-line
         []
     );
-//Adding comments
+    //Adding comments
+
     return (
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
+                <CardHeader title={user?.name + "'s Profile"} subheader={user?.followerCount + " followers"} />
                 <CardHeader title={user?.name + "'s Profile"} />
                 <div><Button type="button" onClick={() => setModalIsOpen(true)}>{user?.followerCount + " followers"}</Button>
                 </div>
@@ -138,9 +114,8 @@ export default function UserProfile() {
 
                         </div>
                     </Modal>
-                </div>
-                
-                {isAuthenticated ? <div>
+                </div>               
+                 {isAuthenticated ? <div>
                     {follow ?
                         (<Button
                             id="followbtn"

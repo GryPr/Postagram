@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { backendURL } from "../../Constants/backendConfig";
 import { loginRequest } from "../../Constants/authConfig";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { fetchUser } from "../../Services/azureServices";
 
 
 export default function AzureAdLoginRedirect() {
@@ -11,15 +12,7 @@ export default function AzureAdLoginRedirect() {
     const { instance } = useMsal();
 
     async function sendUser(accessToken: string) {
-
-        fetch(backendURL + "/user", {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + accessToken,
-            },
-        })
+            fetchUser()
             .then((response) => {
                 console.log(response)
             })
