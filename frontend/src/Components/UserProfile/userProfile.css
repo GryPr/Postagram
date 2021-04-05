@@ -15,3 +15,12 @@
 .followers{
     margin-top: 20px;
 }
+
+#profileButton{
+    margin-left: 30px;
+    background-color: black;
+    color:white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-variant: inherit;
+}
+

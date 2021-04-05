@@ -11,11 +11,12 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 import "./userProfile.css"
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,6 +57,7 @@ interface User {
 
 const defaultUserList: User[] = [];
 
+
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();
@@ -75,6 +77,13 @@ export default function UserProfile() {
         (userFollowedList: User[]) => void
      ] = useState(defaultUserList);
 
+     const history = useHistory();
+     const goToCreator = useCallback(
+       () => history.push("/user/" + userId),
+       // eslint-disable-next-line
+       [history]
+     );
+     
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
@@ -108,7 +117,6 @@ export default function UserProfile() {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log(response)
                 setFollow(response);
             });
     }
@@ -165,7 +173,7 @@ export default function UserProfile() {
                     <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of followers</h2>
                          {userFollowerList.map((userFollower, index) => (
-                        <p key ={index}>{userFollower.name} </p>
+                        <p key ={index}>{userFollower.name} <Button variant ="outlined" id = "profileButton" onClick = {goToCreator}> Go to Profile page!</Button> </p>
                         ))} 
 
                         
