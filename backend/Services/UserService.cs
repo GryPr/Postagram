@@ -121,6 +121,29 @@ namespace ImageStoreApi.Services
         }
 
 
+
+         public List<User> FollowedList(string followerId, string followedId)
+        {
+            User follower = this.Get(followedId);
+            
+            List<User> userList = new List<User>(follower.UsersFollowed.Count);
+
+             
+
+            foreach(string userId in follower.UsersFollowed ){
+
+
+           userList.Add(this.Get(userId));
+
+            }
+             File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
+            return userList;
+                         
+
+            
+        }
+
+
         public bool IsFollowed(string followerId, string followedId)
         {
             User follower = this.Get(followerId);
