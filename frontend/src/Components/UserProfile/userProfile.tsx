@@ -18,6 +18,7 @@ import { AuthenticationContext, AuthenticationContextType } from "../Authenticat
 import "./userProfile.css"
 import { useHistory } from "react-router-dom";
 
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -58,6 +59,7 @@ interface User {
 const defaultUserList: User[] = [];
 
 
+
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();
@@ -79,11 +81,14 @@ export default function UserProfile() {
 
      const history = useHistory();
      const goToCreator = useCallback(
-       () => history.push("/user/" + userId),
+       () => history.push("/user/" + user),
        // eslint-disable-next-line
        [history]
      );
      
+        
+
+
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
@@ -96,9 +101,8 @@ export default function UserProfile() {
                 'Authorization': 'Bearer ' + token,
             },
         })
-        .then((response) => response.json())
         .then((response) => {
-            setUserFollowedList(response)
+            console.log(response);
             });
     }
 
@@ -139,6 +143,25 @@ export default function UserProfile() {
             });
     }
 
+
+    async function followedList() {
+        const token = await getAccessToken();
+        fetch(backendURL + "/follow/followedList?userId=" + userId, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+        .then((response) => response.json())
+                .then((response) => {
+                    setUserFollowedList(response);
+            });
+    }
+
+
     // modal
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -173,7 +196,7 @@ export default function UserProfile() {
                     <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of followers</h2>
                          {userFollowerList.map((userFollower, index) => (
-                        <p key ={index}>{userFollower.name} <Button variant ="outlined" id = "profileButton" onClick = {goToCreator}> Go to Profile page!</Button> </p>
+                        <p key ={index}>{userFollower.name} <Button variant ="outlined" id = "profileButton" > Go to Profile page!</Button> </p>
                         ))} 
 
                         
