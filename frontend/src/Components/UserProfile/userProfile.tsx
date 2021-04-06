@@ -16,7 +16,8 @@ import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 import "./userProfile.css"
-import { useHistory } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import GoToProfileButton from "./goToProfileButton"
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -61,6 +62,7 @@ const defaultUserList: User[] = [];
 
 
 
+
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();
@@ -80,12 +82,14 @@ export default function UserProfile() {
         (userFollowedList: User[]) => void
      ] = useState(defaultUserList);
 
-     const history = useHistory();
+     const history = createBrowserHistory({ forceRefresh: true });
      const goToCreator = useCallback(
-       () => history.push("/user/" + user),
+       (userId) => () => history.push("/user/" + userId),
        // eslint-disable-next-line
        [history]
      );
+
+     const [redirectUserId, setRedirectUserId] = useState("");
      
         
 
@@ -188,6 +192,8 @@ export default function UserProfile() {
         // eslint-disable-next-line
         []
     );
+
+
 //Adding comments
     return (
         <Box width="50%">
@@ -199,7 +205,7 @@ export default function UserProfile() {
                     <Modal className= "modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of followers</h2>
                          {userFollowerList.map((userFollower, index) => (
-                        <p key ={index}>{userFollower.name} <Button variant ="outlined" id = "profileButton" > Go to Profile page!</Button> </p>
+                        <p key ={index}> {userFollower.name} <Button data-userId={userFollower.userId} onClick={goToCreator(userFollower.userId)}>Go to Profile</Button> </p>
                         ))}
 
                         
@@ -216,7 +222,7 @@ export default function UserProfile() {
                     <Modal className= "modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of following</h2>
                          {userFollowedList.map((userFollowed, index) => (
-                        <p key ={index}>{userFollowed.name} <Button variant ="outlined" id = "profileButton" > Go to Profile page!</Button> </p>
+                        <p key ={index}>{userFollowed.name} <Button data-userId={userFollowed.userId} onClick={goToCreator(userFollowed.userId)}>Go to Profile</Button></p>
                         ))} 
 
                         
