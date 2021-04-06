@@ -193,7 +193,7 @@ export default function UserProfile() {
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
-                <div><Button type="button" id="countbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
+                <div><Button type="button" id="followerbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
@@ -210,7 +210,7 @@ export default function UserProfile() {
                     </Modal>
                 </div>
 
-                <div><Button type="button" id="countbtn" onClick={() => {setFollowingModalIsOpen(true); followedList();}}>{user?.followedCount + " following"}</Button>
+                <div><Button type="button" id="followingbtn" onClick={() => {setFollowingModalIsOpen(true); followedList();}}>{user?.followedCount + " following"}</Button>
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
