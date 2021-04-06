@@ -24,11 +24,58 @@
 
 #profileButton{
     margin-left: 30px;
-    background-color: black;
-    color:white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-variant: inherit;
+    transition-duration: 0.4s;
+    border:2px solid black
 }
+
+#profileButton:hover{
+    background-color: black;
+    color:white;
+}
+
+#followerbtn{
+
+transition-duration: 0.4s;
+border: 2px solid black;
+
+
+}
+
+#followerbtn:hover {
+    background-color:darkgrey;/* Green */
+    color: white;
+  }
+
+
+
+
+#followingbtn{
+    transition-duration: 0.4s;
+    border: 2px solid black;
+
+}
+
+#followingbtn:hover {
+    background-color:darkgrey;/* Green */
+    color: white;
+  }
+
+
+#closeBtn{
+    transition-duration: 0.4s;
+    border: 2px solid red;
+    font-size: 16px;
+}
+
+#closeBtn:hover{
+    background-color:red;/* Green */
+    color: white;
+}
+
+
+
 
 
 

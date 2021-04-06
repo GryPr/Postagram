@@ -203,14 +203,14 @@ export default function UserProfile() {
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
-                        <h2 className = "followers">{user?.name} list of followers</h2>
+                        <h2 className = "followers">Followers</h2>
                          {userFollowerList.map((userFollower, index) => (
-                        <p key ={index}> {userFollower.name} <Button data-userId={userFollower.userId} onClick={goToCreator(userFollower.userId)}>Go to Profile</Button> </p>
+                        <p key ={index}> {userFollower.name} <Button variant ="outlined" id ="profileButton" data-userId={userFollower.userId} onClick={goToCreator(userFollower.userId)}>Go to Profile</Button> </p>
                         ))}
 
                         
                         <div>
-                            <button onClick = {() => setFollowerModalIsOpen(false)}>Close</button>
+                            <button id="closeBtn" onClick = {() => setFollowerModalIsOpen(false)}>Close</button>
 
                         </div>
                     </Modal>
@@ -220,14 +220,14 @@ export default function UserProfile() {
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
-                        <h2 className = "followers">{user?.name} list of following</h2>
+                        <h2 className = "followers">Followed</h2>
                          {userFollowedList.map((userFollowed, index) => (
-                        <p key ={index}>{userFollowed.name} <Button data-userId={userFollowed.userId} onClick={goToCreator(userFollowed.userId)}>Go to Profile</Button></p>
+                        <p key ={index}>{userFollowed.name} <Button variant ="outlined" id ="profileButton" data-userId={userFollowed.userId} onClick={goToCreator(userFollowed.userId)}>Go to Profile</Button></p>
                         ))} 
 
                         
                         <div>
-                            <button onClick = {() => setFollowingModalIsOpen(false)}>Close</button>
+                            <button id="closeBtn" onClick = {() => setFollowingModalIsOpen(false)}>Close</button>
 
                         </div>
                     </Modal>
