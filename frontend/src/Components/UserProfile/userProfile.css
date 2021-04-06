@@ -12,6 +12,11 @@
     position: relative;
 }
 
+/* #countbtn{
+    float: left;
+    margin-left: 5%;
+} */
+
 .followers{
     margin-top: 20px;
 }

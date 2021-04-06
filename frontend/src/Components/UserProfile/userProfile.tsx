@@ -52,6 +52,7 @@ interface User {
     name: string;
     email: string;
     followerCount: number;
+    followedCount: number;
     UsersFollowed : string[];
     UsersFollowers: string[];
 }
@@ -162,8 +163,10 @@ export default function UserProfile() {
     }
 
 
-    // modal
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    // follower modal
+    const [FollowerModalIsOpen, setFollowerModalIsOpen] = useState(false);
+    // following modal
+    const [FollowingModalIsOpen, setFollowingModalIsOpen] = useState(false);
 
     // Gets the user profile data from the backend
     useEffect(
@@ -190,18 +193,35 @@ export default function UserProfile() {
         <Box width="50%">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
-                <div><Button type="button" onClick={() => {setModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
+                <div><Button type="button" id="countbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
                 </div>
                 <div>
-                    <Modal className= "modal" isOpen={modalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setModalIsOpen(false)}>
+                    <Modal className= "modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
                         <h2 className = "followers">{user?.name} list of followers</h2>
                          {userFollowerList.map((userFollower, index) => (
                         <p key ={index}>{userFollower.name} <Button variant ="outlined" id = "profileButton" > Go to Profile page!</Button> </p>
+                        ))}
+
+                        
+                        <div>
+                            <button onClick = {() => setFollowerModalIsOpen(false)}>Close</button>
+
+                        </div>
+                    </Modal>
+                </div>
+
+                <div><Button type="button" id="countbtn" onClick={() => {setFollowingModalIsOpen(true); followedList();}}>{user?.followedCount + " following"}</Button>
+                </div>
+                <div>
+                    <Modal className= "modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
+                        <h2 className = "followers">{user?.name} list of following</h2>
+                         {userFollowedList.map((userFollowed, index) => (
+                        <p key ={index}>{userFollowed.name} <Button variant ="outlined" id = "profileButton" > Go to Profile page!</Button> </p>
                         ))} 
 
                         
                         <div>
-                            <button onClick = {() => setModalIsOpen(false)}>Close</button>
+                            <button onClick = {() => setFollowingModalIsOpen(false)}>Close</button>
 
                         </div>
                     </Modal>

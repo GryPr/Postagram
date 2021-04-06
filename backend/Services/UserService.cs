@@ -53,6 +53,25 @@ namespace ImageStoreApi.Services
             _users.UpdateOne(filter, update);
             return user.FollowerCount;
         }
+
+        public int IncrementFollowedCount(string userId, bool mode)
+        {
+            User user = this.Get(userId);
+            var filter = Builders<User>.Filter.Eq("UserId", userId);
+            if (mode == true)
+            {
+                user.FollowedCount++;
+            }
+            else
+            {
+                user.FollowedCount--;
+            }
+            var update = Builders<User>.Update.Set("FollowedCount", user.FollowedCount);
+
+            _users.UpdateOne(filter, update);
+            return user.FollowedCount;
+        }
+
         //User that you follow
         public List<String> FollowUser(string followerId, string followedId)
         {
@@ -82,6 +101,10 @@ namespace ImageStoreApi.Services
                 IncrementFollowerCount(followedId, true);
 
                 followed.UsersFollowers.Add(followerId);
+
+                // Update the Followed Count
+                IncrementFollowedCount(followerId, true);
+
             }
             else if (follower.UsersFollowed.Contains(followedId))
             {
@@ -89,6 +112,7 @@ namespace ImageStoreApi.Services
                 IncrementFollowerCount(followedId, false);
 
                 followed.UsersFollowers.Remove(followerId);
+                IncrementFollowedCount(followerId, false);
             }
 
             var update = Builders<User>.Update.Set<List<String>>("UsersFollowed", follower.UsersFollowed);
