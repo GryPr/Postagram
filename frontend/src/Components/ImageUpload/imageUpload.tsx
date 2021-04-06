@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useIsAuthenticated } from "@azure/msal-react";
 import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+import { fetchsentData } from "../../Services/ImageService";
 
 export default function ImageUpload() {
   const [file, setFile] = useState<File>();
@@ -35,20 +36,14 @@ export default function ImageUpload() {
 
     formData.append("ImageDescription", description)
     formData.append("ImageContent", file!)
+    fetchsentData()
+    .then(() => {
+      history.push('/')
 
-    fetch(backendURL + "/image", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        'Authorization': 'Bearer ' + token,
-      },
-      body: formData,
-    })
-      .then(() => {
-        history.push('/')
-      });
-  }
+   
+  })
+  }    
+
 
   return (
     <Paper id="bg" elevation={3}>
