@@ -16,7 +16,7 @@ import { backendURL } from "../../Constants/backendConfig";
 import { fetchFollowState, fetchFollowUser, fetchUserProfile } from "../../Services/UserServices";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 module.exports={UserProfile};
-import "./userProfile.css"
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
