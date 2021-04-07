@@ -17,7 +17,7 @@ import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 import "./userProfile.css"
 import { createBrowserHistory } from "history";
-import GoToProfileButton from "./goToProfileButton"
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -87,9 +87,10 @@ export default function UserProfile() {
        (userId) => () => history.push("/user/" + userId),
        // eslint-disable-next-line
        [history]
+       
      );
 
-     const [redirectUserId, setRedirectUserId] = useState("");
+    
      
         
 
@@ -242,6 +243,7 @@ export default function UserProfile() {
                             onClick={() => {
                                 setFollow(!follow);
                                 followUser();
+                               
                             }}>
                             Unfollow {user?.name}
                         </Button>)
