@@ -1,3 +1,7 @@
+#box{
+    width: 55%;
+}
+
 .modal{
     width: 50%;
     height: 400px;
@@ -18,8 +22,9 @@
 
 #followerbtn{
     float: left;
-    margin-left: 30%;
+    margin-left: 31%;
     margin-right: -23%;
+    transition-duration: 0.4s; 
 }
 
 #profileButton{
@@ -35,32 +40,20 @@
     color:white;
 }
 
-#followerbtn{
-
-transition-duration: 0.4s;
-border: 2px solid black;
-
-
-}
-
 #followerbtn:hover {
     background-color:darkgrey;/* Green */
     color: white;
   }
 
-
-
-
 #followingbtn{
     transition-duration: 0.4s;
-    border: 2px solid black;
-
+    margin-left: -4.5%;
 }
 
 #followingbtn:hover {
     background-color:darkgrey;/* Green */
     color: white;
-  }
+}
 
 
 #closeBtn{
@@ -72,6 +65,21 @@ border: 2px solid black;
 #closeBtn:hover{
     background-color:red;/* Green */
     color: white;
+}
+
+@media only screen and (max-width: 1000px) {
+    #box{
+        width: 82%;
+    }
+
+    #followerbtn {
+        float: none;
+        margin-left: -23%;
+    }
+
+    #followingbtn {
+        margin-left: -0.5%;
+    }
 }
 
 

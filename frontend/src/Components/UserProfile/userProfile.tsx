@@ -197,7 +197,7 @@ export default function UserProfile() {
 
 //Adding comments
     return (
-        <Box width="50%">
+        <Box id="box">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
                 <div><Button type="button" id="followerbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
