@@ -1,3 +1,4 @@
+import "./userProfile.css";
 import { useIsAuthenticated } from "@azure/msal-react";
 import {
     Box,
@@ -14,6 +15,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+import UserImageList from "./userImageList"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -117,7 +119,7 @@ export default function UserProfile() {
     );
 
     return (
-        <Box width="50%">
+        <Box id="box">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} subheader={user?.followerCount + " followers"} />
                 {isAuthenticated ? <div>
@@ -151,6 +153,9 @@ export default function UserProfile() {
                         component="p"
                     ></Typography>
                 </CardContent>
+                <div id="userimages">
+                    <UserImageList creatorUserId={userId!}/>
+                </div>
             </Card>
         </Box>
     );

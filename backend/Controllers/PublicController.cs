@@ -101,5 +101,31 @@ namespace ImageStoreApi.Controllers
 
         }
 
+        // Endpoint that returns all the images in the database through a JSON
+        [Route("/[controller]/GetUserImages")]
+        [HttpPost]
+        public ActionResult<List<GetResponse>> GetUserImages(string CreatorUserId)
+        {
+            var (img, file) = _imageService.GetUserImages(CreatorUserId);
+            List<GetResponse> responseList = new List<GetResponse>(img.Count);
+            for (int i = 0; i < img.Count; i++)
+            {
+                responseList.Add(new GetResponse
+                {
+                    FileName = img[i].FileName,
+                    ContentType = img[i].ContentType,
+                    ImageDescription = img[i].ImageDescription,
+                    ImageId = img[i].Id,
+                    CreatedOn = img[i].CreatedOn,
+                    CreatorName = img[i].CreatorName,
+                    CreatorId = img[i].CreatorUserId,
+                    Comments = img[i].Comments,
+                    ImageContent = file[i]
+                });
+            }
+            return responseList;
+
+        }
+
     }
 }

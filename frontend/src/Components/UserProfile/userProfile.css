@@ -1,0 +1,29 @@
+#box{
+    width: 55%;
+}
+
+#userimages{
+    margin-left: 18%;
+}
+
+@media only screen and (max-width: 1000px) {
+    #box {
+        width: 82%;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    #box {
+        width: 100%;
+    }
+    
+    #userimages{
+        margin-left: 8%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #box {
+        margin-left: -7%;
+    }
+}
