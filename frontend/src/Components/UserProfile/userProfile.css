@@ -17,14 +17,15 @@
 }
 
 #followbtn{
-    margin-top: 2%;
+    margin-top: 3%;
 }
 
 #followerbtn{
     float: left;
     margin-left: 31%;
     margin-right: -23%;
-    transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    margin-top:2%; 
 }
 
 #profileButton{
@@ -32,7 +33,8 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-variant: inherit;
     transition-duration: 0.4s;
-    border:2px solid black
+    border:2px solid black;
+    margin-left: 5px;
 }
 
 #profileButton:hover{
@@ -48,6 +50,7 @@
 #followingbtn{
     transition-duration: 0.4s;
     margin-left: -4.5%;
+    margin-top: 2%;
 }
 
 #followingbtn:hover {
