@@ -1,2 +1,6 @@
 frontend/.eslintcache
 backend/log.txt
+backendtests/bin/*
+.vs/*
+backend/.vs/*
+backendtests/obj/*
