@@ -56,7 +56,7 @@ export default function UserImageList(props: UserImageProps) {
         setImages(response);
         setLoading(false);
       });
-  }, []);
+  });
 
   return (
     <Box width="75%">
