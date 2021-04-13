@@ -1,4 +1,5 @@
 import { useIsAuthenticated } from "@azure/msal-react";
+import Modal from 'react-modal'
 import {
     Box,
     Button,
@@ -10,12 +11,15 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { fetchFollowState, fetchFollowUser, fetchUserProfile } from "../../Services/UserServices";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
-module.exports={UserProfile};
+module.exports = { UserProfile };
+import "./userProfile.css"
+import { createBrowserHistory } from "history";
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,8 +55,15 @@ interface User {
     name: string;
     email: string;
     followerCount: number;
-    followerList: string[];
+    followedCount: number;
+    UsersFollowed: string[];
+    UsersFollowers: string[];
 }
+
+const defaultUserList: User[] = [];
+
+
+
 
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
@@ -62,10 +73,34 @@ export default function UserProfile() {
     const [follow, setFollow] = useState(false); // Whether the logged in user is following or not
     const { getAccessToken } = useContext(AuthenticationContext) as AuthenticationContextType
 
+    const [userFollowerList, setUserFollowerList]: [
+        User[],
+        (userFollowerList: User[]) => void
+    ] = useState(defaultUserList);
+
+    const [userFollowedList, setUserFollowedList]: [
+
+        User[],
+        (userFollowedList: User[]) => void
+    ] = useState(defaultUserList);
+
+    const history = createBrowserHistory({ forceRefresh: true });
+    const goToCreator = useCallback(
+        (userId) => () => history.push("/user/" + userId),
+        // eslint-disable-next-line
+        [history]
+
+    );
+
+
+
+
+
+
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
-      fetchFollowUser()
+        fetchFollowUser()
             .then((response) => {
                 console.log(response);
             });
@@ -75,18 +110,72 @@ export default function UserProfile() {
     async function getFollowState() {
         const token = await getAccessToken();
         fetchFollowState()
-               .then((respfollowdata) => {
-            console.log(respfollowdata)
-            setFollow(respfollowdata);
-        });
+            .then((respfollowdata) => {
+                console.log(respfollowdata)
+                setFollow(respfollowdata);
+            });
 
-       
+        fetch(backendURL + "/follow/isfollowed?userId=" + userId, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                'Authorization': 'Bearer ' + token,
+
+            },
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setFollow(response);
+            });
     }
+
+    // Sends to /follow that the logged in user wants to follow
+    async function followerList() {
+        const token = await getAccessToken();
+        fetch(backendURL + "/follow/followerList?userId=" + userId, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setUserFollowerList(response);
+            });
+    }
+
+
+    async function followedList() {
+        const token = await getAccessToken();
+        fetch(backendURL + "/follow/followedList?userId=" + userId, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                setUserFollowedList(response);
+            });
+    }
+
+
+    // follower modal
+    const [FollowerModalIsOpen, setFollowerModalIsOpen] = useState(false);
+    // following modal
+    const [FollowingModalIsOpen, setFollowingModalIsOpen] = useState(false);
 
     // Gets the user profile data from the backend
     useEffect(
         () => {
-          fetchUserProfile()
+            fetchUserProfile()
                 .then((respup) => {
                     setUser(respup);
                 });
@@ -97,42 +186,79 @@ export default function UserProfile() {
     );
     //Adding comments
 
-        return (
-            <Box width="50%">
-                <Card className={classes.root} elevation={3}>
-                    <CardHeader title={user?.name + "'s Profile"} subheader={user?.followerCount + " followers"} />
-                    {isAuthenticated ? <div>
-                        {follow ?
-                            (<Button
-                                id="followbtn"
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => {
-                                    setFollow(!follow);
-                                    followUser();
-                                }}>
-                                Unfollow {user?.name}
-                            </Button>)
-                            :
-                            (<Button
-                                id="followbtn"
-                                variant="outlined"
-                                onClick={() => {
-                                    setFollow(!follow);
-                                    followUser();
-                                }}>
-                                Follow {user?.name}
-                            </Button>)}
-                    </div> : <div></div>}
-    
-                    <CardContent>
-                        <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                        ></Typography>
-                    </CardContent>
-                </Card>
-            </Box>
-        );
-    }
+
+    //Adding comments
+    return (
+        <Box id="box">
+            <Card className={classes.root} elevation={3}>
+                <CardHeader title={user?.name + "'s Profile"} />
+                <div><Button type="button" id="followerbtn" onClick={() => { setFollowerModalIsOpen(true); followerList(); }}>{user?.followerCount + " followers"}</Button>
+                </div>
+                <div>
+                    <Modal className="modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
+                        <h2 className="followers">Followers</h2>
+                        {userFollowerList.map((userFollower, index) => (
+                            <p key={index}> {userFollower.name} <Button variant="outlined" id="profileButton" data-userId={userFollower.userId} onClick={goToCreator(userFollower.userId)}>Go to Profile</Button> </p>
+                        ))}
+
+
+                        <div>
+                            <button id="closeBtn" onClick={() => setFollowerModalIsOpen(false)}>Close</button>
+
+                        </div>
+                    </Modal>
+                </div>
+
+                <div><Button type="button" id="followingbtn" onClick={() => { setFollowingModalIsOpen(true); followedList(); }}>{user?.followedCount + " following"}</Button>
+                </div>
+                <div>
+                    <Modal className="modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
+                        <h2 className="followers">Followed</h2>
+                        {userFollowedList.map((userFollowed, index) => (
+                            <p key={index}>{userFollowed.name} <Button variant="outlined" id="profileButton" data-userId={userFollowed.userId} onClick={goToCreator(userFollowed.userId)}>Go to Profile</Button></p>
+                        ))}
+
+
+                        <div>
+                            <button id="closeBtn" onClick={() => setFollowingModalIsOpen(false)}>Close</button>
+
+                        </div>
+                    </Modal>
+                </div>
+
+                {isAuthenticated ? <div>
+                    {follow ?
+                        (<Button
+                            id="followbtn"
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => {
+                                setFollow(!follow);
+                                followUser();
+
+                            }}>
+                            Unfollow {user?.name}
+                        </Button>)
+                        :
+                        (<Button
+                            id="followbtn"
+                            variant="outlined"
+                            onClick={() => {
+                                setFollow(!follow);
+                                followUser();
+                            }}>
+                            Follow {user?.name}
+                        </Button>)}
+                </div> : <div></div>}
+
+                <CardContent>
+                    <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                    ></Typography>
+                </CardContent>
+            </Card>
+        </Box>
+    );
+}
