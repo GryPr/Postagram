@@ -1,3 +1,4 @@
+import "./userProfile.css";
 import { useIsAuthenticated } from "@azure/msal-react";
 import Modal from 'react-modal'
 import {
@@ -16,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { fetchFollowState, fetchFollowUser, fetchUserProfile } from "../../Services/UserServices";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+import UserImageList from "./userImageList"
 import "./userProfile.css"
 import { createBrowserHistory } from "history";
 
@@ -257,6 +259,9 @@ export default function UserProfile() {
                         component="p"
                     ></Typography>
                 </CardContent>
+                <div id="userimages">
+                    <UserImageList creatorUserId={userId!} />
+                </div>
             </Card>
         </Box>
     );
