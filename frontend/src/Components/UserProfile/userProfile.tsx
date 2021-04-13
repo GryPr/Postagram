@@ -1,3 +1,4 @@
+import "./userProfile.css";
 import { useIsAuthenticated } from "@azure/msal-react";
 import Modal from 'react-modal'
 import {
@@ -15,6 +16,7 @@ import { useEffect, useState, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+import UserImageList from "./userImageList"
 import "./userProfile.css"
 import { createBrowserHistory } from "history";
 
@@ -54,7 +56,7 @@ interface User {
     email: string;
     followerCount: number;
     followedCount: number;
-    UsersFollowed : string[];
+    UsersFollowed: string[];
     UsersFollowers: string[];
 }
 
@@ -74,25 +76,25 @@ export default function UserProfile() {
     const [userFollowerList, setUserFollowerList]: [
         User[],
         (userFollowerList: User[]) => void
-      ] = useState(defaultUserList);
-    
-     const [userFollowedList, setUserFollowedList]: [
+    ] = useState(defaultUserList);
+
+    const [userFollowedList, setUserFollowedList]: [
 
         User[],
         (userFollowedList: User[]) => void
-     ] = useState(defaultUserList);
+    ] = useState(defaultUserList);
 
-     const history = createBrowserHistory({ forceRefresh: true });
-     const goToCreator = useCallback(
-       (userId) => () => history.push("/user/" + userId),
-       // eslint-disable-next-line
-       [history]
-       
-     );
+    const history = createBrowserHistory({ forceRefresh: true });
+    const goToCreator = useCallback(
+        (userId) => () => history.push("/user/" + userId),
+        // eslint-disable-next-line
+        [history]
 
-    
-     
-        
+    );
+
+
+
+
 
 
     // Sends to /follow that the logged in user wants to follow
@@ -107,8 +109,8 @@ export default function UserProfile() {
                 'Authorization': 'Bearer ' + token,
             },
         })
-        .then((response) => {
-            console.log(response);
+            .then((response) => {
+                console.log(response);
             });
     }
 
@@ -143,9 +145,9 @@ export default function UserProfile() {
                 'Authorization': 'Bearer ' + token,
             },
         })
-        .then((response) => response.json())
-                .then((response) => {
-                    setUserFollowerList(response);
+            .then((response) => response.json())
+            .then((response) => {
+                setUserFollowerList(response);
             });
     }
 
@@ -161,9 +163,9 @@ export default function UserProfile() {
                 'Authorization': 'Bearer ' + token,
             },
         })
-        .then((response) => response.json())
-                .then((response) => {
-                    setUserFollowedList(response);
+            .then((response) => response.json())
+            .then((response) => {
+                setUserFollowedList(response);
             });
     }
 
@@ -195,45 +197,45 @@ export default function UserProfile() {
     );
 
 
-//Adding comments
+    //Adding comments
     return (
         <Box id="box">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
-                <div><Button type="button" id="followerbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
+                <div><Button type="button" id="followerbtn" onClick={() => { setFollowerModalIsOpen(true); followerList(); }}>{user?.followerCount + " followers"}</Button>
                 </div>
                 <div>
-                    <Modal className= "modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
-                        <h2 className = "followers">Followers</h2>
-                         {userFollowerList.map((userFollower, index) => (
-                        <p key ={index}> {userFollower.name} <Button variant ="outlined" id ="profileButton" data-userId={userFollower.userId} onClick={goToCreator(userFollower.userId)}>Go to Profile</Button> </p>
+                    <Modal className="modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
+                        <h2 className="followers">Followers</h2>
+                        {userFollowerList.map((userFollower, index) => (
+                            <p key={index}> {userFollower.name} <Button variant="outlined" id="profileButton" data-userId={userFollower.userId} onClick={goToCreator(userFollower.userId)}>Go to Profile</Button> </p>
                         ))}
 
-                        
+
                         <div>
-                            <button id="closeBtn" onClick = {() => setFollowerModalIsOpen(false)}>Close</button>
+                            <button id="closeBtn" onClick={() => setFollowerModalIsOpen(false)}>Close</button>
 
                         </div>
                     </Modal>
                 </div>
 
-                <div><Button type="button" id="followingbtn" onClick={() => {setFollowingModalIsOpen(true); followedList();}}>{user?.followedCount + " following"}</Button>
+                <div><Button type="button" id="followingbtn" onClick={() => { setFollowingModalIsOpen(true); followedList(); }}>{user?.followedCount + " following"}</Button>
                 </div>
                 <div>
-                    <Modal className= "modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
-                        <h2 className = "followers">Followed</h2>
-                         {userFollowedList.map((userFollowed, index) => (
-                        <p key ={index}>{userFollowed.name} <Button variant ="outlined" id ="profileButton" data-userId={userFollowed.userId} onClick={goToCreator(userFollowed.userId)}>Go to Profile</Button></p>
-                        ))} 
+                    <Modal className="modal" isOpen={FollowingModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowingModalIsOpen(false)}>
+                        <h2 className="followers">Followed</h2>
+                        {userFollowedList.map((userFollowed, index) => (
+                            <p key={index}>{userFollowed.name} <Button variant="outlined" id="profileButton" data-userId={userFollowed.userId} onClick={goToCreator(userFollowed.userId)}>Go to Profile</Button></p>
+                        ))}
 
-                        
+
                         <div>
-                            <button id="closeBtn" onClick = {() => setFollowingModalIsOpen(false)}>Close</button>
+                            <button id="closeBtn" onClick={() => setFollowingModalIsOpen(false)}>Close</button>
 
                         </div>
                     </Modal>
                 </div>
-                
+
                 {isAuthenticated ? <div>
                     {follow ?
                         (<Button
@@ -243,7 +245,7 @@ export default function UserProfile() {
                             onClick={() => {
                                 setFollow(!follow);
                                 followUser();
-                               
+
                             }}>
                             Unfollow {user?.name}
                         </Button>)
@@ -266,6 +268,9 @@ export default function UserProfile() {
                         component="p"
                     ></Typography>
                 </CardContent>
+                <div id="userimages">
+                    <UserImageList creatorUserId={userId!} />
+                </div>
             </Card>
         </Box>
     );
