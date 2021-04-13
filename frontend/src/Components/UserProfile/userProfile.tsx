@@ -200,7 +200,7 @@ export default function UserProfile() {
         <Box id="box">
             <Card className={classes.root} elevation={3}>
                 <CardHeader title={user?.name + "'s Profile"} />
-                <div><Button type="button" id="followerbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
+                <div><Button  type="button" id="followerbtn" onClick={() => {setFollowerModalIsOpen(true); followerList();}}>{user?.followerCount + " followers"}</Button>
                 </div>
                 <div>
                     <Modal className= "modal" isOpen={FollowerModalIsOpen} shouldCloseOnOverlayClick onRequestClose={() => setFollowerModalIsOpen(false)}>
