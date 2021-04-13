@@ -15,7 +15,6 @@ import ShareIcon from "@material-ui/icons/Share";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Button, TextField } from "@material-ui/core";
-import { backendURL } from "../../Constants/backendConfig";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { CommentResponse } from "../ImageList/imageList";
 import ImageBoxComment from "../ImageBoxComment/imageBoxComment";

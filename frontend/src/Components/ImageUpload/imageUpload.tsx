@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import "./imageUpload.css";
 import { useHistory } from "react-router-dom";
 import { useIsAuthenticated } from "@azure/msal-react";
-import { backendURL } from "../../Constants/backendConfig";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 import { fetchsentData } from "../../Services/ImageService";
 

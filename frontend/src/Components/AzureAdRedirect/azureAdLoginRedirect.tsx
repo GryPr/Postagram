@@ -1,7 +1,6 @@
 
 import { useEffect } from "react";
 import { useHistory } from "react-router";
-import { backendURL } from "../../Constants/backendConfig";
 import { loginRequest } from "../../Constants/authConfig";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { fetchUser } from "../../Services/azureServices";
@@ -13,7 +12,7 @@ export default function AzureAdLoginRedirect() {
     const { instance } = useMsal();
 
     async function sendUser(accessToken: string) {
-            fetchUser()
+        fetchUser(accessToken)
             .then((response) => {
                 console.log(response)
             })

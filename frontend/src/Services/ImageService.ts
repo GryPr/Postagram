@@ -1,32 +1,26 @@
-import { useState } from "react";
 import { backendURL } from "../Constants/backendConfig";
-import ImageList from "../Components/ImageList/imageList";
-import { getAllJSDocTagsOfKind } from "typescript";
-const{sendComment}=require("../Components/ImageBox/imageBox");
-const{sendData}=require("../Components/ImageUpload/imageUpload");
+const { sendComment } = require("../Components/ImageBox/imageBox");
 
-export{fetchComment};
-export{fetchMainPageImages};
-export{fetchsentData};
+export { fetchComment };
+export { fetchMainPageImages };
+export { fetchsentData };
 
-const fetchMainPageImages= async()=>{
-const response = await fetch(backendURL + "/public", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(""),
-    })
-const jsonData = await response.json();
-return jsonData;
-
-
+const fetchMainPageImages = async () => {
+  const response = await fetch(backendURL + "/public", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+    body: JSON.stringify(""),
+  });
+  const jsonData = await response.json();
+  return jsonData;
 };
 
-const fetchComment= async(token: string)=>{
-  const response = await  fetch(backendURL + "/image", {
+const fetchComment = async (token: string) => {
+  const response = await fetch(backendURL + "/image", {
     method: "PATCH",
     mode: "cors",
     headers: {
@@ -38,21 +32,19 @@ const fetchComment= async(token: string)=>{
       ImageId: sendComment.props.imageId,
       CommentContent: sendComment.comment,
     }),
-  })
+  });
   const resp = await response.json();
   return resp;
 };
 
-const fetchsentData = async(token: string, formData: FormData)=>{
-  const response= await  fetch(backendURL + "/image", {
+const fetchsentData = async (token: string, formData: FormData) => {
+  await fetch(backendURL + "/image", {
     method: "POST",
     mode: "cors",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      'Authorization': 'Bearer ' + token,
+      Authorization: "Bearer " + token,
     },
     body: formData,
-  })
-   
-    };
-
+  });
+};
