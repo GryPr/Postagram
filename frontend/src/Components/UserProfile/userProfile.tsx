@@ -15,6 +15,7 @@ import {
 import { useEffect, useState, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
+import { fetchFollowState, fetchFollowUser, fetchUserProfile } from "../../Services/UserServices";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
 import UserImageList from "./userImageList"
 import "./userProfile.css"
@@ -100,15 +101,7 @@ export default function UserProfile() {
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
-        fetch(backendURL + "/follow?userId=" + userId, {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'Authorization': 'Bearer ' + token,
-            },
-        })
+        fetchFollowUser(token!, userId!)
             .then((response) => {
                 console.log(response);
             });
@@ -117,6 +110,11 @@ export default function UserProfile() {
     // Gets the follow state of the logged in user
     async function getFollowState() {
         const token = await getAccessToken();
+        fetchFollowState(token!, userId!)
+            .then((respfollowdata) => {
+                console.log(respfollowdata)
+                setFollow(respfollowdata);
+            });
 
         fetch(backendURL + "/follow/isfollowed?userId=" + userId, {
             method: "GET",
@@ -178,23 +176,16 @@ export default function UserProfile() {
     // Gets the user profile data from the backend
     useEffect(
         () => {
-            fetch(backendURL + "/user?userId=" + userId, {
-                method: "GET",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                },
-            })
-                .then((response) => response.json())
-                .then((response) => {
-                    setUser(response);
+            fetchUserProfile(userId!)
+                .then((respup) => {
+                    setUser(respup);
                 });
             getFollowState();
         },
         // eslint-disable-next-line
         []
     );
+    //Adding comments
 
 
     //Adding comments

@@ -15,12 +15,12 @@ import ShareIcon from "@material-ui/icons/Share";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Button, TextField } from "@material-ui/core";
-import { backendURL } from "../../Constants/backendConfig";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { CommentResponse } from "../ImageList/imageList";
 import ImageBoxComment from "../ImageBoxComment/imageBoxComment";
 import { useHistory } from "react-router-dom";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
+import { fetchComment } from "../../Services/ImageService";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -97,20 +97,8 @@ export default function ImageBox(props: ImageBoxProps) {
   // Sends the comment posted to the backend for storage in the database
   async function sendComment(comment: string) {
     const token = await getAccessToken();
-
-    fetch(backendURL + "/image", {
-      method: "PATCH",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({
-        ImageId: props.imageId,
-        CommentContent: comment,
-      }),
-    }).then((response) => response.json());
+    fetchComment(token!, props.imageId, comment)
+      .then((resp) => resp.json());
   }
 
   // Gets the comments in the image box

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ImageBox from "../ImageBox/imageBox";
-import { backendURL } from "../../Constants/backendConfig";
 import Grid from "@material-ui/core/Grid";
 import { Box } from "@material-ui/core";
+import { fetchMainPageImages } from "../../Services/ImageService";
 
 // Model of the JSON response from /public
 interface ImageResponse {
@@ -38,20 +38,11 @@ export default function ImageList() {
 
   // Retrieve JSON list of images from /public
   useEffect(() => {
-    fetch(backendURL + "/public", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(""),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setImages(response);
-        setLoading(false);
-      });
+    fetchMainPageImages()
+      .then((jsonData) => {
+        setImages(jsonData)
+        setLoading(false)
+      })
   }, []);
 
   return (
