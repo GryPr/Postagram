@@ -4,6 +4,7 @@ import ImageList from "../Components/ImageList/imageList";
 import { getAllJSDocTagsOfKind } from "typescript";
 const{sendComment}=require("../Components/ImageBox/imageBox");
 const{sendData}=require("../Components/ImageUpload/imageUpload");
+
 export{fetchComment};
 export{fetchMainPageImages};
 export{fetchsentData};
@@ -24,14 +25,14 @@ return jsonData;
 
 };
 
-const fetchComment= async()=>{
+const fetchComment= async(token: string)=>{
   const response = await  fetch(backendURL + "/image", {
     method: "PATCH",
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      Authorization: "Bearer " + sendComment.token,
+      Authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       ImageId: sendComment.props.imageId,
@@ -42,15 +43,15 @@ const fetchComment= async()=>{
   return resp;
 };
 
-const fetchsentData = async()=>{
+const fetchsentData = async(token: string, formData: FormData)=>{
   const response= await  fetch(backendURL + "/image", {
     method: "POST",
     mode: "cors",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      'Authorization': 'Bearer ' + sendData.token,
+      'Authorization': 'Bearer ' + token,
     },
-    body: sendData.formData,
+    body: formData,
   })
    
     };

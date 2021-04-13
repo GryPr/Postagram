@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 import { backendURL } from "../../Constants/backendConfig";
 import { fetchFollowState, fetchFollowUser, fetchUserProfile } from "../../Services/UserServices";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
-module.exports = { UserProfile };
 import "./userProfile.css"
 import { createBrowserHistory } from "history";
 
@@ -100,7 +99,7 @@ export default function UserProfile() {
     // Sends to /follow that the logged in user wants to follow
     async function followUser() {
         const token = await getAccessToken();
-        fetchFollowUser()
+        fetchFollowUser(token!, userId!)
             .then((response) => {
                 console.log(response);
             });
@@ -109,7 +108,7 @@ export default function UserProfile() {
     // Gets the follow state of the logged in user
     async function getFollowState() {
         const token = await getAccessToken();
-        fetchFollowState()
+        fetchFollowState(token!, userId!)
             .then((respfollowdata) => {
                 console.log(respfollowdata)
                 setFollow(respfollowdata);
@@ -175,7 +174,7 @@ export default function UserProfile() {
     // Gets the user profile data from the backend
     useEffect(
         () => {
-            fetchUserProfile()
+            fetchUserProfile(userId!)
                 .then((respup) => {
                     setUser(respup);
                 });

@@ -8,25 +8,25 @@ export{fetchUserProfile};
 
 
 
-const fetchFollowUser= async()=>{
-const response = await   fetch(backendURL + "/follow?userId=" + UserProfile.userId, {
+const fetchFollowUser= async(token: string, userId: string)=>{
+const response = await   fetch(backendURL + "/follow?userId=" + userId, {
     method: "GET",
     mode: "cors",
     headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        'Authorization': 'Bearer ' + UserProfile.token,
+        'Authorization': 'Bearer ' + token,
     },
 })
 }
 
-const fetchFollowState= async()=>{
-    const response = await  fetch(backendURL + "/follow/isfollowed?userId=" + UserProfile.userId, {
+const fetchFollowState= async(token: string, userId: string)=>{
+    const response = await  fetch(backendURL + "/follow/isfollowed?userId=" + userId, {
         method: "GET",
         mode: "cors",
         headers: {
             "Access-Control-Allow-Origin": "*",
-            'Authorization': 'Bearer ' + UserProfile.token,
+            'Authorization': 'Bearer ' + token,
 
         },
     })
@@ -36,8 +36,8 @@ const fetchFollowState= async()=>{
        
 }
 
-const fetchUserProfile = async ()=>{
-    const response = await   fetch(backendURL + "/user?userId=" + UserProfile.userId, {
+const fetchUserProfile = async (userId: string)=>{
+    const response = await   fetch(backendURL + "/user?userId=" + userId, {
         method: "GET",
         mode: "cors",
         headers: {

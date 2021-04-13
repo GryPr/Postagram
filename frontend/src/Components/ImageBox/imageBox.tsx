@@ -98,8 +98,8 @@ export default function ImageBox(props: ImageBoxProps) {
   // Sends the comment posted to the backend for storage in the database
   async function sendComment(comment: string) {
     const token = await getAccessToken();
-    fetchComment()
-   .then((resp) => resp.json());
+    fetchComment(token!)
+      .then((resp) => resp.json());
   }
 
   // Gets the comments in the image box

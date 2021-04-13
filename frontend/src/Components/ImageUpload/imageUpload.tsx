@@ -36,13 +36,13 @@ export default function ImageUpload() {
 
     formData.append("ImageDescription", description)
     formData.append("ImageContent", file!)
-    fetchsentData()
-    .then(() => {
-      history.push('/')
+    fetchsentData(token!, formData)
+      .then(() => {
+        history.push('/')
 
-   
-  })
-  }    
+
+      })
+  }
 
 
   return (
