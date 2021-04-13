@@ -6,6 +6,7 @@ type ImageBoxCommentProps = {
 };
 
 // Component for each posted comment
+//Commeent for first push
 export default function ImageBoxComment(props: ImageBoxCommentProps) {
     return (
         <Paper
