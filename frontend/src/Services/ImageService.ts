@@ -1,6 +1,4 @@
 import { backendURL } from "../Constants/backendConfig";
-const { sendComment } = require("../Components/ImageBox/imageBox");
-
 export { fetchComment };
 export { fetchMainPageImages };
 export { fetchsentData };
@@ -19,7 +17,11 @@ const fetchMainPageImages = async () => {
   return jsonData;
 };
 
-const fetchComment = async (token: string) => {
+const fetchComment = async (
+  token: string,
+  imageId: string,
+  comment: string
+) => {
   const response = await fetch(backendURL + "/image", {
     method: "PATCH",
     mode: "cors",
@@ -29,12 +31,11 @@ const fetchComment = async (token: string) => {
       Authorization: "Bearer " + token,
     },
     body: JSON.stringify({
-      ImageId: sendComment.props.imageId,
-      CommentContent: sendComment.comment,
+      ImageId: imageId,
+      CommentContent: comment,
     }),
   });
-  const resp = await response.json();
-  return resp;
+  return response;
 };
 
 const fetchsentData = async (token: string, formData: FormData) => {
