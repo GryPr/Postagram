@@ -20,6 +20,10 @@ namespace ImageStoreApi.Models
 
         public int FollowerCount { get; set; }
 
+        public int FollowedCount { get; set; }
+
         public List<String> UsersFollowed { get; set; }
+
+        public List<String> UsersFollowers { get; set; }
     }
 }
