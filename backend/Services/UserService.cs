@@ -13,12 +13,12 @@ namespace ImageStoreApi.Services
     {
         private readonly IMongoCollection<User> _users;
 
-        public UserService(IImageDatabaseSettings settings)
+        public UserService(IImageDatabaseSettings Settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
+            var Client = new MongoClient(Settings.ConnectionString);
+            var Database = Client.GetDatabase(Settings.DatabaseName);
 
-            _users = database.GetCollection<User>(settings.UserCollectionName);
+            _users = Database.GetCollection<User>(Settings.UserCollectionName);
         }
 
         // Get list of all users
@@ -26,159 +26,137 @@ namespace ImageStoreApi.Services
             _users.Find(user => true).ToList();
 
         // Get user with a specified ID
-        public User Get(string id) =>
-            _users.Find<User>(user => user.UserId == id).FirstOrDefault();
+        public User Get(string Id) =>
+            _users.Find<User>(User => User.UserId == Id).FirstOrDefault();
 
         // Create an user
-        public User Create(User user)
+        public User Create(User User)
         {
-            _users.InsertOne(user);
-            return user;
+            _users.InsertOne(User);
+            return User;
         }
 
-        public int IncrementFollowerCount(string userId, bool mode)
+        public int IncrementFollowerCount(string UserId, bool Mode)
         {
-            User user = this.Get(userId);
-            var filter = Builders<User>.Filter.Eq("UserId", userId);
-            if (mode == true)
+            User User = this.Get(UserId);
+            var Filter = Builders<User>.Filter.Eq("UserId", UserId);
+            if (Mode == true)
             {
-                user.FollowerCount++;
+                User.FollowerCount++;
             }
             else
             {
-                user.FollowerCount--;
+                User.FollowerCount--;
             }
-            var update = Builders<User>.Update.Set("FollowerCount", user.FollowerCount);
+            var Update = Builders<User>.Update.Set("FollowerCount", User.FollowerCount);
 
-            _users.UpdateOne(filter, update);
-            return user.FollowerCount;
+            _users.UpdateOne(Filter, Update);
+            return User.FollowerCount;
         }
 
-        public int IncrementFollowedCount(string userId, bool mode)
+        public int IncrementFollowedCount(string UserId, bool Mode)
         {
-            User user = this.Get(userId);
-            var filter = Builders<User>.Filter.Eq("UserId", userId);
-            if (mode == true)
+            User User = this.Get(UserId);
+            var Filter = Builders<User>.Filter.Eq("UserId", UserId);
+            if (Mode == true)
             {
-                user.FollowedCount++;
+                User.FollowedCount++;
             }
             else
             {
-                user.FollowedCount--;
+                User.FollowedCount--;
             }
-            var update = Builders<User>.Update.Set("FollowedCount", user.FollowedCount);
+            var Update = Builders<User>.Update.Set("FollowedCount", User.FollowedCount);
 
-            _users.UpdateOne(filter, update);
-            return user.FollowedCount;
+            _users.UpdateOne(Filter, Update);
+            return User.FollowedCount;
         }
 
-        //User that you follow
-        public List<String> FollowUser(string followerId, string followedId)
+        // User that you follow
+        public List<String> FollowUser(string FollowerId, string FollowedId)
         {
             // follower = us
             // followed = them
-            User follower = this.Get(followerId);
-            User followed = this.Get(followedId);
-            var filter = Builders<User>.Filter.Eq("UserId", followerId);
-            var options = new UpdateOptions { IsUpsert = true };
-            var filter1 = Builders<User>.Filter.Eq("UserId", followedId);
-            var options1 = new UpdateOptions { IsUpsert = true };
-            if (follower.UsersFollowed == null)
+            User Follower = this.Get(FollowerId);
+            User Followed = this.Get(FollowedId);
+            var FollowerIdFilter = Builders<User>.Filter.Eq("UserId", FollowerId);
+            var Options = new UpdateOptions { IsUpsert = true };
+            var FollowedIdFilter = Builders<User>.Filter.Eq("UserId", FollowedId);
+            if (Follower.UsersFollowed == null)
             {
-                follower.UsersFollowed = new List<String>();
+                Follower.UsersFollowed = new List<String>();
             }
 
-            if (followed.UsersFollowers == null)
+            if (Followed.UsersFollowers == null)
             {
-                followed.UsersFollowers = new List<String>();
+                Followed.UsersFollowers = new List<String>();
             }
 
-            if (!follower.UsersFollowed.Contains(followedId))
+            if (!Follower.UsersFollowed.Contains(FollowedId))
             {
-                follower.UsersFollowed.Add(followedId);
+                Follower.UsersFollowed.Add(FollowedId);
 
                 // Update the Follower Count
-                IncrementFollowerCount(followedId, true);
+                IncrementFollowerCount(FollowedId, true);
 
-                followed.UsersFollowers.Add(followerId);
+                Followed.UsersFollowers.Add(FollowerId);
 
                 // Update the Followed Count
-                IncrementFollowedCount(followerId, true);
-
+                IncrementFollowedCount(FollowerId, true);
             }
-            else if (follower.UsersFollowed.Contains(followedId))
+
+            else if (Follower.UsersFollowed.Contains(FollowedId))
             {
-                follower.UsersFollowed.Remove(followedId);
-                IncrementFollowerCount(followedId, false);
+                Follower.UsersFollowed.Remove(FollowedId);
+                IncrementFollowerCount(FollowedId, false);
 
-                followed.UsersFollowers.Remove(followerId);
-                IncrementFollowedCount(followerId, false);
+                Followed.UsersFollowers.Remove(FollowerId);
+                IncrementFollowedCount(FollowerId, false);
             }
 
-            var update = Builders<User>.Update.Set<List<String>>("UsersFollowed", follower.UsersFollowed);
-            var update1 = Builders<User>.Update.Set<List<String>>("UsersFollowers", followed.UsersFollowers);
-            _users.UpdateOne(filter, update, options);
-            _users.UpdateOne(filter1, update1, options1);
+            var UsersFollowedUpdate = Builders<User>.Update.Set<List<String>>("UsersFollowed", Follower.UsersFollowed);
+            var UsersFollowersUpdate = Builders<User>.Update.Set<List<String>>("UsersFollowers", Followed.UsersFollowers);
+            _users.UpdateOne(FollowerIdFilter, UsersFollowedUpdate, Options);
+            _users.UpdateOne(FollowedIdFilter, UsersFollowersUpdate, Options);
 
-            return follower.UsersFollowed;
+            return Follower.UsersFollowed;
         }
 
-         public List<User> FollowerList(string followerId, string followedId)
+         public List<User> FollowerList(string FollowerId, string FollowedId)
         {
-            User followed = this.Get(followedId);
+            User Followed = this.Get(FollowedId);
             
-            List<User> userList = new List<User>(followed.UsersFollowers.Count);
+            List<User> UserList = new List<User>(Followed.UsersFollowers.Count);       
 
-             
-
-            foreach(string userId in followed.UsersFollowers ){
-
-
-           userList.Add(this.Get(userId));
-
+            foreach(string UserId in Followed.UsersFollowers ){
+                UserList.Add(this.Get(UserId));
             }
-             File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
-            return userList;
-                         
-
-            
+            File.AppendAllText(@"./log.txt", UserList.Count + Environment.NewLine);
+            return UserList;  
         }
 
-
-
-         public List<User> FollowedList(string followerId, string followedId)
+         public List<User> FollowedList(string FollowerId, string FollowedId)
         {
-            User follower = this.Get(followedId);
+            User Follower = this.Get(FollowedId);
             
-            List<User> userList = new List<User>(follower.UsersFollowed.Count);
+            List<User> UserList = new List<User>(Follower.UsersFollowed.Count);
 
-             
-
-            foreach(string userId in follower.UsersFollowed ){
-
-
-           userList.Add(this.Get(userId));
-
+            foreach(string UserId in Follower.UsersFollowed ){
+                UserList.Add(this.Get(UserId));
             }
-             File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
-            return userList;
-                         
-
-            
+            File.AppendAllText(@"./log.txt", UserList.Count + Environment.NewLine);
+            return UserList;      
         }
 
-
-        public bool IsFollowed(string followerId, string followedId)
+        public bool IsFollowed(string FollowerId, string FollowedId)
         {
-            User follower = this.Get(followerId);
-
-           
-            if (follower.UsersFollowed == null)
+            User Follower = this.Get(FollowerId);
+ 
+            if (Follower.UsersFollowed == null)
             {
                 return false;
             }
-            return follower.UsersFollowed.Contains(followedId); ;
+            return Follower.UsersFollowed.Contains(FollowedId); ;
         }
-
     }
 }

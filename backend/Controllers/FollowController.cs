@@ -26,38 +26,38 @@ namespace ImageStoreApi.Controllers
         private readonly ILogger<FollowController> _logger;
         private readonly UserService _userService;
 
-        public FollowController(ILogger<FollowController> logger, UserService userService)
+        public FollowController(ILogger<FollowController> Logger, UserService UserService)
         {
-            _logger = logger;
-            _userService = userService;
+            _logger = Logger;
+            _userService = UserService;
         }
 
         // Endpoint to follow a user
         [Authorize]
         [HttpGet]
-        public IActionResult Get(string userId)
+        public IActionResult Get(string UserId)
         {
-            _userService.FollowUser(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
+            _userService.FollowUser(User.FindFirstValue(ClaimTypes.NameIdentifier), UserId);
             return Content("Sucessful Follow");
         }
 
         [Authorize]
         [Route("/[controller]/followerlist")]
         [HttpGet]
-        public ActionResult<List<User>> FollowerListGet(string userId)
+        public ActionResult<List<User>> FollowerListGet(string UserId)
         {
            
-            return _userService.FollowerList(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
+            return _userService.FollowerList(User.FindFirstValue(ClaimTypes.NameIdentifier), UserId);
         }
 
 
         [Authorize]
         [Route("/[controller]/followedlist")]
         [HttpGet]
-        public ActionResult<List<User>> FollowedListGet(string userId)
+        public ActionResult<List<User>> FollowedListGet(string UserId)
         {
            
-            return _userService.FollowedList(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
+            return _userService.FollowedList(User.FindFirstValue(ClaimTypes.NameIdentifier), UserId);
         }
         
 
@@ -65,9 +65,9 @@ namespace ImageStoreApi.Controllers
         [Authorize]
         [Route("/[controller]/isfollowed")]
         [HttpGet]
-        public ActionResult<bool> isFollowed(string userId)
+        public ActionResult<bool> IsFollowed(string UserId)
         {
-            return _userService.IsFollowed(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
+            return _userService.IsFollowed(User.FindFirstValue(ClaimTypes.NameIdentifier), UserId);
         }
     }
 }

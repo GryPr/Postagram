@@ -25,10 +25,10 @@ namespace ImageStoreApi.Controllers
         private readonly ILogger<ImageController> _logger;
         private readonly ImageService _imageService;
 
-        public ImageController(ILogger<ImageController> logger, ImageService imageService)
+        public ImageController(ILogger<ImageController> Logger, ImageService ImageService)
         {
-            _logger = logger;
-            _imageService = imageService;
+            _logger = Logger;
+            _imageService = ImageService;
         }
 
         // Endpoint that receives an image and a description through multipart formdata, and stores it in the database
@@ -40,11 +40,11 @@ namespace ImageStoreApi.Controllers
                 return BadRequest("Wrong Data");
             }
 
-            var imageFs = ImageContent.OpenReadStream();
+            var ImageFs = ImageContent.OpenReadStream();
 
             //https://stackoverflow.com/questions/55793878/how-to-retrieve-list-of-images-from-gridfs
 
-            _imageService.Create(imageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(), ImageContent.FileName, ImageContent.ContentType);
+            _imageService.Create(ImageFs, ImageDescription, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(), ImageContent.FileName, ImageContent.ContentType);
 
             return Ok(User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
         }
@@ -65,9 +65,9 @@ namespace ImageStoreApi.Controllers
 
         // Endpoint that adds a comment to a specific image post
         [HttpPatch]
-        public ActionResult<Comment> AddComment([FromBody] AddCommentRequest request)
+        public ActionResult<Comment> AddComment([FromBody] AddCommentRequest Request)
         {
-            return _imageService.AddComment(request.ImageId, request.CommentContent, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
+            return _imageService.AddComment(Request.ImageId, Request.CommentContent, User.FindFirstValue(ClaimTypes.NameIdentifier), User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault());
 
         }
     }

@@ -14,116 +14,111 @@ namespace ImageStoreApi.Services
         private readonly IMongoCollection<Image> _images;
         private GridFSBucket _bucket;
 
-        public ImageService(IImageDatabaseSettings settings)
+        public ImageService(IImageDatabaseSettings Settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-            _bucket = new GridFSBucket(database);
+            var Client = new MongoClient(Settings.ConnectionString);
+            var Database = Client.GetDatabase(Settings.DatabaseName);
+            _bucket = new GridFSBucket(Database);
 
-            _images = database.GetCollection<Image>(settings.ImageCollectionName);
+            _images = Database.GetCollection<Image>(Settings.ImageCollectionName);
         }
 
         // Get image with a specified object ID
-        public Image Get(string id) =>
-            _images.Find<Image>(image => image.Id == id).FirstOrDefault();
+        public Image Get(string Id) =>
+            _images.Find<Image>(Image => Image.Id == Id).FirstOrDefault();
             
         
         // Get user images with a specified user ID
         public (List<Image>, List<String>) GetUserImages(string CreatorUserId)
         {
-            List<Image> image = _images.Find(image => image.CreatorUserId == CreatorUserId).SortByDescending(e => e.CreatedOn).ToList();
-            List<String> b64Files = new List<String>(image.Count);
-            for (int i = 0; i < image.Count; i++)
+            List<Image> Image = _images.Find(Image => Image.CreatorUserId == CreatorUserId).SortByDescending(e => e.CreatedOn).ToList();
+            List<String> B64Files = new List<String>(Image.Count);
+            for (int i = 0; i < Image.Count; i++)
             {
                 System.Diagnostics.Debug.WriteLine(i);
-                var fs = new MemoryStream();
-                _bucket.DownloadToStream(image[i].ImageId, fs);
-                b64Files.Add(Convert.ToBase64String(fs.ToArray()));
+                var Fs = new MemoryStream();
+                _bucket.DownloadToStream(Image[i].ImageId, Fs);
+                B64Files.Add(Convert.ToBase64String(Fs.ToArray()));
             }
-            return (image, b64Files);
+            return (Image, B64Files);
         }
 
          
         // Get by descending order of creation date
-        public (Image, MemoryStream) Get(int index)
+        public (Image, MemoryStream) Get(int Index)
         {
-            Image image = _images.Find(image => true).SortByDescending(e => e.CreatedOn).Limit(1).Skip(index).ToList()[0];
-            MemoryStream fs = new MemoryStream();
-            _bucket.DownloadToStream(image.ImageId, fs);
-            return (image, fs);
+            Image Image = _images.Find(Image => true).SortByDescending(e => e.CreatedOn).Limit(1).Skip(Index).ToList()[0];
+            MemoryStream Fs = new MemoryStream();
+            _bucket.DownloadToStream(Image.ImageId, Fs);
+            return (Image, Fs);
         }
 
         // Get list of images by descending order
         public (List<Image>, List<String>) Get()
         {
-            List<Image> image = _images.Find(image => true).SortByDescending(e => e.CreatedOn).ToList();
-            List<String> b64Files = new List<String>(image.Count);
-            for (int i = 0; i < image.Count; i++)
+            List<Image> Image = _images.Find(Image => true).SortByDescending(e => e.CreatedOn).ToList();
+            List<String> B64Files = new List<String>(Image.Count);
+            for (int i = 0; i < Image.Count; i++)
             {
                 //File.AppendAllText(@"./log.txt", i + Environment.NewLine);
                 System.Diagnostics.Debug.WriteLine(i);
-                var fs = new MemoryStream();
-                _bucket.DownloadToStream(image[i].ImageId, fs);
-                b64Files.Add(Convert.ToBase64String(fs.ToArray()));
+                var Fs = new MemoryStream();
+                _bucket.DownloadToStream(Image[i].ImageId, Fs);
+                B64Files.Add(Convert.ToBase64String(Fs.ToArray()));
             }
-            return (image, b64Files);
+            return (Image, B64Files);
         }
 
         // Create an image
-        public Image Create(Image image)
+        public Image Create(Image Image)
         {
-
-
-            _images.InsertOne(image);
-            return image;
+            _images.InsertOne(Image);
+            return Image;
         }
 
         // Adds an image from the data sent through the endpoint in ImageController
-        public Image Create(Stream fs, string ImageDescription, string userId, string userName, string fileName, string contentType)
+        public Image Create(Stream Fs, string ImageDescription, string UserId, string UserName, string FileName, string ContentType)
         {
-            var id = _bucket.UploadFromStream(fileName, fs);
+            var Id = _bucket.UploadFromStream(FileName, Fs);
 
-            Image image = new Image
+            Image Image = new Image
             {
-                CreatorUserId = userId,
-                CreatorName = userName,
+                CreatorUserId = UserId,
+                CreatorName = UserName,
                 CreatedOn = DateTime.Now,
                 ImageDescription = ImageDescription,
-                FileName = fileName,
-                ContentType = contentType,
-                ImageId = id
+                FileName = FileName,
+                ContentType = ContentType,
+                ImageId = Id
             };
-            _images.InsertOne(image);
+            _images.InsertOne(Image);
 
-            return image;
-
+            return Image;
         }
 
         // Adds a comment from the data send through the endpoint in ImageController
-        public Comment AddComment(string ImageId, string CommentContent, string userId, string userName)
+        public Comment AddComment(string ImageId, string CommentContent, string UserId, string UserName)
         {
-            Comment comment = new Comment
+            Comment Comment = new Comment
             {
-                CreatorUserId = userId,
-                CreatorName = userName,
+                CreatorUserId = UserId,
+                CreatorName = UserName,
                 CreatedOn = DateTime.Now,
                 CommentContent = CommentContent
             };
 
 
-            Image image = _images.Find(document => document.Id == ImageId).FirstOrDefault();
+            Image Image = _images.Find(Document => Document.Id == ImageId).FirstOrDefault();
 
-            if (image.Comments == null)
+            if (Image.Comments == null)
             {
-                image.Comments = new List<Comment>();
+                Image.Comments = new List<Comment>();
             }
-            image.Comments.Add(comment);
+            Image.Comments.Add(Comment);
 
-            _images.FindOneAndReplace(document => document.Id == ImageId, image);
+            _images.FindOneAndReplace(Document => Document.Id == ImageId, Image);
 
-            return comment;
+            return Comment;
         }
-
     }
-
 }

@@ -15,18 +15,18 @@ namespace ImageStoreApi.Controllers
         private readonly ILogger<TokenInfoController> _logger;
 
 
-        public TokenInfoController(ILogger<TokenInfoController> logger)
+        public TokenInfoController(ILogger<TokenInfoController> Logger)
         {
-            _logger = logger;
+            _logger = Logger;
 
         }
 
         // Model of the JWT data returned
-        class APIResponse
+        class ApiResponse
         {
-            public string userId { get; set; }
-            public string email { get; set; }
-            public string displayName { get; set; }
+            public string UserId { get; set; }
+            public string Email { get; set; }
+            public string DisplayName { get; set; }
         }
 
         // Endpoint that returns the data contained in a JWT
@@ -34,11 +34,11 @@ namespace ImageStoreApi.Controllers
         public IActionResult Get()
         {
 
-            APIResponse resp = new APIResponse()
+            ApiResponse resp = new ApiResponse()
             {
-                userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault(),
-                displayName = User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(),
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                Email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault(),
+                DisplayName = User.Claims.Where(e => e.Type == "name").Select(e => e.Value).SingleOrDefault(),
             };
 
 

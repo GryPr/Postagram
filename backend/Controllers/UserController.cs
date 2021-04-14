@@ -26,16 +26,16 @@ namespace ImageStoreApi.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly UserService _userService;
 
-        public UserController(ILogger<UserController> logger, UserService userService)
+        public UserController(ILogger<UserController> Logger, UserService UserService)
         {
-            _logger = logger;
-            _userService = userService;
+            _logger = Logger;
+            _userService = UserService;
         }
 
         [HttpGet]
-        public ActionResult<User> Get(string userId)
+        public ActionResult<User> Get(string UserId)
         {
-            return _userService.Get(userId);
+            return _userService.Get(UserId);
         }
 
         // Endpoint that receives user data, and creates a user in the database if they don't exist already
