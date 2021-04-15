@@ -1,7 +1,7 @@
-﻿using ImageStoreApi.Models;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
+using ImageStoreApi.Models;
 namespace ImageStoreApi.Services
 {
     public interface IImageService
@@ -12,5 +12,7 @@ namespace ImageStoreApi.Services
         (List<Image>, List<string>) Get();
         (Image, MemoryStream) Get(int index);
         Image Get(string id);
+
+        public (List<Image>, List<String>) GetUserImages(string CreatorUserId);
     }
 }

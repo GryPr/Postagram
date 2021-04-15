@@ -5,7 +5,7 @@ import { Box } from "@material-ui/core";
 import { fetchMainPageImages } from "../../Services/ImageService";
 
 // Model of the JSON response from /public
-interface ImageResponse {
+export interface ImageResponse {
   fileName: string;
   contentType: string;
   imageDescription: string;

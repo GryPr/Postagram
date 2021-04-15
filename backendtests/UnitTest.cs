@@ -21,21 +21,6 @@ namespace backendtests
         }
 
         [Fact]
-        public void ImageController_AddComment_ShouldReturnComment()
-        {
-            var ImageService = new Mock<IImageService>();
-
-            var Comment = new Comment{};
-
-            ImageService.Setup(x => x.AddComment("imageId", "imageId", "imageId", "imageId")).Returns(Comment);
-
-            var ImageController = new ImageController(mockILoggerImageController(), ImageService.Object);
-            var result = ImageController.AddComment(new ImageController.AddCommentRequest { });
-            
-            Assert.Equal(Comment, result);
-        }
-
-        [Fact]
         public void PublicController_Post_ShouldReturnList()
         {
             var ImageService = new Mock<IImageService>();
@@ -74,13 +59,6 @@ namespace backendtests
         {
             var mock = new Mock<ILogger<RootController>>();
             ILogger<RootController> logger = mock.Object;
-            return logger;
-        }
-
-        public ILogger<ImageController> mockILoggerImageController()
-        {
-            var mock = new Mock<ILogger<ImageController>>();
-            ILogger<ImageController> logger = mock.Object;
             return logger;
         }
 

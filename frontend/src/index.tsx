@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { PublicClientApplication } from "@azure/msal-browser";
-import SiteLayout from "./Components/SiteLayout";
+import SiteLayout from "./Components/SiteLayout/SiteLayout";
 import {
   BrowserRouter as Router,
 } from "react-router-dom";

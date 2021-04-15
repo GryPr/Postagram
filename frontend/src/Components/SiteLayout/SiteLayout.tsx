@@ -2,7 +2,7 @@ import "./SiteLayout.css";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { AppBar, Toolbar, Button, Grid, InputBase } from "@material-ui/core";
-import AuthenticationButton from "./authenticationButton";
+import AuthenticationButton from "../AuthenticationButton/authenticationButton";
 import { useCallback } from "react";
 import { useHistory } from 'react-router-dom';
 import { useIsAuthenticated } from "@azure/msal-react";

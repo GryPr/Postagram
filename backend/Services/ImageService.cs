@@ -30,8 +30,8 @@ namespace ImageStoreApi.Services
         // Get image with a specified object ID
         public Image Get(string id) =>
             _images.Find<Image>(image => image.Id == id).FirstOrDefault();
-            
-        
+
+
         // Get user images with a specified user ID
         public (List<Image>, List<String>) GetUserImages(string CreatorUserId)
         {
@@ -47,7 +47,7 @@ namespace ImageStoreApi.Services
             return (image, b64Files);
         }
 
-         
+
         // Get by descending order of creation date
         public (Image, MemoryStream) Get(int index)
         {
