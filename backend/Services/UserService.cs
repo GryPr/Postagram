@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace ImageStoreApi.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _users;
 

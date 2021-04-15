@@ -9,7 +9,7 @@ using MongoDB.Driver.GridFS;
 
 namespace ImageStoreApi.Services
 {
-    public class ImageService
+    public class ImageService : IImageService
     {
         private readonly IMongoCollection<Image> _images;
         private GridFSBucket _bucket;
@@ -21,6 +21,10 @@ namespace ImageStoreApi.Services
             _bucket = new GridFSBucket(database);
 
             _images = database.GetCollection<Image>(settings.ImageCollectionName);
+        }
+
+        public ImageService()
+        {
         }
 
         // Get image with a specified object ID

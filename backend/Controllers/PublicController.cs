@@ -22,9 +22,9 @@ namespace ImageStoreApi.Controllers
     {
         private readonly ILogger<PublicController> _logger;
 
-        private readonly ImageService _imageService;
+        private readonly IImageService _imageService;
 
-        public PublicController(ILogger<PublicController> logger, ImageService imageService)
+        public PublicController(ILogger<PublicController> logger, IImageService imageService)
         {
             _logger = logger;
             _imageService = imageService;
@@ -78,7 +78,7 @@ namespace ImageStoreApi.Controllers
 
         // Endpoint that returns all the images in the database through a JSON
         [HttpPost]
-        public ActionResult<List<GetResponse>> Post()
+        public ActionResult<List<GetResponse>> GetAllImages()
         {
             var (img, file) = _imageService.Get();
             List<GetResponse> responseList = new List<GetResponse>(img.Count);

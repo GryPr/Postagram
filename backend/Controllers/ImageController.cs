@@ -23,9 +23,9 @@ namespace ImageStoreApi.Controllers
     {
 
         private readonly ILogger<ImageController> _logger;
-        private readonly ImageService _imageService;
+        private readonly IImageService _imageService;
 
-        public ImageController(ILogger<ImageController> logger, ImageService imageService)
+        public ImageController(ILogger<ImageController> logger, IImageService imageService)
         {
             _logger = logger;
             _imageService = imageService;
