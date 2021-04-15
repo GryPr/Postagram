@@ -1,7 +1,7 @@
 import { backendURL } from "../Constants/backendConfig";
 export { fetchComment };
 export { fetchMainPageImages };
-export { fetchsentData };
+export { fetchSentData };
 
 const fetchMainPageImages = async () => {
   const response = await fetch(backendURL + "/public", {
@@ -38,7 +38,7 @@ const fetchComment = async (
   return response;
 };
 
-const fetchsentData = async (token: string, formData: FormData) => {
+const fetchSentData = async (token: string, formData: FormData) => {
   await fetch(backendURL + "/image", {
     method: "POST",
     mode: "cors",

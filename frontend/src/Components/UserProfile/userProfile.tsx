@@ -64,8 +64,6 @@ interface User {
 const defaultUserList: User[] = [];
 
 
-
-
 export default function UserProfile() {
     const isAuthenticated = useIsAuthenticated();
     let { userId } = useParams<Record<string, string | undefined>>();

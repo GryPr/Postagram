@@ -4,7 +4,7 @@ import "./imageUpload.css";
 import { useHistory } from "react-router-dom";
 import { useIsAuthenticated } from "@azure/msal-react";
 import { AuthenticationContext, AuthenticationContextType } from "../AuthenticationProvider/authenticationProvider";
-import { fetchsentData } from "../../Services/ImageService";
+import { fetchSentData } from "../../Services/ImageService";
 
 export default function ImageUpload() {
   const [file, setFile] = useState<File>();
@@ -35,7 +35,7 @@ export default function ImageUpload() {
 
     formData.append("ImageDescription", description)
     formData.append("ImageContent", file!)
-    fetchsentData(token!, formData)
+    fetchSentData(token!, formData)
       .then(() => {
         history.push('/')
 
