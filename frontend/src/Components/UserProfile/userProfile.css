@@ -1,0 +1,110 @@
+#box {
+  width: 55%;
+}
+
+#userimages {
+  margin-left: 18%;
+}
+
+@media only screen and (max-width: 1000px) {
+  #box {
+    width: 82%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #box {
+    width: 100%;
+  }
+
+  #userimages {
+    margin-left: 8%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #box {
+    margin-left: -7%;
+  }
+}
+.modal {
+  width: 50%;
+  height: 400px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-left: 26.3%;
+  margin-top: 200px;
+  border: 20px thick;
+  border-radius: 20px;
+  opacity: 1;
+  background-color: rgb(240, 236, 236);
+  position: relative;
+}
+
+#followbtn {
+  margin-top: 3%;
+}
+
+#followerbtn {
+  float: left;
+  margin-left: 31%;
+  margin-right: -23%;
+  transition-duration: 0.4s;
+  margin-top: 2%;
+}
+
+#profileButton {
+  margin-left: 30px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-variant: inherit;
+  transition-duration: 0.4s;
+  border: 2px solid black;
+  margin-left: 5px;
+}
+
+#profileButton:hover {
+  background-color: black;
+  color: white;
+}
+
+#followerbtn:hover {
+  background-color: darkgrey; /* Green */
+  color: white;
+}
+
+#followingbtn {
+  transition-duration: 0.4s;
+  margin-left: -4.5%;
+  margin-top: 2%;
+}
+
+#followingbtn:hover {
+  background-color: darkgrey; /* Green */
+  color: white;
+}
+
+#closeBtn {
+  transition-duration: 0.4s;
+  border: 2px solid red;
+  font-size: 16px;
+}
+
+#closeBtn:hover {
+  background-color: red; /* Green */
+  color: white;
+}
+
+@media only screen and (max-width: 1000px) {
+  #box {
+    width: 82%;
+  }
+
+  #followerbtn {
+    float: none;
+    margin-left: -23%;
+  }
+
+  #followingbtn {
+    margin-left: -0.5%;
+  }
+}

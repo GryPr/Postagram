@@ -30,7 +30,24 @@ namespace ImageStoreApi.Services
         // Get image with a specified object ID
         public Image Get(string id) =>
             _images.Find<Image>(image => image.Id == id).FirstOrDefault();
+            
+        
+        // Get user images with a specified user ID
+        public (List<Image>, List<String>) GetUserImages(string CreatorUserId)
+        {
+            List<Image> image = _images.Find(image => image.CreatorUserId == CreatorUserId).SortByDescending(e => e.CreatedOn).ToList();
+            List<String> b64Files = new List<String>(image.Count);
+            for (int i = 0; i < image.Count; i++)
+            {
+                System.Diagnostics.Debug.WriteLine(i);
+                var fs = new MemoryStream();
+                _bucket.DownloadToStream(image[i].ImageId, fs);
+                b64Files.Add(Convert.ToBase64String(fs.ToArray()));
+            }
+            return (image, b64Files);
+        }
 
+         
         // Get by descending order of creation date
         public (Image, MemoryStream) Get(int index)
         {

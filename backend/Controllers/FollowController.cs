@@ -41,6 +41,26 @@ namespace ImageStoreApi.Controllers
             return Content("Sucessful Follow");
         }
 
+        [Authorize]
+        [Route("/[controller]/followerlist")]
+        [HttpGet]
+        public ActionResult<List<User>> FollowerListGet(string userId)
+        {
+           
+            return _userService.FollowerList(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
+        }
+
+
+        [Authorize]
+        [Route("/[controller]/followedlist")]
+        [HttpGet]
+        public ActionResult<List<User>> FollowedListGet(string userId)
+        {
+           
+            return _userService.FollowedList(User.FindFirstValue(ClaimTypes.NameIdentifier), userId);
+        }
+        
+
         // Endpoint to check if the logged in user is following a specific user
         [Authorize]
         [Route("/[controller]/isfollowed")]
