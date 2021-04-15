@@ -6,7 +6,6 @@ import AuthenticationButton from "../AuthenticationButton/authenticationButton";
 import { useCallback } from "react";
 import { useHistory } from 'react-router-dom';
 import { useIsAuthenticated } from "@azure/msal-react";
-<link href="http://fonts.cdnfonts.com/css/billabong" rel="stylesheet"></link>;
 
 type SiteLayoutProps = {
   children: React.ReactNode;
@@ -22,7 +21,7 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
     <div>
       <AppBar id="appbar" position="sticky">
         <Toolbar id="toolbar">
-          <Button id="logo" onClick={goToHome}>Instagram</Button>
+          <Button id="logo" onClick={goToHome}>Postagram</Button>
           <InputBase id="searchbar" placeholder="Search" />
           <div>
             <Button>
