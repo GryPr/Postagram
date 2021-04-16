@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace ImageStoreApi.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _users;
 
@@ -123,48 +123,50 @@ namespace ImageStoreApi.Services
             return follower.UsersFollowed;
         }
 
-         public List<User> FollowerList(string followerId, string followedId)
+        public List<User> FollowerList(string followerId, string followedId)
         {
             User followed = this.Get(followedId);
-            
+
             List<User> userList = new List<User>(followed.UsersFollowers.Count);
 
-             
-
-            foreach(string userId in followed.UsersFollowers ){
 
 
-           userList.Add(this.Get(userId));
+            foreach (string userId in followed.UsersFollowers)
+            {
+
+
+                userList.Add(this.Get(userId));
 
             }
-             File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
+            File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
             return userList;
-                         
 
-            
+
+
         }
 
 
 
-         public List<User> FollowedList(string followerId, string followedId)
+        public List<User> FollowedList(string followerId, string followedId)
         {
             User follower = this.Get(followedId);
-            
+
             List<User> userList = new List<User>(follower.UsersFollowed.Count);
 
-             
-
-            foreach(string userId in follower.UsersFollowed ){
 
 
-           userList.Add(this.Get(userId));
+            foreach (string userId in follower.UsersFollowed)
+            {
+
+
+                userList.Add(this.Get(userId));
 
             }
-             File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
+            File.AppendAllText(@"./log.txt", userList.Count + Environment.NewLine);
             return userList;
-                         
 
-            
+
+
         }
 
 
@@ -172,7 +174,7 @@ namespace ImageStoreApi.Services
         {
             User follower = this.Get(followerId);
 
-           
+
             if (follower.UsersFollowed == null)
             {
                 return false;
