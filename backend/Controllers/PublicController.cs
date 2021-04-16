@@ -24,15 +24,15 @@ namespace ImageStoreApi.Controllers
 
         private readonly IImageService _imageService;
 
-        public PublicController(ILogger<PublicController> logger, IImageService imageService)
+        public PublicController(ILogger<PublicController> Logger, IImageService ImageService)
         {
-            _logger = logger;
-            _imageService = imageService;
+            _logger = Logger;
+            _imageService = ImageService;
         }
 
         public class Range
         {
-            public int index { get; set; }
+            public int Index { get; set; }
         }
 
         // Model for the response containing the image data
@@ -57,22 +57,22 @@ namespace ImageStoreApi.Controllers
 
         // Deprecated endpoint
         [HttpGet]
-        public ActionResult<GetResponse> Get([FromBody] Range range)
+        public ActionResult<GetResponse> Get([FromBody] Range Range)
         {
-            var (img, file) = _imageService.Get(range.index);
-            byte[] bytes = file.ToArray();
-            string base64 = Convert.ToBase64String(bytes);
+            var (Img, File) = _imageService.Get(Range.Index);
+            byte[] Bytes = File.ToArray();
+            string Base64 = Convert.ToBase64String(Bytes);
             // Receives range of images to send back, and sends back those images from the DB in chronological order
             return new GetResponse
             {
-                FileName = img.FileName,
-                ContentType = img.ContentType,
-                ImageDescription = img.ImageDescription,
-                ImageId = img.Id,
-                CreatedOn = img.CreatedOn,
-                CreatorName = img.CreatorName,
-                CreatorId = img.CreatorUserId,
-                ImageContent = base64
+                FileName = Img.FileName,
+                ContentType = Img.ContentType,
+                ImageDescription = Img.ImageDescription,
+                ImageId = Img.Id,
+                CreatedOn = Img.CreatedOn,
+                CreatorName = Img.CreatorName,
+                CreatorId = Img.CreatorUserId,
+                ImageContent = Base64
             };
         }
 
@@ -80,24 +80,24 @@ namespace ImageStoreApi.Controllers
         [HttpPost]
         public ActionResult<List<GetResponse>> GetAllImages()
         {
-            var (img, file) = _imageService.Get();
-            List<GetResponse> responseList = new List<GetResponse>(img.Count);
-            for (int i = 0; i < img.Count; i++)
+            var (Img, File) = _imageService.Get();
+            List<GetResponse> ResponseList = new List<GetResponse>(Img.Count);
+            for (int i = 0; i < Img.Count; i++)
             {
-                responseList.Add(new GetResponse
+                ResponseList.Add(new GetResponse
                 {
-                    FileName = img[i].FileName,
-                    ContentType = img[i].ContentType,
-                    ImageDescription = img[i].ImageDescription,
-                    ImageId = img[i].Id,
-                    CreatedOn = img[i].CreatedOn,
-                    CreatorName = img[i].CreatorName,
-                    CreatorId = img[i].CreatorUserId,
-                    Comments = img[i].Comments,
-                    ImageContent = file[i]
+                    FileName = Img[i].FileName,
+                    ContentType = Img[i].ContentType,
+                    ImageDescription = Img[i].ImageDescription,
+                    ImageId = Img[i].Id,
+                    CreatedOn = Img[i].CreatedOn,
+                    CreatorName = Img[i].CreatorName,
+                    CreatorId = Img[i].CreatorUserId,
+                    Comments = Img[i].Comments,
+                    ImageContent = File[i]
                 });
             }
-            return responseList;
+            return ResponseList;
 
         }
 
@@ -106,24 +106,24 @@ namespace ImageStoreApi.Controllers
         [HttpPost]
         public ActionResult<List<GetResponse>> GetUserImages(string CreatorUserId)
         {
-            var (img, file) = _imageService.GetUserImages(CreatorUserId);
-            List<GetResponse> responseList = new List<GetResponse>(img.Count);
-            for (int i = 0; i < img.Count; i++)
+            var (Img, File) = _imageService.GetUserImages(CreatorUserId);
+            List<GetResponse> ResponseList = new List<GetResponse>(Img.Count);
+            for (int i = 0; i < Img.Count; i++)
             {
-                responseList.Add(new GetResponse
+                ResponseList.Add(new GetResponse
                 {
-                    FileName = img[i].FileName,
-                    ContentType = img[i].ContentType,
-                    ImageDescription = img[i].ImageDescription,
-                    ImageId = img[i].Id,
-                    CreatedOn = img[i].CreatedOn,
-                    CreatorName = img[i].CreatorName,
-                    CreatorId = img[i].CreatorUserId,
-                    Comments = img[i].Comments,
-                    ImageContent = file[i]
+                    FileName = Img[i].FileName,
+                    ContentType = Img[i].ContentType,
+                    ImageDescription = Img[i].ImageDescription,
+                    ImageId = Img[i].Id,
+                    CreatedOn = Img[i].CreatedOn,
+                    CreatorName = Img[i].CreatorName,
+                    CreatorId = Img[i].CreatorUserId,
+                    Comments = Img[i].Comments,
+                    ImageContent = File[i]
                 });
             }
-            return responseList;
+            return ResponseList;
 
         }
 

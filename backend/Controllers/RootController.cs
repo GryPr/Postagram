@@ -17,9 +17,9 @@ namespace ImageStoreApi.Controllers
     {
         private readonly ILogger<RootController> _logger;
 
-        public RootController(ILogger<RootController> logger)
+        public RootController(ILogger<RootController> Logger)
         {
-            _logger = logger;
+            _logger = Logger;
         }
 
         // Placeholder endpoint
