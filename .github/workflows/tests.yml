@@ -26,4 +26,4 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Run dotnet test
-      run: cd backend 
+      run: dotnet test 
