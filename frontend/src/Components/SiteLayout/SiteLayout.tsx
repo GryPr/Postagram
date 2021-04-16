@@ -1,7 +1,7 @@
 import "./SiteLayout.css";
-import HomeIcon from "@material-ui/icons/Home";
-import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import { AppBar, Toolbar, Button, Grid, InputBase } from "@material-ui/core";
+// import HomeIcon from "@material-ui/icons/Home";
+// import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import { AppBar, Toolbar, Button, Grid,} from "@material-ui/core";
 import AuthenticationButton from "../AuthenticationButton/authenticationButton";
 import { useCallback } from "react";
 import { useHistory } from 'react-router-dom';
@@ -22,14 +22,8 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
       <AppBar id="appbar" position="sticky">
         <Toolbar id="toolbar">
           <Button id="logo" onClick={goToHome}>Postagram</Button>
-          <InputBase id="searchbar" placeholder="Search" />
           <div>
-            <Button>
-              <HomeIcon id="homeicon"></HomeIcon>
-            </Button>
-            <Button>
-              <AccountCircleOutlinedIcon id="homeicon"></AccountCircleOutlinedIcon>
-            </Button>
+            
             <Grid justify="flex-end" container>
               {isAuthenticated ?
                 <Button
@@ -41,9 +35,12 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
             </Button> :
                 <div></div>}
               <div id='button'>
-                <AuthenticationButton />
+                <AuthenticationButton  />
               </div>
             </Grid>
+          </div>
+          <div>
+            <p></p>
           </div>
         </Toolbar>
       </AppBar>

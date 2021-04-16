@@ -1,5 +1,36 @@
 #login {
-    margin-top: -34%;
-    margin-left: 163%;
+    margin-top: 21%;
+    margin-left: 100%;
+    transition-duration: 0.4s;
+    background-color: white;
 }
-  
+
+#login:hover{
+    background-color: darkgrey;
+    color: white;
+}
+
+@media only screen and (max-width: 1200px) {
+    #login {
+        margin-left: -40%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #login {
+        margin-left: -250%;
+        margin-top: 36.5%;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    #login {
+        margin-left: -280%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #login {
+        margin-left: -185%;
+    }
+}

@@ -53,7 +53,7 @@ export default function ImageUpload() {
           ""
         )}
       </div>
-      <Button variant="contained" component="label">
+      <Button id ="select" variant="contained" component="label">
         Select Image
         <input
           type="file"
