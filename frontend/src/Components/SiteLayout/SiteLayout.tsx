@@ -1,6 +1,6 @@
 import "./SiteLayout.css";
-import HomeIcon from "@material-ui/icons/Home";
-import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+// import HomeIcon from "@material-ui/icons/Home";
+// import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { AppBar, Toolbar, Button, Grid,} from "@material-ui/core";
 import AuthenticationButton from "../AuthenticationButton/authenticationButton";
 import { useCallback } from "react";
@@ -23,13 +23,7 @@ const SiteLayout: React.FunctionComponent<SiteLayoutProps> = ({ children }) => {
         <Toolbar id="toolbar">
           <Button id="logo" onClick={goToHome}>Postagram</Button>
           <div>
-            <Button>
-              
-              <HomeIcon id="homeicon"></HomeIcon>
-            </Button>
-            <Button>
-              <AccountCircleOutlinedIcon id="homeicon"></AccountCircleOutlinedIcon>
-            </Button>
+            
             <Grid justify="flex-end" container>
               {isAuthenticated ?
                 <Button
