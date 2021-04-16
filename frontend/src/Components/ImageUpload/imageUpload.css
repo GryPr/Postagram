@@ -8,4 +8,22 @@
 }
 #loading {
   margin: 25px;
+  transition-duration: 0.4s;
+  background-color: white;
 }
+
+#loading:hover{
+  background-color: darkgray;
+  color: white;
+}
+
+#select{
+  transition-duration: 0.4s;
+  background-color: white;
+}
+
+#select:hover{
+  background-color: darkgray;
+  color: white;
+}
+
