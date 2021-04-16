@@ -32,19 +32,17 @@
 }
 
 #postimage {
-  margin-top: 1.5%;
-  margin-right: -235%;
+  margin-top: -5%;
+  margin-right: -32%;
   height: 10%;
   width: 57%;
   transition-duration: 0.4s;
   background-color: white;
- 
 }
 
 #postimage:hover{
   background-color: darkgrey;
   color:white;
-
 }
 
 #button{
@@ -52,8 +50,30 @@
   margin-right:-140%
 }
 
-@media only screen and (max-width: 1550px) {
-  #searchicon {
-    margin-left: -80.9%;
+@media only screen and (max-width: 1200px) {
+  #postimage {
+    margin-right: 30%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #postimage {
+    margin-right: 120%;
+    margin-top: 2%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #postimage {
+    margin-right: 130%;
+    width: max-content;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #postimage {
+    margin-right: 110%;
+    margin-top: 7%;
+    width: max-content;
   }
 }
