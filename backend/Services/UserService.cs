@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace ImageStoreApi.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _users;
 
@@ -153,6 +153,7 @@ namespace ImageStoreApi.Services
             User Follower = this.Get(FollowerId);
  
             if (Follower.UsersFollowed == null)
+            
             {
                 return false;
             }

@@ -9,7 +9,7 @@ using MongoDB.Driver.GridFS;
 
 namespace ImageStoreApi.Services
 {
-    public class ImageService
+    public class ImageService : IImageService
     {
         private readonly IMongoCollection<Image> _images;
         private GridFSBucket _bucket;
@@ -23,11 +23,14 @@ namespace ImageStoreApi.Services
             _images = Database.GetCollection<Image>(Settings.ImageCollectionName);
         }
 
+        public ImageService()
+        {
+        }
+
         // Get image with a specified object ID
         public Image Get(string Id) =>
             _images.Find<Image>(Image => Image.Id == Id).FirstOrDefault();
             
-        
         // Get user images with a specified user ID
         public (List<Image>, List<String>) GetUserImages(string CreatorUserId)
         {
@@ -43,7 +46,7 @@ namespace ImageStoreApi.Services
             return (Image, B64Files);
         }
 
-         
+
         // Get by descending order of creation date
         public (Image, MemoryStream) Get(int Index)
         {

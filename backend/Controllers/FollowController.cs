@@ -24,9 +24,9 @@ namespace ImageStoreApi.Controllers
     {
 
         private readonly ILogger<FollowController> _logger;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public FollowController(ILogger<FollowController> Logger, UserService UserService)
+        public FollowController(ILogger<FollowController> Logger, IUserService UserService)
         {
             _logger = Logger;
             _userService = UserService;
@@ -46,7 +46,6 @@ namespace ImageStoreApi.Controllers
         [HttpGet]
         public ActionResult<List<User>> FollowerListGet(string UserId)
         {
-           
             return _userService.FollowerList(User.FindFirstValue(ClaimTypes.NameIdentifier), UserId);
         }
 
@@ -56,10 +55,9 @@ namespace ImageStoreApi.Controllers
         [HttpGet]
         public ActionResult<List<User>> FollowedListGet(string UserId)
         {
-           
             return _userService.FollowedList(User.FindFirstValue(ClaimTypes.NameIdentifier), UserId);
         }
-        
+
 
         // Endpoint to check if the logged in user is following a specific user
         [Authorize]

@@ -24,9 +24,9 @@ namespace ImageStoreApi.Controllers
     {
 
         private readonly ILogger<UserController> _logger;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> Logger, UserService UserService)
+        public UserController(ILogger<UserController> Logger, IUserService UserService)
         {
             _logger = Logger;
             _userService = UserService;
