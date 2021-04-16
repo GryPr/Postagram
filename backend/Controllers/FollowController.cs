@@ -24,7 +24,7 @@ namespace ImageStoreApi.Controllers
     {
 
         private readonly ILogger<FollowController> _logger;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         public FollowController(ILogger<FollowController> logger, UserService userService)
         {

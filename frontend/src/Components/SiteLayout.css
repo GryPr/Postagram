@@ -1,3 +1,5 @@
+@import url("http://fonts.cdnfonts.com/css/billabong");
+
 #appbar {
   background-color: rgb(247, 251, 253);
   position: sticky;
@@ -8,8 +10,8 @@
 }
 
 #logo {
-  font-family: 'Brush script MT';
-  font-size: 45px;
+  font-family: "Billabong", sans-serif;
+  font-size: 40px;
   text-transform: capitalize;
   margin-left: 8%;
 }
