@@ -1,5 +1,13 @@
 #login {
-    margin-top: -34%;
-    margin-left: 163%;
+    margin-top: -37%;
+    margin-left: 563%;
+    
+    transition-duration: 0.4s;
+    background-color: white;
+
 }
-  
+
+#login:hover{
+    background-color: darkgrey;
+    color: white;
+}

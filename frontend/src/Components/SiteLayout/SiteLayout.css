@@ -27,21 +27,32 @@
   color: black;
   width: 33px;
   height: 63px;
+  margin-right:-2450%;
   position: relative;
 }
 
 #postimage {
   margin-top: -24.5%;
-  margin-right: -66%;
+  margin-right: -230%;
   height: 10%;
   width: 57%;
+  transition-duration: 0.4s;
+  background-color: white;
+ 
+}
+
+#postimage:hover{
+  background-color: darkgrey;
+  color:white;
+
 }
 
 #button{
   margin-top: -14%;
+  margin-right:-140%
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1550px) {
   #searchicon {
     margin-left: -80.9%;
   }
