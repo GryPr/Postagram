@@ -1,4 +1,4 @@
-# SOEN341 Project - Instagram Clone
+# Postagram - Instagram Clone
 
 ## Objective
 
